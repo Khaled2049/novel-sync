@@ -26,7 +26,6 @@ import { useAI } from "../contexts/AIContext";
 import { useAuthContext } from "../contexts/AuthContext";
 
 import { useEditorContext } from "../contexts/EditorContext";
-import AIPartners from "./AIPartners";
 import AITools from "./AITools";
 import { useNavigate, useParams } from "react-router-dom";
 import { Chapter, Story } from "@/types/IStory";
@@ -506,7 +505,7 @@ export function SimpleEditor() {
             </div>
             {aitoolsVisible && (
               <div className="p-6 bg-amber-100 transition-all duration-300 flex-1">
-                <AIPartners />
+                {/* <AIPartners /> */}
                 <AITools text={selectedText} />
               </div>
             )}
