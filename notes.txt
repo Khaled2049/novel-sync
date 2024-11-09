@@ -1,0 +1,1 @@
+curl http://127.0.0.1:5001/novelsync-f82ec/us-central1/createContext?storyId=ZyuQuvkdaMFXzvqEBVX1
