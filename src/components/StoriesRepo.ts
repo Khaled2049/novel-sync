@@ -140,9 +140,24 @@ class StoriesRepo {
     const storyRef = doc(firestore, "stories", storyId);
 
     try {
-      await updateDoc(storyRef, {
-        likes: increment(1),
-      });
+      // Get the current document to check the like count
+      const storySnapshot = await getDoc(storyRef);
+
+      if (storySnapshot.exists()) {
+        const storyData = storySnapshot.data();
+        const currentLikes = storyData.likes || 0;
+
+        // Only increment if likes are less than 5
+        if (currentLikes < 5) {
+          await updateDoc(storyRef, {
+            likes: increment(1),
+          });
+        } else {
+          console.log(
+            "We get it you really like this story. No more likes allowed."
+          );
+        }
+      }
     } catch (error) {
       console.error("Error incrementing likes: ", error);
     }

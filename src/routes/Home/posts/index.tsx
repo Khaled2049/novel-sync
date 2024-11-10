@@ -9,8 +9,10 @@ const Posts = () => {
   const [post, setPost] = useState("");
   const [followingPosts, setFollowingPosts] = useState<IPost[]>([]);
   const [allPosts, setAllPosts] = useState<IPost[]>([]);
-
-  const [isMyFeed, setIsMyFeed] = useState(true);
+  const maxCharacters = 280;
+  const [isMyFeed, setIsMyFeed] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const { user } = useAuthContext();
   useEffect(() => {
@@ -34,6 +36,7 @@ const Posts = () => {
 
   const handlePostSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     if (!user) return;
 
     const p: IPost = {
@@ -42,9 +45,16 @@ const Posts = () => {
       content: post,
       createdAt: new Date(),
     };
-    await postsService.addPost(user.uid, p);
+    const res = await postsService.addPost(user.uid, p);
+    if (res === "TOXIC") {
+      setErrorMessage("Take that negativity and go away.");
+      setLoading(false);
+      setPost("");
+      return;
+    }
     setPost("");
     loadPosts();
+    setLoading(false);
   };
 
   return (
@@ -56,14 +66,24 @@ const Posts = () => {
             value={post}
             onChange={(e) => setPost(e.target.value)}
             placeholder="Share your thoughts..."
+            maxLength={maxCharacters}
             className="flex-grow bg-transparent outline-none font-serif text-amber-900 p-3"
           />
           <button
             type="submit"
             className="ml-2 text-amber-700 hover:text-amber-900"
+            disabled={post.length === 0}
           >
-            <Send size={20} />
+            {loading ? <span>Posting...</span> : <Send size={20} />}
           </button>
+        </div>
+
+        {errorMessage && (
+          <div className="text-red-500 mt-2 text-sm">{errorMessage}</div>
+        )}
+
+        <div className="text-right mt-2 text-sm text-amber-700">
+          {maxCharacters - post.length} characters left
         </div>
       </form>
 
