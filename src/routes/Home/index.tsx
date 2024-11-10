@@ -7,6 +7,7 @@ import { AiOutlineLoading3Quarters, AiOutlinePlus } from "react-icons/ai";
 import Posts from "./posts";
 import Clubs from "./clubs";
 import { useBookClub } from "@/contexts/BookClubContext";
+import { Link } from "react-router-dom";
 
 const Home: React.FC = () => {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -14,6 +15,7 @@ const Home: React.FC = () => {
   const [clubs, setClubs] = useState<any>([]);
   const [loading, setLoading] = useState<string | null>(null);
   const [usersLoading, setUsersLoading] = useState<boolean>(true);
+  const [showSignIn, setShowSignIn] = useState<boolean>(false);
 
   const { fetchUsersOrderedByLastLogin, user, followUser, unfollowUser } =
     useAuthContext();
@@ -22,6 +24,12 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     setUsersLoading(true);
+    if (!user?.uid) {
+      setUsersLoading(false);
+      setShowSignIn(true);
+      return;
+    }
+    setShowSignIn(false);
     const fetchUsers = async () => {
       try {
         // Call the fetch function with the limit (e.g., 5)
@@ -86,6 +94,7 @@ const Home: React.FC = () => {
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-amber-50">
       {/* Left column - Authors list */}
+
       {usersLoading ? (
         <Loader className="m-auto" size={48} />
       ) : (
@@ -93,6 +102,14 @@ const Home: React.FC = () => {
           <h2 className="text-2xl font-serif font-bold mb-4 text-amber-900">
             Authors
           </h2>
+
+          {showSignIn && (
+            <button className=" bg-amber-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors duration-200 text-sm sm:text-base">
+              <Link to="/sign-in" className="flex items-center">
+                Sign in
+              </Link>
+            </button>
+          )}
           <ul>
             {users.map((author) => {
               const isFollowing = following.includes(author.uid);

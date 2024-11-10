@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { firestore, auth } from "../../config/firebase";
 import { IPost } from "@/types/IPost";
+import { analyzeText } from "@/utils";
 
 class PostsService {
   private usersCollection = collection(firestore, "users");
@@ -57,6 +58,21 @@ class PostsService {
         content: post.content,
         authorName: auth.currentUser?.displayName || "",
       };
+
+      const score = await analyzeText(newPost.content);
+
+      const toxicThreshold = 0.5; // Define a threshold for toxicity
+      const isToxic =
+        score.TOXICITY > toxicThreshold ||
+        score.SEVERE_TOXICITY > toxicThreshold ||
+        score.PROFANITY > toxicThreshold ||
+        score.INSULT > toxicThreshold ||
+        score.THREAT > toxicThreshold ||
+        score.IDENTITY_ATTACK > toxicThreshold;
+
+      if (isToxic) {
+        return "TOXIC";
+      }
 
       await setDoc(newPostRef, newPost);
 

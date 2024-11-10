@@ -12,6 +12,17 @@ const StoryDetail: React.FC = () => {
   const [chapters, setChapters] = useState<Chapter[]>([]);
   const [currentChapterIndex, setCurrentChapterIndex] = useState<number>(0);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [likes, setLikes] = useState(0);
+
+  const handleLike = async () => {
+    if (!id) return;
+    if (likes === 5) {
+      alert("Chill out homie!");
+      return;
+    }
+    setLikes((prevLikes) => prevLikes + 1);
+    await storiesRepo.incrementLikeCount(id);
+  };
 
   useEffect(() => {
     const fetchStory = async () => {
@@ -35,6 +46,10 @@ const StoryDetail: React.FC = () => {
     try {
       const story = await storiesRepo.getStory(storyId);
       const storyChapters = await storiesRepo.getChapters(storyId);
+      if (!story) {
+        return;
+      }
+      setLikes(story.likes || 0);
       setChapters(storyChapters);
       setStory(story);
     } catch (error) {
@@ -123,6 +138,7 @@ const StoryDetail: React.FC = () => {
               >
                 {story.title}
               </h1>
+
               <p
                 className={`text-lg md:text-xl mb-1 md:mb-2 text-center ${
                   isDarkMode ? "text-gray-300" : "text-gray-700"
@@ -137,6 +153,25 @@ const StoryDetail: React.FC = () => {
               >
                 Last updated: {new Date(story.updatedAt).toLocaleDateString()}
               </p>
+              <div className="flex justify-center items-center mb-4">
+                <button
+                  onClick={handleLike}
+                  className={`flex items-center px-4 py-2 rounded-md mr-2 ${
+                    isDarkMode
+                      ? "bg-amber-600 hover:bg-amber-700 text-white"
+                      : "bg-amber-500 hover:bg-amber-600 text-white"
+                  }`}
+                >
+                  👍 Like
+                </button>
+                <span
+                  className={`text-lg ${
+                    isDarkMode ? "text-gray-300" : "text-gray-700"
+                  }`}
+                >
+                  {likes} {likes === 1 ? "like" : "likes"}
+                </span>
+              </div>
 
               <div
                 className={`prose prose-lg max-w-none p-4 md:p-6 rounded-md leading-relaxed ${

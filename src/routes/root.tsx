@@ -11,7 +11,6 @@ import {
   MessageCircle,
   Users,
 } from "lucide-react";
-import { profiles } from "../profiles";
 import { Link } from "react-router-dom";
 
 const HomePage = () => {
@@ -162,7 +161,7 @@ const HomePage = () => {
       </section>
 
       {/* Meet Our AI Partners Section */}
-      <section className="py-16 bg-amber-100" data-aos="fade-up">
+      {/* <section className="py-16 bg-amber-100" data-aos="fade-up">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-serif font-bold mb-8 text-center">
             Meet Our AI Partners
@@ -184,7 +183,7 @@ const HomePage = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       <section className="py-16 bg-amber-50" data-aos="fade-up">
         <div className="container mx-auto px-4">
