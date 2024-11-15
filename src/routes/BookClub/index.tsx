@@ -9,7 +9,6 @@ import { useAuthContext } from "../../contexts/AuthContext";
 
 const BookClubs = () => {
   const {
-    bookClubs,
     createBookClub,
     updateBookClub,
     deleteBookClub,
@@ -18,14 +17,29 @@ const BookClubs = () => {
     getBookClubs,
   } = useBookClub();
   const { user } = useAuthContext();
-
-  useEffect(() => {
-    getBookClubs();
-  }, []);
-
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [selectedClub, setSelectedClub] = useState<IClub | null>(null);
+
+  const [clubs, setClubs] = useState<any>([]);
+
+  useEffect(() => {
+    if (!user?.uid) {
+      return;
+    }
+
+    const fetchClubs = async () => {
+      try {
+        const fetchedBookClubs = await getBookClubs();
+        setClubs(fetchedBookClubs);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    // Call the fetch function when the component mounts
+    fetchClubs();
+  }, [user?.uid]);
 
   const handleCreateClub = async (newClub: IClub) => {
     if (user) {
@@ -106,7 +120,7 @@ const BookClubs = () => {
               </button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {bookClubs.map((club) => (
+              {clubs.map((club: IClub) => (
                 <div key={club.id}>
                   <BookClubCard
                     joined={user ? club.members.includes(user.uid) : false}
