@@ -13,7 +13,7 @@ export class AITextGenerator {
 
   constructor(id: number) {
     this.genAI = new GoogleGenerativeAI(import.meta.env.VITE_API_KEY);
-    this.model = this.genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    this.model = this.genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
     this.history = [
       {
         role: "user",
@@ -163,6 +163,39 @@ export class AITextGenerator {
     } catch (error) {
       console.error("Error generating suggestions:", error);
       throw error;
+    }
+  }
+
+  async generateRecommendation(
+    books: string[],
+    vibe: string
+  ): Promise<string[]> {
+    // Improved prompt with specific formatting instructions
+    const prompt = `The user likes the following books:\n${books
+      .map((book, i) => `${i + 1}. ${book}`)
+      .join(
+        "\n"
+      )}The user is looking for a vibe that is "${vibe}". Based on this, recommend 3 books that the user might enjoy next. Format your response as a simple comma-separated list of book titles.`;
+
+    try {
+      const result = await this.model.generateContent(prompt);
+      const generatedText = await result.response.text();
+
+      // Parse the response into an array of book titles
+      const recommendations = generatedText
+        .trim()
+        .split(",")
+        .map((book) => book.trim());
+
+      // Ensure the recommendations array contains exactly 5 entries
+      if (recommendations.length !== 3) {
+        throw new Error("Unexpected format in recommendations");
+      }
+
+      return recommendations;
+    } catch (error) {
+      console.error("Error generating recommendation:", error);
+      return ["Unable to generate recommendations at this time."];
     }
   }
 }

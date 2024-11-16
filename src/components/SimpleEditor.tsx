@@ -417,8 +417,6 @@ export function SimpleEditor() {
               </span>
             </h1>
 
-            <div className="text-sm text-gray-400">{saveStatus}</div>
-
             <input
               type="text"
               value={storyTitle}
@@ -454,6 +452,9 @@ export function SimpleEditor() {
                     editor={editor}
                   />
                 </div>
+              </div>
+              <div className="text-sm px-2 py-1 h-8 text-center rounded-md text-gray-600 ">
+                {saveStatus}
               </div>
             </div>
             <div className="flex my-3">

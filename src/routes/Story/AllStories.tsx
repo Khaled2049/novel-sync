@@ -13,6 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { StoryMetadata } from "@/types/IStory";
+import BookRecommendation from "@/components/BookRecommendation";
 
 const AllStories: React.FC = () => {
   const { user } = useAuthContext();
@@ -104,6 +105,7 @@ const AllStories: React.FC = () => {
         <div className="flex flex-wrap mx-4">
           <div className="w-full lg:w-1/4 px-4 border-r-2 border-amber-700 space-y-4">
             <Suggestions />
+            <BookRecommendation />
           </div>
 
           <div className="w-full lg:w-3/4 px-4">
