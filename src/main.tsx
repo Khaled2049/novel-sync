@@ -29,6 +29,7 @@ import { BookClubProvider } from "./contexts/BookClubContext";
 import PrivateRoute from "./routes/PrivateRoute";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import TermsOfUse from "./components/TermsOfUse";
+import ForgotPassword from "./routes/forgot-password";
 
 const router = createBrowserRouter([
   {
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
+      },
+      {
+        path: "/forgot-password",
+        element: <ForgotPassword />,
       },
       {
         path: "/create/:storyId",

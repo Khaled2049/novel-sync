@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
@@ -67,6 +68,15 @@ export const useFirebaseAuth = () => {
     }
   };
 
+  const forgotPassword = async (email: string) => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setError(null);
+    } catch (err) {
+      setError((err as Error).message);
+    }
+  };
+
   const signout = async () => {
     try {
       await signOut(auth);
@@ -76,5 +86,5 @@ export const useFirebaseAuth = () => {
     }
   };
 
-  return { signup, signin, signout, error };
+  return { signup, signin, signout, forgotPassword, error };
 };

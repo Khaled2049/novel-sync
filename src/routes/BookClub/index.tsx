@@ -6,6 +6,7 @@ import CreateBookClub from "./CreateBookClub";
 import UpdateBookClub from "./UpdateBookClub";
 import { useBookClub } from "../../contexts/BookClubContext";
 import { useAuthContext } from "../../contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 const BookClubs = () => {
   const {
@@ -100,6 +101,27 @@ const BookClubs = () => {
     setShowUpdateForm(false);
     setSelectedClub(null);
   };
+
+  if (!user) {
+    return (
+      <div className="flex items-center bg-amber-50  justify-center h-screen ">
+        <div className="text-center bg-white p-8 rounded-lg shadow-lg max-w-md mx-auto">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            Please Sign In
+          </h2>
+          <p className="text-gray-600 mb-6">
+            You need to be logged in to view book clubs.
+          </p>
+          <Link
+            to="/sign-in"
+            className="px-6 py-2 bg-amber-500 text-white rounded-full flex items-center justify-center hover:bg-amber-600 transition duration-300"
+          >
+            Sign In
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-amber-50 min-h-screen p-6">
