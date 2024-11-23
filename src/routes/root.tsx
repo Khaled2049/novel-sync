@@ -95,7 +95,7 @@ const HomePage = () => {
             Your gateway to amazing stories and novels.
           </p>
           <Link
-            to="/stories"
+            to="/explore"
             className="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
           >
             Explore NovelSync
