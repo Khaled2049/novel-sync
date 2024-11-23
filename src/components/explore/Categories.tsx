@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { debounce, set } from "lodash";
 
 // Types
 interface Book {
