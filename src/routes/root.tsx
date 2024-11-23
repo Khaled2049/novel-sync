@@ -2,7 +2,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Book,
   BookOpen,
@@ -12,32 +12,44 @@ import {
   Users,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { storiesRepo } from "@/components/StoriesRepo";
 
 const HomePage = () => {
+  const featuredNovelCoverUrls = [
+    "featured/future_visions.webp",
+    "featured/lost_kingdom.webp",
+  ];
+  const [novels, setNovels] = useState<any[]>([]);
+
   useEffect(() => {
     AOS.init({ duration: 1000 });
-  }, []);
 
-  const novels = [
-    {
-      title: "The Lost Kingdom",
-      author: "John Doe",
-      description: "An epic fantasy adventure.",
-      cover: "https://via.placeholder.com/150", // Placeholder image
-    },
-    {
-      title: "Echoes of the Past",
-      author: "Jane Smith",
-      description: "A gripping historical novel.",
-      cover: "https://via.placeholder.com/150", // Placeholder image
-    },
-    {
-      title: "Future Visions",
-      author: "Alice Johnson",
-      description: "A journey into the unknown.",
-      cover: "https://via.placeholder.com/150", // Placeholder image
-    },
-  ];
+    const getNovelCovers = async () => {
+      const covers = await storiesRepo.fetchNovelCoverUrls(
+        featuredNovelCoverUrls
+      );
+      console.log("Covers", covers);
+
+      if (covers) {
+        setNovels([
+          {
+            title: "The Lost Kingdom",
+            author: "John Doe",
+            description: "An epic fantasy adventure.",
+            cover: covers[0],
+          },
+          {
+            title: "Future Visions",
+            author: "Alice Johnson",
+            description: "A journey into the unknown.",
+            cover: covers[1],
+          },
+        ]);
+      }
+    };
+
+    getNovelCovers();
+  }, []);
 
   const features = [
     {
@@ -185,7 +197,7 @@ const HomePage = () => {
         </div>
       </section> */}
 
-      <section className="py-16 bg-amber-50" data-aos="fade-up">
+      <section className="py-16 bg-amber-100" data-aos="fade-up">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-serif font-bold mb-8 text-center">
             What Our Authors Say
@@ -200,7 +212,7 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-      <div className="text-center">
+      <div className="text-center bg-amber-100">
         <p className="text-sm md:text-base text-red-900 bg-red">
           This is a beta version, so there might be bugs and errors. But don't
           worry, Khaled is working hard! If you see any errors or need some

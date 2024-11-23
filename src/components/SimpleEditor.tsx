@@ -260,7 +260,7 @@ export function SimpleEditor() {
         chapterTitleRef.current,
         content
       );
-    }, 2000),
+    }, 5000),
     [handleSave]
   );
 

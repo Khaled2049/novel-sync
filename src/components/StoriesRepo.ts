@@ -13,7 +13,9 @@ import {
 } from "firebase/firestore";
 import { firestore } from "../config/firebase";
 import { Chapter, Story, StoryMetadata } from "@/types/IStory";
-
+import { getDownloadURL, ref } from "firebase/storage";
+import { storage } from "../config/firebase";
+import { get } from "lodash";
 const WORD_LIMIT = 5000;
 const CHAPTER_LIMIT = 50;
 
@@ -63,6 +65,16 @@ class StoriesRepo {
         tags: data.tags || [],
       };
     });
+  }
+
+  async fetchNovelCoverUrls(novels: string[]): Promise<string[]> {
+    const novelCoverURLs: string[] = [];
+    for (let novel of novels) {
+      const storageRef = ref(storage, `book-covers/${novel}`);
+      const novelCoverURL = await getDownloadURL(storageRef);
+      novelCoverURLs.push(novelCoverURL);
+    }
+    return novelCoverURLs;
   }
 
   async getUserStories(userId: string): Promise<StoryMetadata[]> {
