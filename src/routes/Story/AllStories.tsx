@@ -64,28 +64,33 @@ const AllStories: React.FC = () => {
     <div className="bg-amber-50 min-h-screen py-8 relative ">
       <div className="container mx-auto px-4">
         {user ? (
-          <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mb-8">
-            <h1 className="text-3xl font-serif text-amber-900 mb-4 flex items-center justify-between">
-              {user.displayName ? (
-                <span>Welcome back, {user.displayName || ""}!</span>
-              ) : (
-                <span>Welcome Back!</span>
-              )}
+          <div className="max-w-4xl mx-auto p-4 sm:p-6 bg-white rounded-lg shadow-lg mb-8">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-serif text-amber-900 mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              {/* Welcome Message */}
+              <span>
+                {user.displayName
+                  ? `Welcome back, ${user.displayName}!`
+                  : "Welcome Back!"}
+              </span>
+
+              {/* Button */}
               <button
                 onClick={handleNewStory}
-                className="bg-amber-600 text-white px-4 py-2 rounded-full font-sans text-base hover:bg-amber-700 transition-colors duration-200 flex items-center"
+                className="bg-amber-600 text-white px-3 sm:px-4 py-2 rounded-full font-sans text-sm sm:text-base hover:bg-amber-700 transition-colors duration-200 flex items-center justify-center w-full sm:w-auto"
               >
                 Start a New Story
                 <FaArrowRight className="ml-2" />
               </button>
-              {user && (
-                <StoryMetadataModal
-                  isOpen={isModalOpen}
-                  onClose={() => setIsModalOpen(false)}
-                  userId={user.uid}
-                />
-              )}
             </h1>
+
+            {/* Story Metadata Modal */}
+            {user && (
+              <StoryMetadataModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                userId={user.uid}
+              />
+            )}
           </div>
         ) : (
           <div className="max-w-4xl mx-auto p-4 sm:p-6 bg-white rounded-lg shadow-lg mb-8">
