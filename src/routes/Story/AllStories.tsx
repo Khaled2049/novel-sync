@@ -88,12 +88,12 @@ const AllStories: React.FC = () => {
             </h1>
           </div>
         ) : (
-          <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mb-8">
-            <h1 className="text-3xl font-serif text-amber-900 mb-4 flex items-center justify-between">
+          <div className="max-w-4xl mx-auto p-4 sm:p-6 bg-white rounded-lg shadow-lg mb-8">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-serif text-amber-900 mb-4 flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-between gap-4 text-center sm:text-left">
               <span>Welcome to NovelSync!</span>
               <Link
                 to="/sign-in"
-                className="bg-amber-600 text-white px-4 py-2 rounded-full font-sans text-base hover:bg-amber-700 transition-colors duration-200 flex items-center"
+                className="bg-amber-600 text-white px-3 sm:px-4 py-2 rounded-full font-sans text-sm sm:text-base hover:bg-amber-700 transition-colors duration-200 flex items-center justify-center"
               >
                 Sign In
                 <FaArrowRight className="ml-2" />
@@ -103,15 +103,15 @@ const AllStories: React.FC = () => {
         )}
 
         <div className="flex flex-wrap mx-4">
-          <div className="w-full lg:w-1/4 px-4 border-r-2 border-amber-700 space-y-4">
+          <div className="w-full lg:w-1/4 px-4 border-t-2 lg:border-t-0 lg:border-r-2 border-amber-700 space-y-4 order-2 lg:order-1 pt-5">
             <Suggestions />
             <BookRecommendation />
           </div>
 
-          <div className="w-full lg:w-3/4 px-4">
+          <div className="w-full lg:w-3/4 px-4 lg:order-1">
             <h2 className="text-2xl font-serif text-amber-900 mb-6">Stories</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {currentStories.map((story) => (
                 <Card
                   key={story.id}
@@ -119,26 +119,25 @@ const AllStories: React.FC = () => {
                   className="hover:shadow-lg transition-shadow duration-200 cursor-pointer"
                 >
                   <CardHeader>
-                    <CardTitle className="font-serif text-xl text-amber-900 text-left">
+                    <CardTitle className="font-serif text-lg sm:text-xl text-amber-900 text-left">
                       {story.title}
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="flex items-start">
+                  <CardContent className="flex flex-col sm:flex-row items-start">
                     {/* Story Cover Thumbnail */}
                     {story.coverImageUrl ? (
                       <img
                         src={story.coverImageUrl}
                         alt={`${story.title} cover`}
-                        className="w-24 h-32 object-cover rounded-md mr-4 border border-amber-200"
+                        className="w-20 sm:w-24 h-28 sm:h-32 object-cover rounded-md mb-4 sm:mb-0 sm:mr-4 border border-amber-200"
                       />
                     ) : null}
 
                     <div>
-                      <h3 className="text-lg mb-2">Description</h3>
-
+                      <h3 className="text-base sm:text-lg mb-2">Description</h3>
                       <p className="text-gray-600 mb-1">{story.description}</p>
                       <p className="text-gray-600 mb-1">By {story.author}</p>
-                      <p className="text-gray-500 text-sm mb-4">
+                      <p className="text-gray-500 text-xs sm:text-sm mb-4">
                         Last Updated:{" "}
                         {new Date(story.updatedAt).toLocaleDateString()}
                       </p>
@@ -168,10 +167,8 @@ const AllStories: React.FC = () => {
               ))}
             </div>
 
-            {/* New Stories */}
-
             {/* Pagination */}
-            <div className="flex justify-center mt-8">
+            <div className="flex justify-center my-8">
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                 (pageNumber) => (
                   <button

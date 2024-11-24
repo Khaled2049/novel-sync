@@ -85,12 +85,12 @@ const HomePage = () => {
 
   return (
     <div className="bg-amber-50 text-amber-900">
-      <header className="bg-gradient-to-r from-amber-700 to-amber-900 text-amber-50 py-16 h-[70vh] flex items-center">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-6xl font-serif font-bold mb-4 drop-shadow-lg">
+      <header className="bg-gradient-to-r from-amber-700 to-amber-900 text-amber-50 py-12 h-[60vh] sm:h-[70vh] flex items-center">
+        <div className="container mx-auto px-6 sm:px-4 text-center">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-serif font-bold mb-4 drop-shadow-lg">
             Welcome to NovelSync
           </h1>
-          <p className="text-xl md:text-2xl mb-8 font-light">
+          <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 font-light">
             Your gateway to amazing stories and novels.
           </p>
           <Link
@@ -101,7 +101,6 @@ const HomePage = () => {
           </Link>
         </div>
       </header>
-
       <section className="py-16 bg-amber-100" data-aos="fade-up">
         <div className="container mx-auto px-4">
           {/* Featured Novels Section */}

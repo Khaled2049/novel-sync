@@ -99,17 +99,21 @@ const Home: React.FC = () => {
         <Loader className="m-auto" size={48} />
       ) : (
         <div className="w-full lg:w-1/4 bg-amber-50 p-4 overflow-y-auto">
-          <h2 className="text-2xl font-serif font-bold mb-4 text-amber-900">
+          <h2 className="text-xl sm:text-2xl font-serif font-bold mb-4 text-amber-900 text-left">
             Authors
           </h2>
 
           {showSignIn && (
-            <button className=" bg-amber-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors duration-200 text-sm sm:text-base">
-              <Link to="/sign-in" className="flex items-center">
+            <button className="w-full sm:w-auto bg-amber-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors duration-200 text-sm sm:text-base mb-4 sm:mb-0">
+              <Link
+                to="/sign-in"
+                className="flex justify-center sm:justify-start items-center"
+              >
                 Sign in
               </Link>
             </button>
           )}
+
           <ul>
             {users.map((author) => {
               const isFollowing = following.includes(author.uid);
@@ -118,14 +122,17 @@ const Home: React.FC = () => {
               return (
                 <li
                   key={author.uid}
-                  className="flex items-center justify-between mb-2 p-2"
+                  className="flex items-center justify-between mb-4 sm:mb-2 p-2 border-b last:border-b-0"
                 >
+                  {/* Left-aligned username */}
                   <div className="flex items-center">
                     <User className="mr-2 text-amber-700" />
-                    <span className="font-serif text-amber-800">
+                    <span className="font-serif text-sm sm:text-base text-amber-800">
                       {author.username}
                     </span>
                   </div>
+
+                  {/* Right-aligned follow button */}
                   {author.uid !== user?.uid && (
                     <button
                       onClick={() =>
@@ -133,7 +140,7 @@ const Home: React.FC = () => {
                           ? handleUnfollow(author.uid)
                           : handleFollow(author.uid)
                       }
-                      className={`flex items-center ${
+                      className={`flex items-center justify-center text-sm sm:text-base ${
                         isFollowing
                           ? "text-red-700 bg-red-100 hover:bg-red-200"
                           : "text-amber-700 bg-amber-100 hover:bg-amber-200"
@@ -141,7 +148,7 @@ const Home: React.FC = () => {
                       aria-label={`${isFollowing ? "Unfollow" : "Follow"} ${
                         author.username
                       }`}
-                      disabled={isLoading} // Disable the button while loading
+                      disabled={isLoading}
                     >
                       {isLoading ? (
                         <AiOutlineLoading3Quarters className="animate-spin text-lg" />
