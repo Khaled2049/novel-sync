@@ -108,7 +108,6 @@ const CategoriesPage = () => {
 
   // Effect for category changes
   useEffect(() => {
-    console.log("Selected category changed:", selectedCategory);
     fetchBooks(selectedCategory);
   }, [selectedCategory]);
 

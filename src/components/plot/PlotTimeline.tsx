@@ -215,7 +215,6 @@ const PlotTimeline: React.FC = () => {
 
       // Extract the generated text from the response
       const generatedText = response.data.generatedText;
-      console.log("Generated text:", generatedText);
     } catch (error) {
       console.error("Error generating plot text:", error);
     }

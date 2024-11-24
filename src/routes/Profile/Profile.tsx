@@ -65,7 +65,6 @@ const UserProfile = () => {
   const [editedText, setEditedText] = useState(profile.bio);
 
   const handleSave = async () => {
-    console.log(editedText);
     if (!user) return;
     await updateBio(user?.uid, editedText);
 

@@ -28,7 +28,6 @@ const HomePage = () => {
       const covers = await storiesRepo.fetchNovelCoverUrls(
         featuredNovelCoverUrls
       );
-      console.log("Covers", covers);
 
       if (covers) {
         setNovels([
