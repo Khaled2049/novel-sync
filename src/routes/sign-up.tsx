@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { FaGoogle } from "react-icons/fa";
 
 const Signup: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +11,12 @@ const Signup: React.FC = () => {
     password: "",
   });
 
-  const { signup, error } = useFirebaseAuth();
+  const {
+    handleAnonymousSignUp,
+    handleEmailSignUp,
+    handleGoogleSignUp,
+    error,
+  } = useFirebaseAuth();
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,9 +28,35 @@ const Signup: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await signup(formData.email, formData.password, formData.userName);
+    await handleEmailSignUp(
+      formData.email,
+      formData.password,
+      formData.userName
+    );
     if (!error) {
       navigate("/");
+    }
+  };
+
+  const googleSignUp = async () => {
+    try {
+      await handleGoogleSignUp();
+      if (!error) {
+        navigate("/");
+      }
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
+
+  const anonymousSignUp = async () => {
+    try {
+      await handleAnonymousSignUp();
+      if (!error) {
+        navigate("/");
+      }
+    } catch (err) {
+      console.log("err", err);
     }
   };
 
@@ -37,6 +69,7 @@ const Signup: React.FC = () => {
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg border border-amber-200">
         <h2 className="text-3xl font-serif text-amber-900 mb-6">Sign Up</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
@@ -100,12 +133,39 @@ const Signup: React.FC = () => {
           >
             Sign Up
           </button>
-          <div className="text-center mt-4">
-            <Link to="/sign-in" className="text-amber-600 hover:text-amber-800">
-              Already have an account? Sign In
-            </Link>
-          </div>
         </form>
+
+        {/* Simple separator without external dependency */}
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-300"></div>
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-white px-2 text-gray-500">Or</span>
+          </div>
+        </div>
+
+        {/* Google Sign Up Button */}
+        <button
+          onClick={googleSignUp}
+          className="w-full flex items-center justify-center gap-2 bg-white text-gray-700 py-2 px-4 rounded-md shadow-sm border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 mb-4"
+        >
+          <FaGoogle size={20} />
+          <span>Continue with Google</span>
+        </button>
+
+        {/* Anonymous Sign Up Button */}
+        <button
+          onClick={anonymousSignUp}
+          className="w-full bg-amber-900 text-white py-2 px-4 rounded-md shadow-sm hover:bg-amber-950 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
+        >
+          Continue Anonymously
+        </button>
+        <div className="text-center mt-4">
+          <Link to="/sign-in" className="text-amber-600 hover:text-amber-800">
+            Already have an account? Sign In
+          </Link>
+        </div>
       </div>
     </div>
   );

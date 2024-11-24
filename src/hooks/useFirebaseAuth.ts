@@ -1,18 +1,47 @@
 import { useState } from "react";
 import {
   createUserWithEmailAndPassword,
+  GoogleAuthProvider,
   sendPasswordResetEmail,
+  signInAnonymously,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
   updateProfile,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, firestore } from "../config/firebase";
+import {
+  uniqueNamesGenerator,
+  adjectives,
+  names,
+} from "unique-names-generator";
 
 export const useFirebaseAuth = () => {
   const [error, setError] = useState<string | null>(null);
 
-  const signup = async (email: string, password: string, username: string) => {
+  const createUserDocument = async (userId: string, userData: any) => {
+    const dbUser = {
+      username: userData.username,
+      email: userData.email,
+      createdAt: new Date().toISOString(),
+      followers: ["default"],
+      following: ["default"],
+      stories: [],
+      likedPosts: [],
+      savedPosts: [],
+      lastLogin: new Date().toISOString(),
+      isAnonymous: userData.isAnonymous || false,
+    };
+
+    await setDoc(doc(firestore, "users", userId), dbUser);
+  };
+
+  const handleEmailSignUp = async (
+    email: string,
+    password: string,
+    username: string
+  ) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -24,22 +53,67 @@ export const useFirebaseAuth = () => {
       // Update the user's profile with the username
       await updateProfile(user, { displayName: username });
 
-      const dbUser = {
-        username: username,
-        email: email,
-        createdAt: new Date().toISOString(),
-        followers: ["default"],
-        following: ["default"],
-        stories: [],
-        likedPosts: [],
-        savedPosts: [],
-        lastLogin: new Date().toISOString(),
-      };
-
-      // Store additional user data in Firestore
-      await setDoc(doc(firestore, "users", user.uid), dbUser);
+      // Create user document in Firestore
+      await createUserDocument(user.uid, {
+        username,
+        email,
+        isAnonymous: false,
+      });
 
       setError(null);
+    } catch (err) {
+      setError((err as Error).message);
+    }
+  };
+
+  const handleGoogleSignUp = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const userCredential = await signInWithPopup(auth, provider);
+      const user = userCredential.user;
+
+      // Create user document in Firestore
+      await createUserDocument(user.uid, {
+        username: user.displayName || "Google User",
+        email: user.email || "",
+        isAnonymous: false,
+      });
+
+      setError("");
+    } catch (err) {
+      setError((err as Error).message);
+    }
+  };
+
+  const handleAnonymousSignUp = async () => {
+    try {
+      try {
+        const anonymousUsername = uniqueNamesGenerator({
+          dictionaries: [adjectives, names],
+          separator: " ",
+          style: "capital",
+          length: 2,
+        });
+
+        console.log("anonymousUsername", anonymousUsername);
+
+        const userCredential = await signInAnonymously(auth);
+        const user = userCredential.user;
+
+        await updateProfile(user, {
+          displayName: anonymousUsername,
+        });
+
+        await createUserDocument(user.uid, {
+          username: anonymousUsername,
+          email: "",
+          isAnonymous: true,
+        });
+      } catch (err) {
+        console.log("err", err);
+      }
+
+      setError("");
     } catch (err) {
       setError((err as Error).message);
     }
@@ -86,5 +160,13 @@ export const useFirebaseAuth = () => {
     }
   };
 
-  return { signup, signin, signout, forgotPassword, error };
+  return {
+    handleAnonymousSignUp,
+    handleEmailSignUp,
+    handleGoogleSignUp,
+    signin,
+    signout,
+    forgotPassword,
+    error,
+  };
 };
