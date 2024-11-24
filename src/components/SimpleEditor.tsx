@@ -18,7 +18,7 @@ import { AITextGenerator } from "./AITextGenerator";
 import ListItem from "@tiptap/extension-list-item";
 import { storiesRepo } from "./StoriesRepo";
 
-const limit = 5000;
+const limit = 50000;
 import { Book, Loader } from "lucide-react";
 
 import EditorHeader from "./EditorHeader";
