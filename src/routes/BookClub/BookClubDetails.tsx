@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Users, Book, Calendar, MessageCircle, User } from "lucide-react";
+import { Book, Calendar, MessageCircle } from "lucide-react";
 import { IClub } from "../../types/IClub";
 import { bookClubRepo } from "./bookClubRepo";
 import { useAuthContext } from "@/contexts/AuthContext";
