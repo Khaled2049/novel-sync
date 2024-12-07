@@ -34,6 +34,7 @@ const BookClubs = () => {
       newClub.creatorId = user.uid;
     }
     await bookClubRepo.createBookClub(newClub);
+    setBookClubs((prevClubs) => [...prevClubs, newClub]);
     setShowCreateForm(false);
   };
 
@@ -73,6 +74,8 @@ const BookClubs = () => {
       if (window.confirm("Are you sure you want to delete this club?")) {
         bookClubRepo.deleteBookClub(club.id);
       }
+
+      setBookClubs((prevClubs) => prevClubs.filter((c) => c.id !== club.id));
     } else {
       alert("You can only delete clubs you created.");
     }
