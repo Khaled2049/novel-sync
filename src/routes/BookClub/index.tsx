@@ -4,23 +4,26 @@ import BookClubCard from "../../components/BookClubCard";
 import { IClub } from "../../types/IClub";
 import CreateBookClub from "./CreateBookClub";
 import UpdateBookClub from "./UpdateBookClub";
-import { useBookClub } from "../../contexts/BookClubContext";
+
 import { useAuthContext } from "../../contexts/AuthContext";
+import { bookClubRepo } from "./bookClubRepo";
 
 const BookClubs = () => {
-  const {
-    bookClubs,
-    createBookClub,
-    updateBookClub,
-    deleteBookClub,
-    joinBookClub,
-    leaveBookClub,
-    getBookClubs,
-  } = useBookClub();
   const { user } = useAuthContext();
 
+  const [bookClubs, setBookClubs] = useState<IClub[]>([]);
+
   useEffect(() => {
-    getBookClubs();
+    console.log("Getting book clubs...");
+
+    // fetch book clubs
+    const fetchBookClubs = async () => {
+      const clubs = await bookClubRepo.getBookClubs();
+      if (clubs) {
+        setBookClubs(clubs);
+      }
+    };
+    fetchBookClubs();
   }, []);
 
   const [showCreateForm, setShowCreateForm] = useState(false);
@@ -31,7 +34,7 @@ const BookClubs = () => {
     if (user) {
       newClub.creatorId = user.uid;
     }
-    await createBookClub(newClub);
+    await bookClubRepo.createBookClub(newClub);
     setShowCreateForm(false);
   };
 
@@ -44,7 +47,7 @@ const BookClubs = () => {
   };
 
   const handleUpdateClub = (updatedClub: IClub) => {
-    updateBookClub(updatedClub.id, updatedClub);
+    bookClubRepo.updateBookClub(updatedClub.id, updatedClub);
     setShowUpdateForm(false);
     setSelectedClub(null);
   };
@@ -60,7 +63,7 @@ const BookClubs = () => {
 
   const handleJoinClub = (clubId: string) => {
     if (user) {
-      joinBookClub(clubId, user.username);
+      bookClubRepo.joinBookClub(clubId, user.username);
     } else {
       alert("You must be logged in to join a club.");
     }
@@ -69,7 +72,7 @@ const BookClubs = () => {
   const handleDeleteClub = (club: IClub) => {
     if (club.creatorId === user?.uid) {
       if (window.confirm("Are you sure you want to delete this club?")) {
-        deleteBookClub(club.id);
+        bookClubRepo.deleteBookClub(club.id);
       }
     } else {
       alert("You can only delete clubs you created.");
@@ -78,7 +81,7 @@ const BookClubs = () => {
 
   const handleLeaveClub = (clubId: string) => {
     if (user) {
-      leaveBookClub(clubId, user.uid);
+      bookClubRepo.leaveBookClub(clubId, user.uid);
     }
   };
 

@@ -25,7 +25,7 @@ import { NavbarWrapper } from "./NavbarWrapper";
 
 import { AIProvider } from "./contexts/AIContext";
 import { EditorProvider } from "./contexts/EditorContext";
-import { BookClubProvider } from "./contexts/BookClubContext";
+
 import PrivateRoute from "./routes/PrivateRoute";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import TermsOfUse from "./components/TermsOfUse";
@@ -108,11 +108,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <AuthProvider>
     <AIProvider>
-      <BookClubProvider>
-        <EditorProvider>
-          <RouterProvider router={router} />
-        </EditorProvider>
-      </BookClubProvider>
+      <EditorProvider>
+        <RouterProvider router={router} />
+      </EditorProvider>
     </AIProvider>
   </AuthProvider>
 );
