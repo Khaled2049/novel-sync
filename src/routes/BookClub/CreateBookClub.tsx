@@ -71,7 +71,7 @@ const CreateBookClub = ({
     const clubWithDefaults = {
       ...newClub,
       id: uuidv4(),
-      members: [user.username],
+      members: [user.uid],
       activity: "New",
       image: "/api/placeholder/400/250",
       creatorId: user.uid,
