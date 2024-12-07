@@ -2,15 +2,16 @@ import { IMessage } from "@/types/IMessage";
 import { useEffect, useRef, useState } from "react";
 import { bookClubRepo } from "./bookClubRepo";
 import { MessageCircle } from "lucide-react";
+import { IUser } from "@/types/IUser";
 
-const BookClubChat: React.FC<{ clubId: string; userName: string }> = ({
+const BookClubChat: React.FC<{ clubId: string; user: IUser }> = ({
   clubId,
-  userName,
+  user,
 }) => {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
+  const { displayName } = user;
   useEffect(() => {
     // Subscribe to messages
     const unsubscribe = bookClubRepo.getMessages(clubId, (updatedMessages) => {
@@ -32,8 +33,15 @@ const BookClubChat: React.FC<{ clubId: string; userName: string }> = ({
 
     const message: IMessage = {
       content: newMessage.trim(),
-      sender: userName,
+      sender: displayName || "Anonymous",
     };
+
+    // Check if user is member of the club
+    const isMember = await bookClubRepo.checkMembership(clubId, user.uid);
+    if (!isMember) {
+      alert("You must be a member to send messages");
+      return;
+    }
 
     await bookClubRepo.sendMessage(clubId, message);
     setNewMessage("");
@@ -51,12 +59,12 @@ const BookClubChat: React.FC<{ clubId: string; userName: string }> = ({
           <div
             key={message.id}
             className={`mb-2 ${
-              message.sender === userName ? "text-right" : "text-left"
+              message.sender === displayName ? "text-right" : "text-left"
             }`}
           >
             <div
               className={`inline-block p-3 rounded-lg ${
-                message.sender === userName
+                message.sender === displayName
                   ? "bg-amber-100 text-amber-800"
                   : "bg-gray-100 text-gray-800"
               }`}

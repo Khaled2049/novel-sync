@@ -9,4 +9,7 @@ export interface IUser extends FirebaseUser {
   stories: string[];
   likedPosts: string[];
   savedPosts: string[];
+  occupation: string;
+  bio: string;
+  location: string;
 }

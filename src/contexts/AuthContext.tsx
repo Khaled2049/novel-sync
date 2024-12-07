@@ -21,6 +21,7 @@ interface AuthContextType {
   fetchUsersOrderedByLastLogin: (userLimit: number) => Promise<IUser[]>;
   followUser: (uid: string) => Promise<void>;
   unfollowUser: (uid: string) => Promise<void>;
+  updateBio: (uid: string, bio: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -51,6 +52,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             likedPosts: userData.likedPosts,
             savedPosts: userData.savedPosts,
             lastLogin: userData.lastLogin,
+            bio: userData.bio,
+            occupation: userData.occupation,
+            location: userData.location,
           });
         } else {
           const newUser: IUser = {
@@ -63,6 +67,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             likedPosts: [],
             savedPosts: [],
             lastLogin: new Date().toISOString(),
+            bio: "Write an about me section here...",
+            occupation: "Occupation",
+            location: "Location",
           };
           // Here you would typically save this new user to Firestore
           setUser(newUser);
@@ -146,6 +153,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const updateBio = async (uid: string, bio: string) => {
+    if (!user) {
+      throw new Error("User not authenticated");
+    }
+
+    try {
+      const userDocRef = doc(firestore, "users", uid);
+
+      // update only bio field
+      await updateDoc(userDocRef, {
+        bio: bio,
+      });
+    } catch (error) {
+      console.error("Error updating user profile:", error);
+      throw new Error("Failed to update user profile");
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -154,6 +179,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         fetchUsersOrderedByLastLogin,
         followUser,
         unfollowUser,
+        updateBio,
       }}
     >
       {children}

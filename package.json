@@ -37,6 +37,7 @@
     "class-variance-authority": "^0.7.0",
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
+    "cross-spawn": "7.0.5",
     "firebase": "^10.14.1",
     "framer-motion": "^11.5.4",
     "lodash": "^4.17.21",
@@ -50,6 +51,7 @@
     "recharts": "^2.12.7",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
+    "unique-names-generator": "^4.7.1",
     "uuid": "^10.0.0"
   },
   "devDependencies": {

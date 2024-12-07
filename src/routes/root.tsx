@@ -2,7 +2,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Book,
   BookOpen,
@@ -12,32 +12,43 @@ import {
   Users,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { storiesRepo } from "@/components/StoriesRepo";
 
 const HomePage = () => {
+  const featuredNovelCoverUrls = [
+    "featured/future_visions.webp",
+    "featured/lost_kingdom.webp",
+  ];
+  const [novels, setNovels] = useState<any[]>([]);
+
   useEffect(() => {
     AOS.init({ duration: 1000 });
-  }, []);
 
-  const novels = [
-    {
-      title: "The Lost Kingdom",
-      author: "John Doe",
-      description: "An epic fantasy adventure.",
-      cover: "https://via.placeholder.com/150", // Placeholder image
-    },
-    {
-      title: "Echoes of the Past",
-      author: "Jane Smith",
-      description: "A gripping historical novel.",
-      cover: "https://via.placeholder.com/150", // Placeholder image
-    },
-    {
-      title: "Future Visions",
-      author: "Alice Johnson",
-      description: "A journey into the unknown.",
-      cover: "https://via.placeholder.com/150", // Placeholder image
-    },
-  ];
+    const getNovelCovers = async () => {
+      const covers = await storiesRepo.fetchNovelCoverUrls(
+        featuredNovelCoverUrls
+      );
+
+      if (covers) {
+        setNovels([
+          {
+            title: "The Lost Kingdom",
+            author: "John Doe",
+            description: "An epic fantasy adventure.",
+            cover: covers[0],
+          },
+          {
+            title: "Future Visions",
+            author: "Alice Johnson",
+            description: "A journey into the unknown.",
+            cover: covers[1],
+          },
+        ]);
+      }
+    };
+
+    getNovelCovers();
+  }, []);
 
   const features = [
     {
@@ -74,23 +85,22 @@ const HomePage = () => {
 
   return (
     <div className="bg-amber-50 text-amber-900">
-      <header className="bg-gradient-to-r from-amber-700 to-amber-900 text-amber-50 py-16 h-[70vh] flex items-center">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-6xl font-serif font-bold mb-4 drop-shadow-lg">
+      <header className="bg-gradient-to-r from-amber-700 to-amber-900 text-amber-50 py-12 h-[60vh] sm:h-[70vh] flex items-center">
+        <div className="container mx-auto px-6 sm:px-4 text-center">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-serif font-bold mb-4 drop-shadow-lg">
             Welcome to NovelSync
           </h1>
-          <p className="text-xl md:text-2xl mb-8 font-light">
+          <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 font-light">
             Your gateway to amazing stories and novels.
           </p>
           <Link
-            to="/stories"
+            to="/explore"
             className="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
           >
             Explore NovelSync
           </Link>
         </div>
       </header>
-
       <section className="py-16 bg-amber-100" data-aos="fade-up">
         <div className="container mx-auto px-4">
           {/* Featured Novels Section */}
@@ -185,7 +195,7 @@ const HomePage = () => {
         </div>
       </section> */}
 
-      <section className="py-16 bg-amber-50" data-aos="fade-up">
+      <section className="py-16 bg-amber-100" data-aos="fade-up">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-serif font-bold mb-8 text-center">
             What Our Authors Say
@@ -200,7 +210,7 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-      <div className="text-center">
+      <div className="text-center bg-amber-100">
         <p className="text-sm md:text-base text-red-900 bg-red">
           This is a beta version, so there might be bugs and errors. But don't
           worry, Khaled is working hard! If you see any errors or need some

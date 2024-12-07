@@ -87,11 +87,24 @@ class BookClubRepo {
   joinBookClub = async (clubId: string, userName: string) => {
     try {
       const clubRef = doc(firestore, "bookClubs", clubId);
+      const clubDoc = await getDoc(clubRef);
+
+      if (!clubDoc.exists()) {
+        throw new Error("Club not found");
+      }
+
+      const currentMembers = clubDoc.data().members || [];
+
+      if (currentMembers.length >= 10) {
+        throw new Error("This book club is full (maximum 10 members)");
+      }
+
       await updateDoc(clubRef, {
         members: arrayUnion(userName),
       });
     } catch (error) {
       console.error("Error joining book club:", error);
+      throw error;
     }
   };
 
@@ -108,9 +121,17 @@ class BookClubRepo {
 
   sendMessage = async (clubId: string, message: IMessage) => {
     try {
-      const messageRef = doc(
-        collection(firestore, `bookClubs/${clubId}/messages`)
-      );
+      const messagesRef = collection(firestore, `bookClubs/${clubId}/messages`);
+
+      // Get current message count
+      const messageCount = (await getDocs(messagesRef)).size;
+
+      if (messageCount >= 100) {
+        throw new Error("Message limit reached");
+      }
+
+      // Add new message
+      const messageRef = doc(messagesRef);
       await setDoc(messageRef, {
         ...message,
         id: messageRef.id,
@@ -118,6 +139,7 @@ class BookClubRepo {
       });
     } catch (error) {
       console.error("Error sending message:", error);
+      throw error;
     }
   };
 
@@ -129,6 +151,16 @@ class BookClubRepo {
       const messages = snapshot.docs.map((doc) => doc.data() as IMessage);
       callback(messages);
     });
+  };
+
+  checkMembership = async (clubId: string, userId: string) => {
+    const clubRef = doc(firestore, "bookClubs", clubId);
+    const clubDoc = await getDoc(clubRef);
+    if (clubDoc.exists()) {
+      const clubData = clubDoc.data() as IClub;
+      return clubData.members.includes(userId);
+    }
+    return false;
   };
 }
 

@@ -29,6 +29,16 @@ import { EditorProvider } from "./contexts/EditorContext";
 import PrivateRoute from "./routes/PrivateRoute";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import TermsOfUse from "./components/TermsOfUse";
+import ForgotPassword from "./routes/forgot-password";
+import StoriesLayout from "./routes/StoriesLayout";
+import Categories from "./components/explore/Categories";
+import BookLists from "./components/explore/BookLists";
+import Challenges from "./components/explore/Challenges";
+import Events from "./components/explore/Events";
+import Leaderboards from "./components/explore/Leaderboards";
+
+import WritingResources from "./components/explore/WritingResources";
+import Announcements from "./components/explore/Announcements";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +62,45 @@ const router = createBrowserRouter([
         element: <AllStories />,
       },
       {
+        path: "/explore",
+        element: <StoriesLayout />,
+        children: [
+          { index: true, element: <AllStories /> },
+          {
+            path: "categories",
+            element: <Categories />,
+          },
+          {
+            path: "book-lists",
+            element: <BookLists />,
+          },
+          {
+            path: "announcements",
+            element: <Announcements />,
+          },
+          {
+            path: "challenges",
+            element: <Challenges />,
+          },
+          {
+            path: "leaderboards",
+            element: <Leaderboards />,
+          },
+          {
+            path: "writing-resources",
+            element: <WritingResources />,
+          },
+          {
+            path: "events",
+            element: <Events />,
+          },
+          {
+            path: "stories",
+            element: <AllStories />,
+          },
+        ],
+      },
+      {
         path: "/library",
         element: <Library />,
       },
@@ -61,11 +110,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/book-clubs",
-        element: <BookClubs />, // This will be the main component for the book clubs
+        element: <BookClubs />,
       },
       {
         path: "/book-clubs/:id",
-        element: <BookClubDetails />, // This will be the main component for the book clubs
+        element: <BookClubDetails />,
       },
       {
         path: "/Home",
@@ -82,6 +131,10 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
+      },
+      {
+        path: "/forgot-password",
+        element: <ForgotPassword />,
       },
       {
         path: "/create/:storyId",

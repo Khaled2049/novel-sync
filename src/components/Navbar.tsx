@@ -73,10 +73,10 @@ const Navbar = () => {
             Community
           </Link>
           <Link
-            to="/stories"
+            to="/explore"
             className="block px-4 py-2 text-white bg-transparent hover:bg-white hover:text-black transition duration-300 ease-in-out rounded"
           >
-            Stories
+            Explore
           </Link>
           <Link
             to="/book-clubs"
@@ -168,16 +168,16 @@ const Navbar = () => {
           View Profile
         </Link>
         <Link
-          to="/"
+          to="/home"
           className="block px-4 py-2 text-white bg-transparent hover:bg-white hover:text-black transition duration-300 ease-in-out rounded mb-2"
         >
           Community
         </Link>
         <Link
-          to="/stories"
+          to="/explore"
           className="block px-4 py-2 text-white bg-transparent hover:bg-white hover:text-black transition duration-300 ease-in-out rounded mb-2"
         >
-          Stories
+          Explore
         </Link>
 
         {/* <Link

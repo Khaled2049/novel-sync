@@ -7,6 +7,7 @@ import UpdateBookClub from "./UpdateBookClub";
 
 import { useAuthContext } from "../../contexts/AuthContext";
 import { bookClubRepo } from "./bookClubRepo";
+import { Link } from "react-router-dom";
 
 const BookClubs = () => {
   const { user } = useAuthContext();
@@ -14,8 +15,6 @@ const BookClubs = () => {
   const [bookClubs, setBookClubs] = useState<IClub[]>([]);
 
   useEffect(() => {
-    console.log("Getting book clubs...");
-
     // fetch book clubs
     const fetchBookClubs = async () => {
       const clubs = await bookClubRepo.getBookClubs();
@@ -63,7 +62,7 @@ const BookClubs = () => {
 
   const handleJoinClub = (clubId: string) => {
     if (user) {
-      bookClubRepo.joinBookClub(clubId, user.username);
+      bookClubRepo.joinBookClub(clubId, user.uid);
     } else {
       alert("You must be logged in to join a club.");
     }
@@ -90,6 +89,27 @@ const BookClubs = () => {
     setSelectedClub(null);
   };
 
+  if (!user) {
+    return (
+      <div className="flex items-center bg-amber-50  justify-center h-screen ">
+        <div className="text-center bg-white p-8 rounded-lg shadow-lg max-w-md mx-auto">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            Please Sign In
+          </h2>
+          <p className="text-gray-600 mb-6">
+            You need to be logged in to view book clubs.
+          </p>
+          <Link
+            to="/sign-in"
+            className="px-6 py-2 bg-amber-500 text-white rounded-full flex items-center justify-center hover:bg-amber-600 transition duration-300"
+          >
+            Sign In
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-amber-50 min-h-screen p-6">
       {!showCreateForm && !showUpdateForm ? (
@@ -109,7 +129,7 @@ const BookClubs = () => {
               </button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {bookClubs.map((club) => (
+              {bookClubs.map((club: IClub) => (
                 <div key={club.id}>
                   <BookClubCard
                     joined={user ? club.members.includes(user.uid) : false}
