@@ -1,5 +1,6 @@
 import { firestore } from "@/config/firebase";
 import { IClub } from "@/types/IClub";
+import { IMessage } from "@/types/IMessage";
 import {
   arrayRemove,
   arrayUnion,
@@ -9,13 +10,16 @@ import {
   DocumentReference,
   getDoc,
   getDocs,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
 
 class BookClubRepo {
-  private bookClubCollection = collection(firestore, "bookClubs");
-
   createBookClub = async (club: IClub) => {
     try {
       const clubRef: DocumentReference = doc(
@@ -100,6 +104,31 @@ class BookClubRepo {
     } catch (error) {
       console.error("Error leaving book club:", error);
     }
+  };
+
+  sendMessage = async (clubId: string, message: IMessage) => {
+    try {
+      const messageRef = doc(
+        collection(firestore, `bookClubs/${clubId}/messages`)
+      );
+      await setDoc(messageRef, {
+        ...message,
+        id: messageRef.id,
+        timestamp: serverTimestamp(),
+      });
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  };
+
+  getMessages = (clubId: string, callback: (messages: IMessage[]) => void) => {
+    const messagesRef = collection(firestore, `bookClubs/${clubId}/messages`);
+    const q = query(messagesRef, orderBy("timestamp", "asc"), limit(50));
+
+    return onSnapshot(q, (snapshot) => {
+      const messages = snapshot.docs.map((doc) => doc.data() as IMessage);
+      callback(messages);
+    });
   };
 }
 

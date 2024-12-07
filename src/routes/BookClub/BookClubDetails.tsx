@@ -1,23 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-
 import { Users, Book, Calendar, MessageCircle, User } from "lucide-react";
 import { IClub } from "../../types/IClub";
 import { bookClubRepo } from "./bookClubRepo";
+import { useAuthContext } from "@/contexts/AuthContext";
+import BookClubChat from "./BookClubChat";
 
 const BookClubDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-
+  const { user, loading } = useAuthContext();
   const [club, setClub] = useState<IClub | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchClub = async () => {
-      if (!id) return;
-      const club = await bookClubRepo.getBookClub(id);
-      setClub(club);
+      if (!id) {
+        setIsLoading(false);
+        return;
+      }
+      try {
+        const clubData = await bookClubRepo.getBookClub(id);
+        setClub(clubData);
+      } catch (error) {
+        console.error("Error fetching club:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
+
     fetchClub();
   }, [id]);
+
+  if (loading || isLoading) {
+    return (
+      <div className="mx-auto p-4 text-center">
+        <h1 className="text-3xl font-serif text-amber-800">Loading...</h1>
+      </div>
+    );
+  }
 
   if (!club) {
     return (
@@ -107,7 +127,7 @@ const BookClubDetails: React.FC = () => {
           </div>
 
           {/* Discussion Forum */}
-          <div className="bg-white shadow-lg rounded-lg p-6">
+          <div className="bg-white shadow-lg rounded-lg p-6 mb-6">
             <h2 className="text-2xl font-serif font-bold mb-4 text-amber-800 flex items-center">
               <MessageCircle className="mr-2" /> Discussion Forum
             </h2>
@@ -134,6 +154,10 @@ const BookClubDetails: React.FC = () => {
               </p>
             )}
           </div>
+          {loading && <p>Loading...</p>}
+          {user && (
+            <BookClubChat clubId={club.id} userName={user.displayName || ""} />
+          )}
         </div>
       </div>
     </div>
