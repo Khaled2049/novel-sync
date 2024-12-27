@@ -6,8 +6,9 @@ import { IUser } from "../../types/IUser";
 import { AiOutlineLoading3Quarters, AiOutlinePlus } from "react-icons/ai";
 import Posts from "./posts";
 import Clubs from "./clubs";
-import { useBookClub } from "@/contexts/BookClubContext";
+
 import { Link } from "react-router-dom";
+import { bookClubRepo } from "../BookClub/bookClubRepo";
 
 const Home: React.FC = () => {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -19,8 +20,6 @@ const Home: React.FC = () => {
 
   const { fetchUsersOrderedByLastLogin, user, followUser, unfollowUser } =
     useAuthContext();
-
-  const { getBookClubs } = useBookClub();
 
   useEffect(() => {
     setUsersLoading(true);
@@ -34,7 +33,7 @@ const Home: React.FC = () => {
       try {
         // Call the fetch function with the limit (e.g., 5)
         const fetchedUsers = await fetchUsersOrderedByLastLogin(5);
-        const fetchedBookClubs = await getBookClubs();
+        const fetchedBookClubs = await bookClubRepo.getBookClubs();
         setClubs(fetchedBookClubs);
         setUsers(fetchedUsers); // Set the fetched users to state
         setFollowing(user?.following || []); // Set the following list

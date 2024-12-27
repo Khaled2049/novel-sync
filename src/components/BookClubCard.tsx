@@ -39,7 +39,7 @@ const BookClubCard = ({
           <Link
             to={`/book-clubs/${club.id}`}
             key={club.id}
-            className="block transition duration-300 ease-in-out transform hover:scale-105"
+            className="block transition duration-300"
           >
             <h2 className="text-2xl font-serif font-bold mb-2 text-amber-900 truncate">
               {club.name}

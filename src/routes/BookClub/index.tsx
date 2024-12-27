@@ -4,49 +4,37 @@ import BookClubCard from "../../components/BookClubCard";
 import { IClub } from "../../types/IClub";
 import CreateBookClub from "./CreateBookClub";
 import UpdateBookClub from "./UpdateBookClub";
-import { useBookClub } from "../../contexts/BookClubContext";
+
 import { useAuthContext } from "../../contexts/AuthContext";
+import { bookClubRepo } from "./bookClubRepo";
 import { Link } from "react-router-dom";
 
 const BookClubs = () => {
-  const {
-    createBookClub,
-    updateBookClub,
-    deleteBookClub,
-    joinBookClub,
-    leaveBookClub,
-    getBookClubs,
-  } = useBookClub();
   const { user } = useAuthContext();
+
+  const [bookClubs, setBookClubs] = useState<IClub[]>([]);
+
+  useEffect(() => {
+    // fetch book clubs
+    const fetchBookClubs = async () => {
+      const clubs = await bookClubRepo.getBookClubs();
+      if (clubs) {
+        setBookClubs(clubs);
+      }
+    };
+    fetchBookClubs();
+  }, []);
+
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [selectedClub, setSelectedClub] = useState<IClub | null>(null);
-
-  const [clubs, setClubs] = useState<any>([]);
-
-  useEffect(() => {
-    if (!user?.uid) {
-      return;
-    }
-
-    const fetchClubs = async () => {
-      try {
-        const fetchedBookClubs = await getBookClubs();
-        setClubs(fetchedBookClubs);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
-
-    // Call the fetch function when the component mounts
-    fetchClubs();
-  }, [user?.uid]);
 
   const handleCreateClub = async (newClub: IClub) => {
     if (user) {
       newClub.creatorId = user.uid;
     }
-    await createBookClub(newClub);
+    await bookClubRepo.createBookClub(newClub);
+    setBookClubs((prevClubs) => [...prevClubs, newClub]);
     setShowCreateForm(false);
   };
 
@@ -59,7 +47,7 @@ const BookClubs = () => {
   };
 
   const handleUpdateClub = (updatedClub: IClub) => {
-    updateBookClub(updatedClub.id, updatedClub);
+    bookClubRepo.updateBookClub(updatedClub.id, updatedClub);
     setShowUpdateForm(false);
     setSelectedClub(null);
   };
@@ -75,7 +63,7 @@ const BookClubs = () => {
 
   const handleJoinClub = (clubId: string) => {
     if (user) {
-      joinBookClub(clubId, user.username);
+      bookClubRepo.joinBookClub(clubId, user.uid);
     } else {
       alert("You must be logged in to join a club.");
     }
@@ -84,8 +72,10 @@ const BookClubs = () => {
   const handleDeleteClub = (club: IClub) => {
     if (club.creatorId === user?.uid) {
       if (window.confirm("Are you sure you want to delete this club?")) {
-        deleteBookClub(club.id);
+        bookClubRepo.deleteBookClub(club.id);
       }
+
+      setBookClubs((prevClubs) => prevClubs.filter((c) => c.id !== club.id));
     } else {
       alert("You can only delete clubs you created.");
     }
@@ -93,7 +83,7 @@ const BookClubs = () => {
 
   const handleLeaveClub = (clubId: string) => {
     if (user) {
-      leaveBookClub(clubId, user.uid);
+      bookClubRepo.leaveBookClub(clubId, user.uid);
     }
   };
 
@@ -142,7 +132,7 @@ const BookClubs = () => {
               </button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {clubs.map((club: IClub) => (
+              {bookClubs.map((club: IClub) => (
                 <div key={club.id}>
                   <BookClubCard
                     joined={user ? club.members.includes(user.uid) : false}
