@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import {
   Root,
   Signin,
-  Signup,
+  // Signup,
   StoryDetail,
   BookClubs,
   Home,
@@ -121,10 +121,10 @@ const router = createBrowserRouter([
         path: "/sign-in",
         element: <Signin />,
       },
-      {
-        path: "/sign-up",
-        element: <Signup />,
-      },
+      // {
+      //   path: "/sign-up",
+      //   element: <Signup />,
+      // },
       {
         path: "/profile",
         element: <Profile />,
