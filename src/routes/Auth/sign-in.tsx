@@ -99,11 +99,11 @@ const Signin: React.FC = () => {
           >
             {isLoading ? "Signing In..." : "Sign In"}
           </button>
-          <div className="text-center mt-4">
+          {/* <div className="text-center mt-4">
             <Link to="/sign-up" className="text-amber-600 hover:text-amber-800">
               Create an account
             </Link>
-          </div>
+          </div> */}
         </form>
       </div>
     </div>
