@@ -12,7 +12,7 @@ import {
   Users,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { storiesRepo } from "@/components/StoriesRepo";
+import { storiesRepo } from "@/services/StoriesRepo";
 
 const HomePage = () => {
   const featuredNovelCoverUrls = [
@@ -169,31 +169,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
-      {/* Meet Our AI Partners Section */}
-      {/* <section className="py-16 bg-amber-100" data-aos="fade-up">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-serif font-bold mb-8 text-center">
-            Meet Our AI Partners
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {profiles.map((profile) => (
-              <div
-                key={profile.id}
-                className="bg-white p-6 rounded-lg text-center"
-              >
-                <img
-                  src={profile.img}
-                  alt={profile.name}
-                  className="w-24 h-24 mx-auto rounded-full mb-4"
-                />
-                <h3 className="text-xl font-bold mb-2">{profile.name}</h3>
-                <p className="text-gray-700">{profile.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
 
       <section className="py-16 bg-amber-100" data-aos="fade-up">
         <div className="container mx-auto px-4">

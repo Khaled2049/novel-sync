@@ -18,8 +18,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { storiesRepo } from "./StoriesRepo";
-import { storage } from "../config/firebase";
+import { storiesRepo } from "@/services/StoriesRepo";
+import { storage } from "@/config/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 interface StoryMetadataModalProps {

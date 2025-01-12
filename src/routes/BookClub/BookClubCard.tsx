@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { IClub } from "../types/IClub";
+import { IClub } from "@/types/IClub";
 import {
   BookOpen,
   Clock,

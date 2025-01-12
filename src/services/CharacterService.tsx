@@ -7,8 +7,8 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import { firestore } from "../../config/firebase";
-// import { storiesRepo } from "../StoriesRepo";
+import { firestore } from "@/config/firebase";
+// import { storiesRepo } from "@/services/StoriesRepo";
 import { Character } from "@/types/ICharacter";
 
 class CharacterService {

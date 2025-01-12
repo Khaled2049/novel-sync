@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
+import { useFirebaseAuth } from "@/hooks/useFirebaseAuth";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";

@@ -23,20 +23,17 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { NavbarWrapper } from "./NavbarWrapper";
 
-import { AIProvider } from "./contexts/AIContext";
-import { EditorProvider } from "./contexts/EditorContext";
-
 import PrivateRoute from "./routes/PrivateRoute";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import TermsOfUse from "./components/TermsOfUse";
-import ForgotPassword from "./routes/forgot-password";
-import StoriesLayout from "./routes/StoriesLayout";
+import ForgotPassword from "./routes/Auth/forgot-password";
+import StoriesLayout from "./routes/Story/StoriesLayout";
+
 import Categories from "./components/explore/Categories";
 import BookLists from "./components/explore/BookLists";
 import Challenges from "./components/explore/Challenges";
 import Events from "./components/explore/Events";
 import Leaderboards from "./components/explore/Leaderboards";
-
 import WritingResources from "./components/explore/WritingResources";
 import Announcements from "./components/explore/Announcements";
 
@@ -160,10 +157,6 @@ const router = createBrowserRouter([
 ]);
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <AuthProvider>
-    <AIProvider>
-      <EditorProvider>
-        <RouterProvider router={router} />
-      </EditorProvider>
-    </AIProvider>
+    <RouterProvider router={router} />
   </AuthProvider>
 );

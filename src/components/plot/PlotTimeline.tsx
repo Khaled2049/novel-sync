@@ -13,7 +13,7 @@ import {
 import { PlotLineEditModal } from "./PlotlineEditModal";
 import { EventEditModal } from "./EventEditModal";
 import { PlotEvent, PlotLine, TemplateData } from "@/types/IPlot";
-import { plotService } from "./PlotService";
+import { plotService } from "@/services/PlotService";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 

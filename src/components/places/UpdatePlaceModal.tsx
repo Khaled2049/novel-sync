@@ -1,6 +1,6 @@
 import { Place } from "@/types/IPlace";
 import { useState } from "react";
-import { placeService } from "./PlaceService";
+import { placeService } from "@/services/PlaceService";
 
 interface UpdatePlaceModalProps {
   storyId: string;

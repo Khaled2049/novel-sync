@@ -4,7 +4,7 @@ import AddPlaceModal from "@/components/places/AddPlaceModal";
 
 import { useParams } from "react-router-dom";
 import { Place } from "@/types/IPlace";
-import { placeService } from "@/components/places/PlaceService";
+import { placeService } from "@/services/PlaceService";
 import UpdatePlaceModal from "@/components/places/UpdatePlaceModal";
 
 const places: React.FC = () => {

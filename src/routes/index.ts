@@ -1,7 +1,7 @@
 export { default as Root } from "./root";
 
-export { default as Signin } from "./sign-in";
-export { default as Signup } from "./sign-up";
+export { default as Signin } from "./Auth/sign-in";
+export { default as Signup } from "./Auth/sign-up";
 
 export { default as CreateStory } from "./Story/CreateStory";
 export { default as UserStories } from "./Story/UserStories";

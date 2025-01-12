@@ -7,7 +7,7 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import { firestore } from "../../config/firebase";
+import { firestore } from "@/config/firebase";
 import { Place } from "@/types/IPlace";
 
 class PlaceService {
