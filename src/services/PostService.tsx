@@ -8,7 +8,7 @@ import {
   query,
   setDoc,
 } from "firebase/firestore";
-import { firestore, auth } from "../../config/firebase";
+import { firestore, auth } from "@/config/firebase";
 import { IPost } from "@/types/IPost";
 import { analyzeText } from "@/utils";
 

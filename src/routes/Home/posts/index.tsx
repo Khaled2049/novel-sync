@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { User, Send, BookOpen } from "lucide-react";
 import { IPost } from "@/types/IPost";
-import { postsService } from "@/components/posts/PostService";
+import { postsService } from "@/services/PostService";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { v4 as uuidv4 } from "uuid";
 
