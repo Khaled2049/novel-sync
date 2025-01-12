@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Loader } from "lucide-react";
 import { useParams } from "react-router-dom";
-import { storiesRepo } from "../../components/StoriesRepo";
+import { storiesRepo } from "../../services/StoriesRepo";
 import ThemeToggle from "@/components/ThemeToggle";
 import { Chapter } from "@/types/IStory";
 

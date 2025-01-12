@@ -2,9 +2,8 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import { FaArrowRight, FaEye, FaThumbsUp } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Suggestions from "../../components/Suggestions";
-import { storiesRepo } from "../../components/StoriesRepo";
-import StoryMetadataModal from "@/components/StoryMetadataModal";
+import { storiesRepo } from "../../services/StoriesRepo";
+import StoryMetadataModal from "./StoryMetadataModal";
 import {
   Card,
   CardContent,
@@ -109,7 +108,6 @@ const AllStories: React.FC = () => {
 
         <div className="flex flex-wrap mx-4">
           <div className="w-full lg:w-1/4 px-4 border-t-2 lg:border-t-0 lg:border-r-2 border-amber-700 space-y-4 order-2 lg:order-1 pt-5">
-            <Suggestions />
             <BookRecommendation />
           </div>
 

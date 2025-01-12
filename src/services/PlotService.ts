@@ -8,9 +8,9 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import { PlotEvent, PlotLine, TemplateData } from "../../types/IPlot";
-import { firestore } from "../../config/firebase";
-import { storiesRepo } from "../StoriesRepo";
+import { PlotEvent, PlotLine, TemplateData } from "@/types/IPlot";
+import { firestore } from "@/config/firebase";
+import { storiesRepo } from "@/services/StoriesRepo";
 
 class PlotService {
   private storiesCollection = collection(firestore, "stories");

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Book, Plus } from "lucide-react";
-import BookClubCard from "../../components/BookClubCard";
+import BookClubCard from "./BookClubCard";
 import { IClub } from "../../types/IClub";
 import CreateBookClub from "./CreateBookClub";
 import UpdateBookClub from "./UpdateBookClub";

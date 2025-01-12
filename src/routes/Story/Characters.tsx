@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Character } from "@/types/ICharacter";
 import AddCharacterModal from "@/components/characters/AddCharacterModal";
-import { characterService } from "@/components/characters/CharacterService";
+import { characterService } from "@/services/CharacterService";
 import { useParams } from "react-router-dom";
 import UpdateCharacterModal from "@/components/characters/UpdateCharacterModal";
 

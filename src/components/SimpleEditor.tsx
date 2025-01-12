@@ -16,16 +16,14 @@ import BulletList from "@tiptap/extension-bullet-list";
 import { Extension } from "@tiptap/core";
 import { AITextGenerator } from "./AITextGenerator";
 import ListItem from "@tiptap/extension-list-item";
-import { storiesRepo } from "./StoriesRepo";
+import { storiesRepo } from "../services/StoriesRepo";
 
 const limit = 50000;
 import { Book, Loader } from "lucide-react";
 
 import EditorHeader from "./EditorHeader";
-import { useAI } from "../contexts/AIContext";
 import { useAuthContext } from "../contexts/AuthContext";
 
-import { useEditorContext } from "../contexts/EditorContext";
 import AITools from "./AITools";
 import { useNavigate, useParams } from "react-router-dom";
 import { Chapter, Story } from "@/types/IStory";
@@ -53,13 +51,11 @@ export function SimpleEditor() {
 
   const toggleAiTools = () => setAitoolsVisible(!aitoolsVisible);
   const toggleRightColumn = () => setRightColumnVisible(!rightColumnVisible);
-  const { suggestion, setsuggestion } = useEditorContext();
   const { user } = useAuthContext();
 
-  const { selectedAI } = useAI();
   const aiGeneratorRef = useRef<AITextGenerator | null>(null);
 
-  const aiGenerator = new AITextGenerator(selectedAI?.id || 0);
+  const aiGenerator = new AITextGenerator(0);
 
   const LiteralTab = Extension.create({
     name: "literalTab",
@@ -307,19 +303,10 @@ export function SimpleEditor() {
   }, [storyTitle, storyDescription, chapterTitle]);
 
   useEffect(() => {
-    if (selectedAI) {
-      aiGeneratorRef.current = selectedAI;
-    }
-    if (suggestion) {
-      aiGenerator.generateFromSuggestion(suggestion).then((generatedText) => {
-        editor.chain().focus().insertContent(generatedText).run();
-      });
-    }
-    setsuggestion("");
     if (storyId) {
       loadStory(storyId);
     }
-  }, [selectedAI, user]);
+  }, [user]);
 
   const getSelectedText = () => {
     return editor.state.doc.textBetween(
@@ -506,7 +493,6 @@ export function SimpleEditor() {
             </div>
             {aitoolsVisible && (
               <div className="p-6 bg-amber-100 transition-all duration-300 flex-1">
-                {/* <AIPartners /> */}
                 <AITools text={selectedText} />
               </div>
             )}

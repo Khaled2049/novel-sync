@@ -1,6 +1,6 @@
 import { Character } from "@/types/ICharacter";
 import { useState } from "react";
-import { characterService } from "./CharacterService";
+import { characterService } from "@/services/CharacterService";
 
 interface AddCharacterModalProps {
   storyId: string;

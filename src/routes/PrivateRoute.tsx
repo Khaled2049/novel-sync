@@ -1,7 +1,7 @@
 import { Navigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../contexts/AuthContext";
-import { storiesRepo } from "@/components/StoriesRepo";
+import { storiesRepo } from "@/services/StoriesRepo";
 import Story from "./Story/Story";
 
 const PrivateRoute = () => {

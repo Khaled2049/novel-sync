@@ -10,7 +10,7 @@ import {
   BookOpen,
   Megaphone,
 } from "lucide-react";
-import AllStories from "./Story/AllStories";
+import AllStories from "./AllStories";
 import Categories from "@/components/explore/Categories";
 import BookLists from "@/components/explore/BookLists";
 import Announcements from "@/components/explore/Announcements";
