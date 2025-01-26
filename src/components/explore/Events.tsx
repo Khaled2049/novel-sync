@@ -12,7 +12,7 @@ const decemberEvents: Event[] = [
     id: "1",
     title: "Novel Sync Launch Party",
     description:
-      "Celebrate the launch of Novel Sync with fellow writers. Join us for an evening of creativity and inspiration!",
+      "Celebrate the launch of NovelSync with fellow writers. Join us for an evening of creativity and inspiration!",
     date: "December 1, 2024",
   },
   {
