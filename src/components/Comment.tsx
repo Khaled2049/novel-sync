@@ -1,6 +1,6 @@
 // Comment.tsx
 import React, { useState, useMemo } from "react";
-import { Heart, MessageCircle, Edit2, Trash2 } from "lucide-react";
+import { MessageCircle, Edit2, Trash2 } from "lucide-react";
 import { Comment as CommentType } from "@/types/IComment";
 import { IUser } from "@/types/IUser";
 
