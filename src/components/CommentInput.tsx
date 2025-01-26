@@ -1,6 +1,9 @@
 import { CommentService } from "@/services/CommentService";
 import { IUser } from "@/types/IUser";
 import { useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Send } from "lucide-react";
 
 interface CommentInputProps {
   storyId: string;
@@ -37,35 +40,38 @@ export const CommentInput: React.FC<CommentInputProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-6">
-      <textarea
+    <form onSubmit={handleSubmit} className="mb-6 p-4 bg-opacity-50 w-full ">
+      <Textarea
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         placeholder={
           currentUser ? "Add a comment..." : "Please login to comment"
         }
         disabled={!currentUser}
-        className={`w-full p-3 rounded-md border ${
-          isDarkMode
-            ? "bg-gray-800 border-gray-700 text-gray-200"
-            : "bg-white border-gray-300 text-gray-800"
-        } focus:outline-none focus:ring-2 focus:ring-amber-500`}
+        className={`w-full p-3 rounded-lg border transition-all duration-200 resize-none 
+          ${
+            isDarkMode
+              ? "bg-gray-900 border-gray-700 text-gray-200"
+              : "bg-white border-gray-300 text-gray-800"
+          } 
+          focus:outline-none focus:ring-2 focus:ring-amber-500`}
         rows={3}
       />
       {currentUser && (
-        <button
+        <Button
           type="submit"
           disabled={!message.trim()}
-          className={`mt-2 px-4 py-2 rounded-md ${
-            !message.trim()
-              ? "bg-gray-300 cursor-not-allowed"
-              : isDarkMode
-              ? "bg-amber-600 hover:bg-amber-700"
-              : "bg-amber-500 hover:bg-amber-600"
-          } text-white`}
+          className={`mt-3 w-full py-2 text-lg font-medium flex items-center justify-center gap-2 transition-all duration-200 
+            ${
+              !message.trim()
+                ? "bg-gray-400 cursor-not-allowed"
+                : isDarkMode
+                ? "bg-amber-600 hover:bg-amber-700"
+                : "bg-amber-500 hover:bg-amber-600"
+            }`}
         >
-          Post Comment
-        </button>
+          <Send className="w-5 h-5" /> Post Comment
+        </Button>
       )}
     </form>
   );

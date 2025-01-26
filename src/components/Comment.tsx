@@ -83,13 +83,17 @@ export const Comment: React.FC<CommentProps> = React.memo(
 
     return (
       <div
-        className={`${
-          depth > 0 ? `ml-4 md:ml-${depth * 2} mt-2 pl-4 border-l-2` : ""
-        } ${isDarkMode ? "border-gray-700" : "border-gray-200"}`}
+        className={`ml-${
+          depth > 0 ? depth * 2 : 0
+        } mt-2 pl-4 border-l-2 transition-all ${
+          isDarkMode ? "border-gray-700" : "border-gray-200"
+        }`}
       >
         <div
-          className={`p-4 rounded-lg ${
-            isDarkMode ? "bg-gray-800 " : "bg-amber-100"
+          className={`p-4 rounded-lg border shadow-md transition-colors ${
+            isDarkMode
+              ? "bg-gray-800 border-gray-600"
+              : "bg-white border-gray-300"
           }`}
         >
           {/* Error Message */}
@@ -121,7 +125,7 @@ export const Comment: React.FC<CommentProps> = React.memo(
               <textarea
                 value={editedMessage}
                 onChange={(e) => setEditedMessage(e.target.value)}
-                className={`w-full p-2 rounded-md border ${
+                className={`w-full p-3 rounded-md border focus:ring-2 focus:ring-amber-500 transition-all ${
                   isDarkMode
                     ? "bg-gray-700 border-gray-600 text-gray-200"
                     : "bg-white border-gray-300"
@@ -132,14 +136,14 @@ export const Comment: React.FC<CommentProps> = React.memo(
               <div className="flex gap-2 mt-2">
                 <button
                   onClick={handleEdit}
-                  className="px-3 py-1 text-sm rounded-md bg-amber-500 text-white hover:bg-amber-600 disabled:opacity-50"
+                  className="px-4 py-2 text-sm font-medium rounded-md bg-amber-500 text-white hover:bg-amber-600 disabled:opacity-50"
                   disabled={isLoading}
                 >
                   {isLoading ? "Saving..." : "Save"}
                 </button>
                 <button
                   onClick={() => setIsEditing(false)}
-                  className="px-3 py-1 text-sm rounded-md bg-amber-1000 text-white hover:bg-gray-600"
+                  className="px-4 py-2 text-sm font-medium rounded-md bg-gray-500 text-white hover:bg-gray-600 disabled:opacity-50"
                   disabled={isLoading}
                 >
                   Cancel
@@ -148,7 +152,7 @@ export const Comment: React.FC<CommentProps> = React.memo(
             </div>
           ) : (
             <p
-              className={`whitespace-pre-wrap ${
+              className={`whitespace-pre-wrap text-sm leading-relaxed ${
                 isDarkMode ? "text-gray-200" : "text-gray-800"
               }`}
             >
@@ -157,7 +161,7 @@ export const Comment: React.FC<CommentProps> = React.memo(
           )}
 
           {/* Comment Actions */}
-          <div className="flex items-center gap-4 mt-3">
+          <div className="flex items-center gap-4 mt-3 text-sm">
             {/* <button
               onClick={() => onLike(comment.id)}
               className={`flex items-center gap-1 text-sm ${
@@ -176,7 +180,7 @@ export const Comment: React.FC<CommentProps> = React.memo(
             {depth < MAX_DEPTH && (
               <button
                 onClick={() => setIsReplying(!isReplying)}
-                className={`flex items-center gap-1 text-sm ${
+                className={`flex items-center gap-1 transition-colors ${
                   isDarkMode
                     ? "text-gray-400 hover:text-gray-300"
                     : "text-gray-600 hover:text-gray-500"
@@ -187,22 +191,11 @@ export const Comment: React.FC<CommentProps> = React.memo(
                 Reply
               </button>
             )}
-
-            {/* {depth === MAX_DEPTH && (
-              <div
-                className={`mt-2 text-sm ${
-                  isDarkMode ? "text-gray-400" : "text-gray-500"
-                }`}
-              >
-                Maximum reply depth reached
-              </div>
-            )} */}
-
             {currentUser?.uid === comment.userId && (
               <>
                 <button
                   onClick={() => setIsEditing(true)}
-                  className={`flex items-center gap-1 text-sm ${
+                  className={`flex items-center gap-1 transition-colors ${
                     isDarkMode
                       ? "text-gray-400 hover:text-gray-300"
                       : "text-gray-600 hover:text-gray-500"
@@ -214,7 +207,7 @@ export const Comment: React.FC<CommentProps> = React.memo(
                 </button>
                 <button
                   onClick={() => onDelete(comment.id)}
-                  className={`flex items-center gap-1 text-sm ${
+                  className={`flex items-center gap-1 transition-colors ${
                     isDarkMode
                       ? "text-gray-400 hover:text-gray-300"
                       : "text-gray-600 hover:text-gray-500"
@@ -235,7 +228,7 @@ export const Comment: React.FC<CommentProps> = React.memo(
                 value={replyMessage}
                 onChange={(e) => setReplyMessage(e.target.value)}
                 placeholder="Write a reply..."
-                className={`w-full p-2 rounded-md border ${
+                className={`w-full p-3 rounded-md border focus:ring-2 focus:ring-amber-500 transition-all ${
                   isDarkMode
                     ? "bg-gray-700 border-gray-600 text-gray-200"
                     : "bg-white border-gray-300"
@@ -246,14 +239,14 @@ export const Comment: React.FC<CommentProps> = React.memo(
               <div className="flex gap-2 mt-2">
                 <button
                   onClick={handleReply}
-                  className="px-3 py-1 text-sm rounded-md bg-amber-500 text-white hover:bg-amber-600 disabled:opacity-50"
+                  className="px-4 py-2 text-sm font-medium rounded-md bg-amber-500 text-white hover:bg-amber-600 disabled:opacity-50"
                   disabled={isLoading}
                 >
                   {isLoading ? "Posting..." : "Reply"}
                 </button>
                 <button
                   onClick={() => setIsReplying(false)}
-                  className="px-3 py-1 text-sm rounded-md bg-amber-1000 text-white hover:bg-gray-600"
+                  className="px-4 py-2 text-sm font-medium rounded-md bg-gray-500 text-white hover:bg-gray-600 disabled:opacity-50"
                   disabled={isLoading}
                 >
                   Cancel
