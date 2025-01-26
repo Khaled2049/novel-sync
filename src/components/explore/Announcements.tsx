@@ -7,7 +7,7 @@ const Announcements: React.FC = () => {
           Khaled's Release Party
         </h3>
         <p className="text-gray-700 mt-2">
-          Join us in celebrating the release of Novel Sync! Stay tuned for more
+          Join us in celebrating the release of NovelSync! Stay tuned for more
           details about the event.
         </p>
       </div>

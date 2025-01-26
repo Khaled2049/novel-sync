@@ -4,6 +4,12 @@ import { useParams } from "react-router-dom";
 import { storiesRepo } from "../../services/StoriesRepo";
 import ThemeToggle from "@/components/ThemeToggle";
 import { Chapter } from "@/types/IStory";
+import { CommentInput } from "@/components/CommentInput";
+import { CommentList } from "@/components/CommentList";
+import { CommentService } from "@/services/CommentService";
+import { Comment as IComment } from "@/types/IComment";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { onSnapshot, orderBy, query } from "firebase/firestore";
 
 const StoryDetail: React.FC = () => {
   const [story, setStory] = useState<any>(null);
@@ -11,18 +17,14 @@ const StoryDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [chapters, setChapters] = useState<Chapter[]>([]);
   const [currentChapterIndex, setCurrentChapterIndex] = useState<number>(0);
+  const [currentChapter, setCurrentChapter] = useState<Chapter | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [likes, setLikes] = useState(0);
+  const { user } = useAuthContext();
 
-  const handleLike = async () => {
-    if (!id) return;
-    if (likes === 5) {
-      alert("Chill out homie!");
-      return;
-    }
-    setLikes((prevLikes) => prevLikes + 1);
-    await storiesRepo.incrementLikeCount(id);
-  };
+  const [comments, setComments] = useState<IComment[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const commentService = new CommentService();
 
   useEffect(() => {
     const fetchStory = async () => {
@@ -40,18 +42,112 @@ const StoryDetail: React.FC = () => {
     };
 
     fetchStory();
-  }, [id]);
+  }, [id, currentChapterIndex]);
+
+  // Real-time comments listener
+  useEffect(() => {
+    if (!id || !currentChapter) return;
+
+    const commentsCollection = commentService.getCommentsCollection(
+      id,
+      currentChapter.id
+    );
+    const q = query(commentsCollection, orderBy("createdAt", "asc"));
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const updatedComments = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          storyId: id,
+          chapterId: currentChapter.id,
+          message: data.message,
+          userId: data.userId,
+          parentId: data.parentId || null,
+          likes: data.likes || [],
+          createdAt: data.createdAt?.toDate(),
+          updatedAt: data.updatedAt?.toDate(),
+          username: data.username,
+        };
+      });
+      setComments(updatedComments);
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [id, currentChapter]);
+
+  const handleCommentLike = async (commentId: string) => {
+    if (!user || !id || !currentChapter) return;
+    try {
+      await commentService.addLike(id, currentChapter.id, commentId, user.uid);
+    } catch (error) {
+      console.error("Error toggling like:", error);
+    }
+  };
+
+  const handleReply = async (parentId: string, message: string) => {
+    if (!user || !id || !currentChapter) return;
+    try {
+      await commentService.addComment(
+        id,
+        currentChapter.id,
+        user.uid,
+        user.username,
+        message,
+        parentId
+      );
+    } catch (error) {
+      console.error("Error adding reply:", error);
+    }
+  };
+
+  const handleDelete = async (commentId: string) => {
+    try {
+      if (!id || !currentChapter) return;
+      await commentService.deleteComment(id, currentChapter.id, commentId);
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+    }
+  };
+
+  const handleEdit = async (commentId: string, newMessage: string) => {
+    try {
+      if (!id || !currentChapter) return;
+      await commentService.updateComment(
+        id,
+        currentChapter.id,
+        commentId,
+        newMessage
+      );
+    } catch (error) {
+      console.error("Error updating comment:", error);
+    }
+  };
+
+  const handleLike = async () => {
+    if (!id) return;
+    if (likes === 5) {
+      alert("Chill out homie!");
+      return;
+    }
+    setLikes((prevLikes) => prevLikes + 1);
+    await storiesRepo.incrementLikeCount(id);
+  };
 
   const loadStory = async (storyId: string) => {
     try {
       const story = await storiesRepo.getStory(storyId);
       const storyChapters = await storiesRepo.getChapters(storyId);
+      const currentChapter = storyChapters[currentChapterIndex];
+
       if (!story) {
         return;
       }
       setLikes(story.likes || 0);
       setChapters(storyChapters);
       setStory(story);
+      setCurrentChapter(currentChapter);
     } catch (error) {
       console.error("Error fetching story:", error);
     }
@@ -102,8 +198,6 @@ const StoryDetail: React.FC = () => {
       Math.min(prevIndex + 1, chapters.length - 1)
     );
   };
-
-  const currentChapter = chapters[currentChapterIndex];
 
   return (
     <div
@@ -223,6 +317,38 @@ const StoryDetail: React.FC = () => {
                   >
                     Next
                   </button>
+                </div>
+                <div className="mt-8">
+                  <h2
+                    className={`text-2xl font-semibold mb-6 ${
+                      isDarkMode ? "text-amber-400" : "text-amber-900"
+                    }`}
+                  >
+                    Comments
+                  </h2>
+
+                  {id && currentChapter && user && (
+                    <CommentInput
+                      storyId={id}
+                      chapterId={currentChapter.id}
+                      currentUser={user}
+                      isDarkMode={isDarkMode}
+                    />
+                  )}
+
+                  {isLoading ? (
+                    <div className="text-center py-8">Loading comments...</div>
+                  ) : (
+                    <CommentList
+                      comments={comments}
+                      currentUser={user}
+                      isDarkMode={isDarkMode}
+                      onLike={handleCommentLike}
+                      onReply={handleReply}
+                      onDelete={handleDelete}
+                      onEdit={handleEdit}
+                    />
+                  )}
                 </div>
               </div>
             </div>
