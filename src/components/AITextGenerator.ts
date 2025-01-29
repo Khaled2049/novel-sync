@@ -13,7 +13,7 @@ export class AITextGenerator {
 
   constructor(id: number) {
     this.genAI = new GoogleGenerativeAI(import.meta.env.VITE_API_KEY);
-    this.model = this.genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+    this.model = this.genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     this.history = [
       {
         role: "user",
