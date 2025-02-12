@@ -12,7 +12,7 @@ const vertexAI = new VertexAI({
   location: "us-central1", // or your preferred location
 });
 
-const model = "gemini-1.5-flash";
+const model = "gemini-2.0-flash-exp";
 
 async function generateContent(prompt: string): Promise<string> {
   try {

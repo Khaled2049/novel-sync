@@ -21,3 +21,4 @@ export { default as Home } from "./Home";
 
 export { default as Library } from "./Library";
 export { default as BookDetails } from "./Library/BookDetails";
+export { default as Campaigns } from "./Campaigns";

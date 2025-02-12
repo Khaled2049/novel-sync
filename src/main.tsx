@@ -18,6 +18,7 @@ import {
   CreateStory,
   Dashboard,
   Profile,
+  Campaigns,
 } from "./routes/index";
 import { AuthProvider } from "./contexts/AuthContext";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -36,6 +37,8 @@ import Events from "./components/explore/Events";
 import Leaderboards from "./components/explore/Leaderboards";
 import WritingResources from "./components/explore/WritingResources";
 import Announcements from "./components/explore/Announcements";
+import { CampaignContextProvider } from "./contexts/campaignContext";
+import { ThirdwebProvider } from "@thirdweb-dev/react";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "/stories",
         element: <AllStories />,
+      },
+      {
+        path: "/campaigns",
+        element: <Campaigns />,
       },
       {
         path: "/explore",
@@ -155,8 +162,13 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <AuthProvider>
-    <RouterProvider router={router} />
+    <ThirdwebProvider activeChain="sepolia">
+      <CampaignContextProvider>
+        <RouterProvider router={router} />
+      </CampaignContextProvider>
+    </ThirdwebProvider>
   </AuthProvider>
 );

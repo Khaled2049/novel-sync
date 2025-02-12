@@ -67,6 +67,12 @@ const Navbar = () => {
         {/* Right Section - Search and User Dropdown */}
         <div className="hidden lg:flex items-center space-x-4">
           <Link
+            to="/campaigns"
+            className="block px-4 py-2 text-white bg-transparent hover:bg-white hover:text-black transition duration-300 ease-in-out rounded"
+          >
+            Campaigns
+          </Link>
+          <Link
             to="/home"
             className="block px-4 py-2 text-white bg-transparent hover:bg-white hover:text-black transition duration-300 ease-in-out rounded"
           >
