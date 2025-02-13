@@ -115,6 +115,41 @@ contract StoryCrowdfunding {
         return numberOfCampaigns - 1;
     }
 
+    // Get multiple campaign summaries at once
+    function getCampaigns(
+        uint256 start,
+        uint256 limit
+    ) public view returns (CampaignSummary[] memory) {
+        uint256 end = start + limit;
+        // Make sure we don't try to read past the end of our campaigns
+        if (end > numberOfCampaigns) {
+            end = numberOfCampaigns;
+        }
+        // Calculate actual size of array we'll return
+        uint256 arraySize = end - start;
+
+        CampaignSummary[] memory summaries = new CampaignSummary[](arraySize);
+
+        for (uint256 i = 0; i < arraySize; i++) {
+            Campaign storage campaign = campaigns[start + i];
+            summaries[i] = CampaignSummary({
+                owner: campaign.owner,
+                title: campaign.title,
+                description: campaign.description,
+                target: campaign.target,
+                deadline: campaign.deadline,
+                amountCollected: campaign.amountCollected,
+                image: campaign.image,
+                phase: campaign.phase,
+                votingDeadline: campaign.votingDeadline,
+                winningProposalIndex: campaign.winningProposalIndex,
+                proposalsCount: campaign.proposals.length
+            });
+        }
+
+        return summaries;
+    }
+
     // Donate to an active campaign (only during Funding phase).
     function donateToCampaign(uint256 _id) public payable {
         Campaign storage campaign = campaigns[_id];

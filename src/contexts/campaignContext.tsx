@@ -1,47 +1,59 @@
-import { useContext, createContext } from "react";
-
+import React, { useContext, createContext } from "react";
 import {
   useAddress,
   useContract,
   useContractWrite,
   useConnect,
   metamaskWallet,
+  Proposal,
 } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
-import { Campaign, DonateParams, Donation, Form } from "@/types/ICampaigns";
+import { Form, CampaignSummary } from "@/types/ICampaigns";
 
-interface CampaignContextType {
+// Updated interfaces to match new contract structure
+
+interface StateContextType {
   address: string;
   contract: any;
   connectWallet: () => Promise<void>;
   createCampaign: (form: Form) => Promise<void>;
-  getCampaigns: () => Promise<Campaign[]>;
-  getUserCampaigns: () => Promise<Campaign[]>;
-  donate: (params: DonateParams) => Promise<any>;
-  getDonations: (pId: number) => Promise<Donation[]>;
+  getCampaigns: (start: number, limit: number) => Promise<CampaignSummary[]>;
+  getUserCampaigns: () => Promise<CampaignSummary[]>;
+  donateToCampaign: (pId: number, amount: string) => Promise<any>;
+  getDonation: (pId: number, donor: string) => Promise<string>;
+  startVoting: (pId: number, votingDuration: number) => Promise<void>;
+  createProposal: (pId: number, description: string) => Promise<void>;
+  voteOnProposal: (pId: number, proposalIndex: number) => Promise<void>;
+  getProposals: (pId: number) => Promise<Proposal[]>;
+  finalizeCampaign: (pId: number) => Promise<void>;
+  withdrawFunds: (pId: number) => Promise<void>;
 }
 
-const CampaignContext = createContext<CampaignContextType>({
+const StateContext = createContext<StateContextType>({
   address: "",
   contract: null,
   connectWallet: async () => {},
   createCampaign: async () => {},
   getCampaigns: async () => [],
   getUserCampaigns: async () => [],
-  donate: async () => {},
-  getDonations: async () => [],
+  donateToCampaign: async () => {},
+  getDonation: async () => "0",
+  startVoting: async () => {},
+  createProposal: async () => {},
+  voteOnProposal: async () => {},
+  getProposals: async () => [],
+  finalizeCampaign: async () => {},
+  withdrawFunds: async () => {},
 });
 
-export const CampaignContextProvider = ({ children }: any) => {
+export const CampaignProvider = ({ children }: any) => {
   const { contract } = useContract(
-    import.meta.env.VITE_TEMPLATE_CONTRACT_ADDRESS as string
+    "0xb4300329dbDe259002E82574075B0BAB7DD01647"
   );
-
   const { mutateAsync: createCampaign } = useContractWrite(
     contract,
     "createCampaign"
   );
-
   const address = useAddress() || "";
   const connect = useConnect();
 
@@ -59,27 +71,27 @@ export const CampaignContextProvider = ({ children }: any) => {
     try {
       const data = await createCampaign({
         args: [
-          address, // owner
-          form.title, // title
-          form.description, // description
-          form.target,
-          new Date(form.deadline).getTime(), // deadline,
+          form.title,
+          form.description,
+          ethers.utils.parseEther(form.target),
+          new Date(form.deadline).getTime(),
           form.image,
         ],
       });
-
       console.log("contract call success", data);
     } catch (error) {
       console.log("contract call failure", error);
     }
   };
 
-  const getCampaigns = async () => {
+  const getCampaigns = async (start: number, limit: number) => {
     if (!contract) return [];
 
-    const campaigns: any[] = await contract.call("getCampaigns");
+    const campaigns = await contract.call("getCampaigns", [start, limit]);
 
-    const parsedCampaings: Campaign[] = campaigns.map((campaign, i) => ({
+    console.log("campaigns", campaigns);
+
+    return campaigns.map((campaign: any, i: number) => ({
       owner: campaign.owner,
       title: campaign.title,
       description: campaign.description,
@@ -89,53 +101,82 @@ export const CampaignContextProvider = ({ children }: any) => {
         campaign.amountCollected.toString()
       ),
       image: campaign.image,
-      pId: i,
+      phase: campaign.phase,
+      votingDeadline: campaign.votingDeadline.toNumber(),
+      winningProposalIndex: campaign.winningProposalIndex.toNumber(),
+      proposalsCount: campaign.proposalsCount.toNumber(),
+      pId: start + i,
     }));
-
-    return parsedCampaings;
   };
 
   const getUserCampaigns = async () => {
-    const allCampaigns = await getCampaigns();
-
-    const filteredCampaigns = allCampaigns.filter(
-      (campaign) => campaign.owner === address
-    );
-
-    return filteredCampaigns;
+    if (!contract) return [];
+    const numberOfCampaigns = await contract.call("numberOfCampaigns");
+    const allCampaigns = await getCampaigns(0, numberOfCampaigns.toNumber());
+    return allCampaigns.filter((campaign: any) => campaign.owner === address);
   };
 
-  const donate = async ({ pId, amount }: DonateParams): Promise<any> => {
+  const donateToCampaign = async (
+    pId: number,
+    amount: string
+  ): Promise<any> => {
     if (!contract) throw new Error("Contract is not defined");
-    const data = await contract.call("donateToCampaign", [pId], {
+    return contract.call("donateToCampaign", [pId], {
       value: ethers.utils.parseEther(amount),
     });
-
-    return data;
   };
 
-  const getDonations = async (pId: number): Promise<Donation[]> => {
+  const getDonation = async (pId: number, donor: string): Promise<string> => {
     if (!contract) throw new Error("Contract is not defined");
-    const donations: [string[], ethers.BigNumber[]] = await contract.call(
-      "getDonators",
-      [pId]
-    );
-    const numberOfDonations = donations[0].length;
+    const donation = await contract.call("getDonation", [pId, donor]);
+    return ethers.utils.formatEther(donation);
+  };
 
-    const parsedDonations: Donation[] = [];
+  const startVoting = async (
+    pId: number,
+    votingDuration: number
+  ): Promise<void> => {
+    if (!contract) throw new Error("Contract is not defined");
+    await contract.call("startVoting", [pId, votingDuration]);
+  };
 
-    for (let i = 0; i < numberOfDonations; i++) {
-      parsedDonations.push({
-        donator: donations[0][i],
-        donation: ethers.utils.formatEther(donations[1][i].toString()),
-      });
-    }
+  const createProposal = async (
+    pId: number,
+    description: string
+  ): Promise<void> => {
+    if (!contract) throw new Error("Contract is not defined");
+    await contract.call("createProposal", [pId, description]);
+  };
 
-    return parsedDonations;
+  const voteOnProposal = async (
+    pId: number,
+    proposalIndex: number
+  ): Promise<void> => {
+    if (!contract) throw new Error("Contract is not defined");
+    await contract.call("voteOnProposal", [pId, proposalIndex]);
+  };
+
+  const getProposals = async (pId: number): Promise<Proposal[]> => {
+    if (!contract) throw new Error("Contract is not defined");
+    const proposals = await contract.call("getProposals", [pId]);
+    return proposals.map((proposal: any) => ({
+      description: proposal.description,
+      voteCount: ethers.utils.formatEther(proposal.voteCount.toString()),
+    }));
+  };
+
+  const finalizeCampaign = async (pId: number): Promise<void> => {
+    if (!contract) throw new Error("Contract is not defined");
+    await contract.call("finalizeCampaign", [pId]);
+  };
+
+  const withdrawFunds = async (pId: number): Promise<void> => {
+    if (!contract) throw new Error("Contract is not defined");
+    await contract.call("withdrawFunds", [pId]);
   };
 
   return (
-    <CampaignContext.Provider
+    <StateContext.Provider
       value={{
         address,
         contract,
@@ -143,13 +184,19 @@ export const CampaignContextProvider = ({ children }: any) => {
         createCampaign: publishCampaign,
         getCampaigns,
         getUserCampaigns,
-        donate,
-        getDonations,
+        donateToCampaign,
+        getDonation,
+        startVoting,
+        createProposal,
+        voteOnProposal,
+        getProposals,
+        finalizeCampaign,
+        withdrawFunds,
       }}
     >
       {children}
-    </CampaignContext.Provider>
+    </StateContext.Provider>
   );
 };
 
-export const useCampaignContext = () => useContext(CampaignContext);
+export const useCampaignContext = () => useContext(StateContext);

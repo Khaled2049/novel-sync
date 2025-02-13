@@ -52,7 +52,6 @@
     "recharts": "^2.12.7",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "thirdweb": "^5.88.2",
     "unique-names-generator": "^4.7.1",
     "uuid": "^10.0.0"
   },
