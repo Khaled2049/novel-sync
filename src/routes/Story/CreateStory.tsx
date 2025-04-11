@@ -1,10 +1,11 @@
-import { SimpleEditor } from "../../components/SimpleEditor";
+import { StoryEditor } from "./StoryEditor";
 
 const CreateDocument = () => {
   return (
     <>
       <div className="px-4">
-        <SimpleEditor />
+        {/* <SimpleEditor /> */}
+        <StoryEditor />
       </div>
     </>
   );
