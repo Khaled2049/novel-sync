@@ -9,21 +9,18 @@ import { TipTapEditor } from "./TipTapEditor";
 import { StoryMetadata } from "./StoryMetadata";
 
 import { SaveControls } from "./SaveControls";
-import { AIToolsPanel } from "./AITools";
-import { ChaptersList } from "./ChapterList";
 import { useStory } from "@/hooks/useStory";
+import { SidebarPanel } from "./SidebarPanel";
 
 export function StoryEditor() {
   const navigate = useNavigate();
   const { storyId } = useParams<{ storyId: string }>();
 
-  // UI state
-  const [rightColumnVisible, setRightColumnVisible] = useState(false);
-  const [aitoolsVisible, setAitoolsVisible] = useState(false);
   const [selectedText, setSelectedText] = useState("");
   const [editorContent, setEditorContent] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [timeoutError, setTimeoutError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<"chapters" | "ai">("chapters");
 
   const handleStoryError = useCallback((error: Error) => {
     setError(error.message);
@@ -81,10 +78,6 @@ export function StoryEditor() {
     }
   };
 
-  // Event handlers
-  const toggleAiTools = () => setAitoolsVisible(!aitoolsVisible);
-  const toggleRightColumn = () => setRightColumnVisible(!rightColumnVisible);
-
   const handleEditorContentChange = (content: string) => {
     setEditorContent(content);
   };
@@ -124,7 +117,7 @@ export function StoryEditor() {
   // Handle error state with retry option
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen p-4">
+      <div className="flex flex-col items-center justify-center h-screen">
         <AlertOctagon className="w-16 h-16 text-red-500 mb-4" />
         <h2 className="text-2xl font-bold text-red-700 mb-2">
           Something went wrong
@@ -149,14 +142,10 @@ export function StoryEditor() {
   }
 
   return (
-    <div className="flex p-2 mt-4 justify-center h-screen overflow-auto">
-      <div className="flex h-full w-full">
-        {/* Main Editor Area */}
-        <div
-          className={`p-4 bg-amber-50 rounded-lg shadow-lg overflow-y-auto transition-all duration-300 ${
-            rightColumnVisible || aitoolsVisible ? "w-2/3" : "w-full"
-          }`}
-        >
+    <div className="flex justify-center items-start w-full">
+      <div className="mx-auto flex flex-row justify-between p-5 w-full max-w-6xl gap-5">
+        {/* Main Editor Column */}
+        <div className="flex flex-col w-2/3">
           <StoryMetadata
             storyTitle={storyTitle}
             storyDescription={storyDescription}
@@ -166,14 +155,12 @@ export function StoryEditor() {
             onChapterTitleChange={setChapterTitle}
             onMetadataChange={handleMetadataChange}
           />
-
           <TipTapEditor
             initialContent={editorContent}
             onContentChange={handleEditorContentChange}
             onSave={saveStory}
             onSelectionChange={setSelectedText}
           />
-
           <SaveControls
             isPublished={currentStory?.isPublished || false}
             saveStatus={saveStatus}
@@ -182,22 +169,18 @@ export function StoryEditor() {
           />
         </div>
 
-        {/* AI Tools Panel */}
-        <AIToolsPanel
-          isVisible={aitoolsVisible}
-          selectedText={selectedText}
-          onToggle={toggleAiTools}
-        />
-
-        {/* Chapters List */}
-        <ChaptersList
-          isVisible={rightColumnVisible}
-          currentChapterId={currentChapter?.id || ""}
-          chapters={chapters}
-          onChapterSelect={handleChapterSelect}
-          onToggle={toggleRightColumn}
-          chapterTitle={chapterTitle}
-        />
+        {/* Sidebar Column */}
+        <div className="w-1/3">
+          <SidebarPanel
+            chapters={chapters}
+            currentChapterId={currentChapter?.id || ""}
+            chapterTitle={chapterTitle}
+            selectedText={selectedText}
+            onChapterSelect={handleChapterSelect}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+          />
+        </div>
       </div>
     </div>
   );

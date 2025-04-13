@@ -2,12 +2,9 @@ import { StoryEditor } from "./StoryEditor";
 
 const CreateDocument = () => {
   return (
-    <>
-      <div className="px-4">
-        {/* <SimpleEditor /> */}
-        <StoryEditor />
-      </div>
-    </>
+    <div className="bg-amber-50 min-h-screen w-full">
+      <StoryEditor />
+    </div>
   );
 };
 

@@ -210,7 +210,7 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
   }
 
   return (
-    <div className="mb-4">
+    <div className="flex flex-col mb-4 overflow-hidden">
       <BubbleMenu
         editor={editor}
         tippyOptions={{ duration: 150 }}
