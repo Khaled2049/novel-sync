@@ -25,8 +25,8 @@ export function Modal(props: Props) {
   const { style, ...rest } = props;
 
   return (
-    <ReactModal style={{ ...modalStyles, ...style }} {...rest}>
+    <Modal style={{ ...modalStyles, ...style }} {...rest}>
       {props.children}
-    </ReactModal>
+    </Modal>
   );
 }
