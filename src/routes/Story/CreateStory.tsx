@@ -1,9 +1,9 @@
-import { StoryEditor } from "./StoryEditor";
+import { SimpleEditor } from "@/components/SimpleEditor";
 
 const CreateDocument = () => {
   return (
     <>
-      <StoryEditor />
+      <SimpleEditor />
     </>
   );
 };
