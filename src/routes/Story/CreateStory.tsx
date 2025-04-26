@@ -1,4 +1,4 @@
-import { SimpleEditor } from "../../components/SimpleEditor";
+import { StoryEditor } from "./StoryEditor";
 
 const CreateDocument = () => {
   return (

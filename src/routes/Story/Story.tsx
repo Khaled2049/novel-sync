@@ -30,6 +30,7 @@ const Story = () => {
         </ul>
       </nav>
 
+
       <main className="flex-grow">
         <Outlet />
       </main>
