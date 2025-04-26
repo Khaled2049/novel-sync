@@ -35,8 +35,6 @@ export function SimpleEditor() {
   const [rightColumnVisible, setRightColumnVisible] = useState(false);
   const [aitoolsVisible, setAitoolsVisible] = useState(false);
 
-  const [selectedText, setSelectedText] = useState("");
-
   const [currentStory, setCurrentStory] = useState<Story | null>(null);
   const [chapters, setChapters] = useState<Chapter[]>([]);
   const [currentChapter, setCurrentChapter] = useState<Chapter | null>(null);
