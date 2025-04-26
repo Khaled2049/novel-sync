@@ -197,6 +197,7 @@ export function SimpleEditor() {
   };
 
   return (
+
     <div className="flex p-4 mt-4 justify-center overflow-auto">
       {storyLoading ? (
         <div className="flex items-center justify-center w-full h-full">
