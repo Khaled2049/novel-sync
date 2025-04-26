@@ -30,8 +30,7 @@ const Story = () => {
         </ul>
       </nav>
 
-
-      <main className="flex-grow">
+      <main className="flex-grow overflow-auto">
         <Outlet />
       </main>
     </div>
