@@ -45,7 +45,6 @@ export function SimpleEditor() {
   const [storyLoading, setStoryLoading] = useState(true);
 
   const [selectedText, setSelectedText] = useState("");
-  const [activeTab, setActiveTab] = useState<"chapters" | "ai">("chapters");
 
   // Refs for debouncing test
   const storyTitleRef = useRef(storyTitle);
