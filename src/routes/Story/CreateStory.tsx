@@ -3,7 +3,7 @@ import { StoryEditor } from "./StoryEditor";
 const CreateDocument = () => {
   return (
     <>
-      <SimpleEditor />
+      <StoryEditor />
     </>
   );
 };
