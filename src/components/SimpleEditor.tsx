@@ -45,6 +45,11 @@ export function SimpleEditor() {
   const [chapterTitle, setChapterTitle] = useState("");
   const [saveStatus, setSaveStatus] = useState("");
   const [storyLoading, setStoryLoading] = useState(true);
+
+  const [selectedText, setSelectedText] = useState("");
+  const [activeTab, setActiveTab] = useState<"chapters" | "ai">("chapters");
+
+  // Refs for debouncing test
   const storyTitleRef = useRef(storyTitle);
   const storyDescriptionRef = useRef(storyDescription);
   const chapterTitleRef = useRef(chapterTitle);
