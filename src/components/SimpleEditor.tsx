@@ -30,7 +30,7 @@ export function SimpleEditor() {
   const [selectedText, setSelectedText] = useState("");
   const [activeTab, setActiveTab] = useState<"chapters" | "ai">("chapters");
 
-  // Refs for debouncing
+  // Refs for debouncing test
   const storyTitleRef = useRef(storyTitle);
   const storyDescriptionRef = useRef(storyDescription);
   const chapterTitleRef = useRef(chapterTitle);
@@ -197,7 +197,6 @@ export function SimpleEditor() {
   };
 
   return (
-
     <div className="flex p-4 mt-4 justify-center overflow-auto">
       {storyLoading ? (
         <div className="flex items-center justify-center w-full h-full">
