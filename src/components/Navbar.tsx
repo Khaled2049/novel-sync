@@ -3,7 +3,7 @@ import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
 import { useState, useEffect, useRef } from "react";
-import { Loader, Menu, Search, User } from "lucide-react";
+import { Loader, Menu, User } from "lucide-react";
 
 const Navbar = () => {
   const { signout } = useFirebaseAuth();
