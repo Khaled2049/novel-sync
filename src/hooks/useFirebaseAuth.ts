@@ -124,6 +124,8 @@ export const useFirebaseAuth = () => {
       await signInWithEmailAndPassword(auth, email, password);
       // Update last login time
       const user = auth.currentUser;
+      console.log("auth", auth);
+      console.log("user", user);
       if (user) {
         await setDoc(
           doc(firestore, "users", user.uid),

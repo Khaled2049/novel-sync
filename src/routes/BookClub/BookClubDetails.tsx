@@ -48,7 +48,7 @@ const BookClubDetails: React.FC = () => {
   }
 
   return (
-    <div className="mx-auto p-4 flex container">
+    <div className="mx-auto py-24 flex container">
       {/* Main Content */}
       <div className="justify-center">
         {/* Club Header */}

@@ -91,7 +91,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-amber-50">
+    <div className="flex flex-col lg:flex-row min-h-screen py-24 bg-amber-50">
       {/* Left column - Authors list */}
 
       {usersLoading ? (

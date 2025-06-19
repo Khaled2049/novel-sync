@@ -53,7 +53,7 @@ const Navbar = () => {
   }, [isDropdownOpen]);
 
   return (
-    <nav className="bg-gray-800 p-4 text-white">
+    <nav className="bg-gray-800/80 backdrop-blur-sm p-4 text-white fixed w-full top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
         {/* Left Section - Logo */}
         <div className="flex items-center">
@@ -64,34 +64,27 @@ const Navbar = () => {
             NovelSync
           </Link>
         </div>
-        {/* Right Section - Search and User Dropdown */}
-        <div className="hidden lg:flex items-center space-x-4">
+
+        {/* Right Section - Desktop */}
+        <div className="hidden lg:flex items-center space-x-6">
           <Link
             to="/home"
-            className="block px-4 py-2 text-white bg-transparent hover:bg-white hover:text-black transition duration-300 ease-in-out rounded"
+            className="text-gray-300 hover:text-white transition duration-300"
           >
             Community
           </Link>
           <Link
             to="/explore"
-            className="block px-4 py-2 text-white bg-transparent hover:bg-white hover:text-black transition duration-300 ease-in-out rounded"
+            className="text-gray-300 hover:text-white transition duration-300"
           >
             Explore
           </Link>
           <Link
             to="/book-clubs"
-            className="block px-4 py-2 text-white bg-transparent hover:bg-white hover:text-black transition duration-300 ease-in-out rounded"
+            className="text-gray-300 hover:text-white transition duration-300"
           >
             Book Clubs
           </Link>
-
-          {/* <Link
-            to="/library"
-            className="block px-4 py-2 text-white bg-transparent hover:bg-white hover:text-black transition duration-300 ease-in-out rounded"
-          >
-            Library
-          </Link> */}
-          {/* Search Bar */}
 
           {/* User Dropdown */}
           {loading ? (
@@ -102,37 +95,44 @@ const Navbar = () => {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={toggleDropdown}
-                className="flex items-center space-x-2 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+                className="flex items-center space-x-2 focus:outline-none"
               >
                 {user.photoURL ? (
                   <img
                     src={user.photoURL}
                     alt="User Avatar"
-                    className="w-8 h-8 rounded-full"
+                    className="w-10 h-10 rounded-full border-2 border-transparent hover:border-purple-400 transition"
                   />
                 ) : (
-                  <User className="w-8 h-8 rounded-full" />
+                  <User className="w-10 h-10 rounded-full" />
                 )}
-                <span>{user.displayName || "User"}</span>
               </button>
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg z-50">
+                <div className="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg z-50 overflow-hidden">
+                  <div className="p-2">
+                    <p className="text-sm font-semibold truncate">
+                      {user.displayName || "User"}
+                    </p>
+                    <p className="text-xs text-gray-500 truncate">
+                      {user.email}
+                    </p>
+                  </div>
+                  <hr />
                   <Link
                     to="/profile"
-                    className="block px-4 py-2 hover:bg-gray-200"
+                    className="block px-4 py-2 hover:bg-gray-100"
                   >
                     View Profile
                   </Link>
                   <Link
                     to="/user-stories"
-                    className="block px-4 py-2 hover:bg-gray-200"
+                    className="block px-4 py-2 hover:bg-gray-100"
                   >
                     My Stories
                   </Link>
-
                   <button
                     onClick={handleSignOut}
-                    className="block w-full text-left px-4 py-2 hover:bg-gray-200"
+                    className="block w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100"
                   >
                     Sign Out
                   </button>
@@ -142,7 +142,7 @@ const Navbar = () => {
           ) : (
             <button
               onClick={handleSignIn}
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full transition duration-300"
             >
               Sign In
             </button>
@@ -153,7 +153,7 @@ const Navbar = () => {
         <div className="lg:hidden">
           <button
             onClick={toggleMobileMenu}
-            className="text-white focus:outline-none hover:text-gray-400"
+            className="text-white focus:outline-none"
           >
             <Menu className="w-6 h-6" />
           </button>
@@ -162,40 +162,59 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`lg:hidden ${isMobileMenuOpen ? "block" : "hidden"} mt-4`}
+        className={`lg:hidden ${
+          isMobileMenuOpen ? "max-h-screen" : "max-h-0"
+        } overflow-hidden transition-max-height duration-500 ease-in-out`}
       >
-        <Link to="/profile" className="block px-4 py-2 hover:bg-gray-200">
-          View Profile
-        </Link>
-        <Link
-          to="/home"
-          className="block px-4 py-2 text-white bg-transparent hover:bg-white hover:text-black transition duration-300 ease-in-out rounded mb-2"
-        >
-          Community
-        </Link>
-        <Link
-          to="/explore"
-          className="block px-4 py-2 text-white bg-transparent hover:bg-white hover:text-black transition duration-300 ease-in-out rounded mb-2"
-        >
-          Explore
-        </Link>
-
-        {/* <Link
-          to="/library"
-          className="block px-4 py-2 text-white bg-transparent hover:bg-white hover:text-black transition duration-300 ease-in-out rounded mb-2"
-        >
-          Library
-        </Link> */}
-        {/* Mobile Search Bar */}
-        <div className="relative text-gray-600 mt-4">
-          <input
-            type="search"
-            placeholder="Search..."
-            className="bg-gray-700 text-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none w-full"
-          />
-          <button type="submit" className="absolute right-0 top-0 mt-3 mr-4">
-            <Search className="text-white" />
-          </button>
+        <div className="mt-4 flex flex-col space-y-4">
+          <Link
+            to="/home"
+            className="block px-4 py-2 text-white hover:bg-gray-700 rounded"
+          >
+            Community
+          </Link>
+          <Link
+            to="/explore"
+            className="block px-4 py-2 text-white hover:bg-gray-700 rounded"
+          >
+            Explore
+          </Link>
+          <Link
+            to="/book-clubs"
+            className="block px-4 py-2 text-white hover:bg-gray-700 rounded"
+          >
+            Book Clubs
+          </Link>
+          <hr className="border-gray-700" />
+          {user ? (
+            <>
+              <Link
+                to="/profile"
+                className="block px-4 py-2 text-white hover:bg-gray-700 rounded"
+              >
+                View Profile
+              </Link>
+              <Link
+                to="/user-stories"
+                className="block px-4 py-2 text-white hover:bg-gray-700 rounded"
+              >
+                My Stories
+              </Link>
+              <button
+                onClick={handleSignOut}
+                className="block w-full text-left px-4 py-2 text-red-400 hover:bg-gray-700 rounded"
+              >
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={handleSignIn}
+              className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full transition duration-300"
+            >
+              Sign In
+            </button>
+          )}
         </div>
       </div>
     </nav>

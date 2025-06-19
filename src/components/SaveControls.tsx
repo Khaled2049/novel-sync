@@ -18,9 +18,7 @@ export const SaveControls: React.FC<SaveControlsProps> = ({
     <div className="">
       {/* Save Status */}
       <div
-        className={`text-sm px-2 h-2 text-center rounded-md ${
-          saveStatus ? "bg-gray-100" : ""
-        } ${
+        className={`text-sm px-2 py-4 h-2 text-center rounded-md ${
           saveStatus === "Saved"
             ? "text-green-600"
             : saveStatus === "Saving..."
