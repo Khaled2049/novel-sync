@@ -72,7 +72,7 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="bg-amber-50 min-h-screen p-4">
+    <div className="bg-amber-50 min-h-screen p-24">
       {/* Profile Section */}
       <div className="max-w-xl mx-auto">
         <div className="mb-6">

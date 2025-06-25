@@ -25,6 +25,7 @@ export function Modal(props: Props) {
   const { style, ...rest } = props;
 
   return (
+    // @ts-ignore
     <ReactModal style={{ ...modalStyles, ...style }} {...rest}>
       {props.children}
     </ReactModal>

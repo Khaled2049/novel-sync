@@ -90,9 +90,8 @@ const StoriesLayout = () => {
   const location = useLocation();
 
   return (
-    <div className="bg-amber-50 min-h-screen py-8 ">
+    <div className="bg-amber-50 min-h-screen py-24">
       <div className="container mx-auto px-4">
-        {/* Your existing welcome header */}
         <div className="w-full mb-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex flex-col space-y-4 py-4">
@@ -122,8 +121,6 @@ const StoriesLayout = () => {
             </div>
           </div>
         </div>
-
-        {/* Content area */}
 
         <Outlet />
       </div>

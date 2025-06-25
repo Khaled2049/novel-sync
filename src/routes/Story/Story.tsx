@@ -5,8 +5,8 @@ const Story = () => {
   const isRootPath = location.pathname === "/create-story";
 
   return (
-    <div className="flex flex-col h-screen">
-      <nav className="bg-amber-100 p-4">
+    <div className="flex flex-col ">
+      <nav className="bg-amber-100 pt-20">
         <ul className="flex space-x-4">
           {["Editor", "Plot", "Characters", "Places", "Dashboard"].map(
             (tab) => (
@@ -30,7 +30,7 @@ const Story = () => {
         </ul>
       </nav>
 
-      <main className="flex-grow overflow-auto">
+      <main className="flex-grow overflow-auto bg-amber-50">
         <Outlet />
       </main>
     </div>
