@@ -18,7 +18,7 @@ const UpdateBookClub = ({ club, onUpdate, onCancel }: UpdateBookClubProps) => {
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md">
+    <div className=" p-4 rounded-lg shadow-md">
       <h2 className="text-xl font-bold mb-4">Update Book Club</h2>
       <div className="mb-4">
         <label className="block text-sm font-medium mb-2">name</label>

@@ -23,15 +23,15 @@ export const StoryCard: React.FC<StoryCardProps> = ({
   const isPublished = story.isPublished;
 
   return (
-    <div className="border border-gray-200 bg-amber-200 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+    <div className="border border-black/20 dark:border-white/20 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300  dark:bg-black text-black dark:text-white">
       <div className="p-5">
         <div className="flex items-center justify-between mb-3">
           {/* Status Indicator */}
           <span
             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
               isPublished
-                ? "bg-sky-100 text-sky-800"
-                : "bg-amber-100 text-amber-800"
+                ? "bg-light-green/20 dark:bg-dark-green/20 text-dark-green dark:text-light-green"
+                : "bg-black/10 dark:/10 text-black/70 dark:text-white/70"
             }`}
           >
             {isPublished ? (
@@ -44,7 +44,7 @@ export const StoryCard: React.FC<StoryCardProps> = ({
         </div>
 
         {/* Story Title */}
-        <h3 className="text-2xl font-serif font-bold text-slate-800 mb-4 truncate">
+        <h3 className="text-2xl font-serif font-bold text-black dark:text-white mb-4 truncate">
           {story.title}
         </h3>
 
@@ -52,7 +52,7 @@ export const StoryCard: React.FC<StoryCardProps> = ({
         <div className="flex items-center space-x-3">
           <button
             onClick={() => onEdit(story.id)}
-            className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-slate-700 hover:bg-slate-900 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
+            className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-dark-green dark:bg-light-green hover:bg-light-green dark:hover:bg-dark-green rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
           >
             <FaEdit className="mr-2" />
             Edit
@@ -60,7 +60,7 @@ export const StoryCard: React.FC<StoryCardProps> = ({
           {isPublished ? (
             <button
               onClick={() => onUnpublish(story.id)}
-              className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+              className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-black dark:text-white border border-black dark:border-white hover:bg-black/10 dark:hover:/10 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
             >
               <FaEyeSlash className="mr-2" />
               Unpublish

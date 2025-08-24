@@ -75,11 +75,11 @@ const places: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen">
-      <div className="w-1/2 p-4 border-r">
+    <div className="flex h-screen bg-white dark:bg-black text-black dark:text-white transition-colors duration-200">
+      <div className="w-1/2 p-4 border-r border-black/20 dark:border-white/20">
         <h2 className="text-xl font-bold mb-4">places</h2>
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
+          className="bg-dark-green dark:bg-light-green text-white px-4 py-2 rounded mb-4 hover:bg-light-green dark:hover:bg-dark-green transition-colors duration-200"
           onClick={() => setIsAddModalOpen(true)}
         >
           Add place
@@ -88,7 +88,7 @@ const places: React.FC = () => {
           {places.map((place) => (
             <li
               key={place.id}
-              className="flex items-center justify-between hover:bg-gray-100 p-2"
+              className="flex items-center justify-between hover:bg-black/10 dark:hover:bg-white/10 p-2 rounded-md transition-colors duration-200"
             >
               <span
                 className="cursor-pointer"
@@ -98,7 +98,7 @@ const places: React.FC = () => {
               </span>
               <div>
                 <button
-                  className="bg-yellow-500 text-white px-2 py-1 rounded mr-2"
+                  className="bg-light-green dark:bg-dark-green text-white px-2 py-1 rounded mr-2 hover:bg-dark-green dark:hover:bg-light-green transition-colors duration-200"
                   onClick={() => {
                     setplaceToUpdate(place);
                     setIsUpdateModalOpen(true);
@@ -107,7 +107,7 @@ const places: React.FC = () => {
                   Update
                 </button>
                 <button
-                  className="bg-red-500 text-white px-2 py-1 rounded"
+                  className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition-colors duration-200"
                   onClick={() => handleDeleteplace(place.id)}
                 >
                   Remove
@@ -120,13 +120,21 @@ const places: React.FC = () => {
       <div className="w-1/2 p-4">
         <h2 className="text-xl font-bold mb-4">place Details</h2>
         {selectedplace ? (
-          <div>
+          <div className="bg-white dark:bg-black p-4 rounded-lg border border-black/20 dark:border-white/20">
             <h3 className="text-lg font-semibold">{selectedplace.name}</h3>
-            <p>Description: {selectedplace.description}</p>
-            {selectedplace.notes && <p>Notes: {selectedplace.notes}</p>}
+            <p className="text-black/70 dark:text-white/70">
+              Description: {selectedplace.description}
+            </p>
+            {selectedplace.notes && (
+              <p className="text-black/70 dark:text-white/70">
+                Notes: {selectedplace.notes}
+              </p>
+            )}
           </div>
         ) : (
-          <p>Select a place to view details</p>
+          <p className="text-black/50 dark:text-white/50">
+            Select a place to view details
+          </p>
         )}
       </div>
       {isAddModalOpen && storyId && (

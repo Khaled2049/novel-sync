@@ -90,7 +90,7 @@ const StoriesLayout = () => {
   const location = useLocation();
 
   return (
-    <div className="bg-amber-50 min-h-screen py-24">
+    <div className="min-h-screen py-24 bg-white dark:bg-black">
       <div className="container mx-auto px-4">
         <div className="w-full mb-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -102,16 +102,16 @@ const StoriesLayout = () => {
                     key={tab.id}
                     to={tab.path}
                     className={`
-                      flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium
-                      transition-colors duration-150 ease-in-out min-w-fit
-                      ${
-                        tab.path === location.pathname ||
-                        (location.pathname === "/stories" &&
-                          tab.path === "/stories")
-                          ? "bg-amber-100 text-amber-700"
-                          : "text-gray-600 hover:bg-gray-100"
-                      }
-                    `}
+                  flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium
+                  transition-colors duration-200 ease-in-out min-w-fit
+                  ${
+                    tab.path === location.pathname ||
+                    (location.pathname === "/stories" &&
+                      tab.path === "/stories")
+                      ? "bg-dark-green dark:bg-light-green text-white"
+                      : "text-black/70 dark:text-white/70 hover:bg-black/10 dark:hover:bg-white/10"
+                  }
+                `}
                   >
                     {tab.icon}
                     <span>{tab.label}</span>

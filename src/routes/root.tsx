@@ -8,7 +8,6 @@ import {
   Star,
   Zap,
   Heart,
-  TrendingUp,
   Award,
   Sparkles,
 } from "lucide-react";
@@ -16,7 +15,7 @@ import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const [isVisible, setIsVisible] = useState<Record<string, boolean>>({});
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [_mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const features = [
     {
@@ -24,7 +23,7 @@ const HomePage = () => {
       description:
         "Collaborate with advanced AI to craft compelling narratives and overcome writer's block.",
       icon: <Zap className="w-8 h-8" />,
-      gradient: "from-amber-500 to-amber-500",
+      gradient: " ",
     },
     {
       title: "Global Community",
@@ -52,7 +51,7 @@ const HomePage = () => {
       description:
         "Join curated discussions and exclusive author events in premium book clubs.",
       icon: <Users className="w-8 h-8" />,
-      gradient: "from-indigo-500 to-amber-500",
+      gradient: "from-indigo-500 ",
     },
     {
       title: "Spoiler-Free Zone",
@@ -113,59 +112,35 @@ const HomePage = () => {
     return () => observer.disconnect();
   }, []);
 
-  const FloatingElements = () => (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none">
-      <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-amber-400 rounded-full animate-pulse opacity-60"></div>
-      <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-blue-400 rounded-full animate-bounce opacity-60"></div>
-      <div className="absolute top-1/2 left-3/4 w-3 h-3 bg-amber-400 rounded-full animate-pulse opacity-40"></div>
-      <div
-        className="absolute w-4 h-4 bg-gradient-to-r from-amber-400 to-amber-400 rounded-full opacity-30 transition-all duration-300 ease-out"
-        style={{
-          left: mousePosition.x / 50 + "px",
-          top: mousePosition.y / 50 + "px",
-        }}
-      ></div>
-    </div>
-  );
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-amber-900 to-slate-900 text-white overflow-hidden">
-      <FloatingElements />
-
+    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white overflow-hidden">
       {/* Hero Section */}
       <section className="relative min-h-screen flex flex-col items-center justify-center text-center">
-        <div className="absolute inset-0 bg-gradient-to-r from-amber-900/20 to-amber-900/20"></div>
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-amber-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-          <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-amber-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-          <div className="absolute bottom-1/4 left-1/2 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-        </div>
-
         <div className="relative z-10 text-center px-6 max-w-6xl mx-auto mt-20">
           <div className="mb-8 animate-fade-in">
-            <Sparkles className="w-16 h-16 mx-auto mb-6 text-yellow-400 animate-spin-slow" />
+            <Sparkles className="w-16 h-16 mx-auto mb-6 text-dark-green dark:text-light-green animate-spin-slow" />
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-amber-200 to-amber-200 bg-clip-text text-transparent leading-tight">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-black to-dark-green dark:from-white dark:to-light-green bg-clip-text text-transparent leading-tight">
             <span className="block animate-slide-up">Welcome to</span>
-            <span className="block animate-slide-up-delayed bg-gradient-to-r from-amber-400 to-amber-400 bg-clip-text text-transparent">
+            <span className="block animate-slide-up-delayed bg-gradient-to-r from-dark-green to-light-green bg-clip-text text-transparent">
               NovelSync
             </span>
           </h1>
 
-          <p className="text-xl md:text-2xl mb-8 text-gray-300 animate-fade-in-delayed max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl mb-8 text-black/80 dark:text-white/80 animate-fade-in-delayed max-w-3xl mx-auto leading-relaxed">
             Where stories come alive and writers thrive. Join the future of
             collaborative storytelling.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-delayed-2">
-            <button className="group relative px-8 py-4 bg-gradient-to-r from-amber-600 to-amber-600 rounded-full font-semibold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/25">
+            <button className="group relative px-8 py-4 bg-gradient-to-r from-dark-green to-light-green rounded-full font-semibold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl text-white">
               <span className="relative z-10">Start Writing</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-amber-700 to-amber-700 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-light-green to-dark-green transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
             </button>
 
             <Link to="/explore">
-              <button className="group px-8 py-4 border-2 border-amber-400 rounded-full font-semibold text-lg transition-all duration-300 hover:bg-amber-400 hover:text-white hover:scale-105">
+              <button className="group px-8 py-4 border-2 border-dark-green dark:border-light-green text-dark-green dark:text-light-green rounded-full font-semibold text-lg transition-all duration-300 hover:bg-dark-green dark:hover:bg-light-green hover:text-white dark:hover:text-black hover:scale-105">
                 <span className="flex items-center justify-center">
                   <BookOpen className="w-5 h-5 mr-2" />
                   Explore Stories
@@ -187,7 +162,7 @@ const HomePage = () => {
                   : "opacity-0 translate-y-10"
               }`}
             >
-              <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-white to-amber-200 bg-clip-text text-transparent">
+              <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-black to-dark-green dark:from-white dark:to-light-green bg-clip-text text-transparent">
                 Powerful Features
               </h2>
 
@@ -195,23 +170,23 @@ const HomePage = () => {
                 {features.map((feature, index) => (
                   <div
                     key={index}
-                    className="group relative p-8 rounded-2xl bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm border border-gray-700 hover:border-amber-500 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/10"
+                    className="group relative p-8 rounded-2xl bg-gradient-to-br from-white/90 to-light-green/10 dark:from-black/90 dark:to-dark-green/10 backdrop-blur-sm border border-black/20 dark:border-white/20 hover:border-dark-green dark:hover:border-light-green transition-all duration-500 hover:scale-105 hover:shadow-2xl"
                     style={{ animationDelay: `${index * 0.1}s` }}
                   >
                     <div
-                      className={`w-16 h-16 rounded-xl bg-gradient-to-r ${feature.gradient} p-3 mb-6 group-hover:scale-110 transition-transform duration-300`}
+                      className={`w-16 h-16 rounded-xl bg-gradient-to-r from-dark-green to-light-green p-3 mb-6 group-hover:scale-110 transition-transform duration-300`}
                     >
-                      {feature.icon}
+                      <div className="text-white">{feature.icon}</div>
                     </div>
 
-                    <h3 className="text-xl font-bold mb-4 group-hover:text-amber-300 transition-colors duration-300">
+                    <h3 className="text-xl font-bold mb-4 text-black dark:text-white transition-colors duration-300">
                       {feature.title}
                     </h3>
-                    <p className="text-gray-300 leading-relaxed">
+                    <p className="text-black/70 dark:text-white/70 leading-relaxed">
                       {feature.description}
                     </p>
 
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-amber-500/0 to-amber-500/0 group-hover:from-amber-500/5 group-hover:to-amber-500/5 transition-all duration-500"></div>
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-dark-green/0 to-light-green/0 group-hover:from-dark-green/5 group-hover:to-light-green/5 transition-all duration-500"></div>
                   </div>
                 ))}
               </div>
@@ -231,7 +206,7 @@ const HomePage = () => {
                   : "opacity-0 translate-y-10"
               }`}
             >
-              <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-white to-amber-200 bg-clip-text text-transparent">
+              <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-black to-dark-green dark:from-white dark:to-light-green bg-clip-text text-transparent">
                 What Writers Say
               </h2>
 
@@ -239,23 +214,23 @@ const HomePage = () => {
                 {testimonials.map((testimonial, index) => (
                   <div
                     key={index}
-                    className="relative p-8 rounded-2xl bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm border border-gray-700 hover:border-amber-500 transition-all duration-500 hover:scale-105"
+                    className="relative p-8 rounded-2xl bg-gradient-to-br from-white/90 to-light-green/10 dark:from-black/90 dark:to-dark-green/10 backdrop-blur-sm border border-black/20 dark:border-white/20 transition-all duration-500 hover:scale-105"
                   >
                     <div className="flex mb-4">
                       {[...Array(testimonial.rating)].map((_, i) => (
                         <Star
                           key={i}
-                          className="w-5 h-5 text-yellow-400 fill-current"
+                          className="w-5 h-5 text-dark-green dark:text-light-green fill-current"
                         />
                       ))}
                     </div>
 
-                    <p className="text-gray-300 mb-6 italic leading-relaxed">
+                    <p className="text-black/70 dark:text-white/70 mb-6 italic leading-relaxed">
                       "{testimonial.text}"
                     </p>
 
                     <div className="flex items-center">
-                      <div className="w-12 h-12 bg-gradient-to-r from-amber-500 to-amber-500 rounded-full flex items-center justify-center mr-4">
+                      <div className="w-12 h-12 bg-gradient-to-r from-dark-green to-light-green rounded-full flex items-center justify-center mr-4">
                         <span className="text-white font-bold">
                           {testimonial.author
                             .split(" ")
@@ -264,8 +239,10 @@ const HomePage = () => {
                         </span>
                       </div>
                       <div>
-                        <p className="font-semibold">{testimonial.author}</p>
-                        <p className="text-sm text-gray-400">
+                        <p className="font-semibold text-black dark:text-white">
+                          {testimonial.author}
+                        </p>
+                        <p className="text-sm text-black/60 dark:text-white/60">
                           {testimonial.role}
                         </p>
                       </div>
@@ -289,28 +266,28 @@ const HomePage = () => {
                   : "opacity-0 translate-y-10"
               }`}
             >
-              <div className="relative p-12 rounded-3xl bg-gradient-to-r from-amber-900/30 to-amber-900/30 backdrop-blur-sm border border-amber-500/20 max-w-4xl mx-auto">
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-amber-500/10 rounded-3xl"></div>
+              <div className="relative p-12 rounded-3xl bg-gradient-to-r from-white/90 to-light-green/20 dark:from-black/90 dark:to-dark-green/20 backdrop-blur-sm border border-black/20 dark:border-white/20 max-w-4xl mx-auto">
+                <div className="absolute inset-0 bg-gradient-to-r from-dark-green/10 to-light-green/10 rounded-3xl"></div>
 
                 <div className="relative z-10">
-                  <Award className="w-16 h-16 mx-auto mb-6 text-yellow-400" />
-                  <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                  <Award className="w-16 h-16 mx-auto mb-6 text-dark-green dark:text-light-green" />
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black dark:text-white">
                     Ready to Start Your Journey?
                   </h2>
-                  <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                  <p className="text-xl text-black/70 dark:text-white/70 mb-8 max-w-2xl mx-auto">
                     Join thousands of writers and readers in the most innovative
                     storytelling platform ever created.
                   </p>
 
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button className="group relative px-8 py-4 bg-gradient-to-r from-amber-600 to-amber-600 rounded-full font-semibold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/25">
+                    <button className="group relative px-8 py-4 bg-gradient-to-r from-dark-green to-light-green text-white rounded-full font-semibold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl">
                       <span className="relative z-10 flex items-center justify-center">
                         <Heart className="w-5 h-5 mr-2" />
                         Join NovelSync
                       </span>
                     </button>
 
-                    <button className="px-8 py-4 border-2 border-amber-400 rounded-full font-semibold text-lg transition-all duration-300 hover:bg-amber-400 hover:text-white hover:scale-105">
+                    <button className="px-8 py-4 border-2 border-dark-green dark:border-light-green text-dark-green dark:text-light-green rounded-full font-semibold text-lg transition-all duration-300 hover:bg-dark-green dark:hover:bg-light-green hover:text-white dark:hover:text-black hover:scale-105">
                       Learn More
                     </button>
                   </div>
@@ -319,17 +296,6 @@ const HomePage = () => {
             </div>
           </div>
         </section>
-
-        {/* Beta Notice */}
-        <div className="bg-gradient-to-r from-orange-900/20 to-red-900/20 border-t border-orange-500/20 py-4">
-          <div className="container mx-auto px-6 text-center">
-            <p className="text-orange-300 flex items-center justify-center">
-              <TrendingUp className="w-4 h-4 mr-2" />
-              Beta Version - Crafting the future of storytelling, one update at
-              a time
-            </p>
-          </div>
-        </div>
       </section>
 
       <style>{`

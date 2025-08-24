@@ -26,7 +26,7 @@ const Leaderboards: React.FC = () => {
             <li
               key={entry.rank}
               className={`p-3 flex justify-between items-center rounded-md ${
-                entry.rank <= 3 ? "bg-yellow-100" : "bg-white"
+                entry.rank <= 3 ? "bg-yellow-100" : ""
               } mb-2`}
             >
               <div className="flex items-center space-x-4">

@@ -13,7 +13,7 @@ export function LinkModal(props: IProps) {
   const { url, closeModal, onChangeUrl, onSaveLink, ...rest } = props;
   return (
     <Modal {...rest}>
-      <div className="relative p-6 bg-white rounded-full shadow-xl">
+      <div className="relative p-6  rounded-full shadow-xl">
         <h2 className="text-2xl font-bold mb-4">Enter Prompt</h2>
         <button
           className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"

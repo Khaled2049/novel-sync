@@ -36,6 +36,7 @@ import Events from "./components/explore/Events";
 import Leaderboards from "./components/explore/Leaderboards";
 import WritingResources from "./components/explore/WritingResources";
 import Announcements from "./components/explore/Announcements";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 const router = createBrowserRouter([
   {
@@ -156,7 +157,9 @@ const router = createBrowserRouter([
   },
 ]);
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <AuthProvider>
-    <RouterProvider router={router} />
-  </AuthProvider>
+  <ThemeProvider>
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  </ThemeProvider>
 );

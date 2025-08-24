@@ -72,11 +72,9 @@ const BookDetails: React.FC<BookDetailsProps> = () => {
   }
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-amber-50 p-4">
-      <div className="w-full max-w-lg border border-amber-200 rounded-lg shadow-md bg-white p-4">
-        <h1 className="text-2xl font-bold text-amber-700 mb-4">
-          {book.volumeInfo.title}
-        </h1>
+    <div className="flex flex-col items-center min-h-screen  p-4">
+      <div className="w-full max-w-lg border  rounded-lg shadow-md  p-4">
+        <h1 className="text-2xl font-bold  mb-4">{book.volumeInfo.title}</h1>
         <div className="mb-4">
           <img
             src={book.volumeInfo.imageLinks?.thumbnail}
@@ -84,29 +82,25 @@ const BookDetails: React.FC<BookDetailsProps> = () => {
             className="rounded-lg shadow-md"
           />
         </div>
-        <p className="text-lg text-amber-600 mb-2">
-          {book.volumeInfo.authors?.join(", ")}
-        </p>
-        <p className="text-sm text-amber-500 mb-4">
+        <p className="text-lg  mb-2">{book.volumeInfo.authors?.join(", ")}</p>
+        <p className="text-sm mb-4">
           Published by {book.volumeInfo.publisher} on{" "}
           {book.volumeInfo.publishedDate}
         </p>
-        <p className="text-sm text-amber-600 mb-4">
+        <p className="text-sm  mb-4">
           {book.volumeInfo.categories?.join(", ")}
         </p>
-        <div className="text-sm text-amber-500">
+        <div className="text-sm">
           {parseHtmlContent(
             book.volumeInfo.description || "No description available."
           )}
         </div>
         {book.volumeInfo.averageRating && (
           <div className="mb-4">
-            <p className="text-sm text-amber-600">
+            <p className="text-sm ">
               Average Rating: {book.volumeInfo.averageRating} / 5
             </p>
-            <p className="text-sm text-amber-500">
-              ({book.volumeInfo.ratingsCount} ratings)
-            </p>
+            <p className="text-sm">({book.volumeInfo.ratingsCount} ratings)</p>
           </div>
         )}
       </div>
