@@ -8,13 +8,11 @@ export const NavbarWrapper = () => {
     <div className="relative min-h-screen">
       <Navbar />
 
-      <main className="pt-15 pb-16">
+      <main>
         <Outlet />
       </main>
 
-      <div className="absolute bottom-0 w-full">
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 };

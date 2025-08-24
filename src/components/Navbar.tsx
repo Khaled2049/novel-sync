@@ -53,12 +53,12 @@ const Navbar = () => {
   }, [isDropdownOpen]);
 
   return (
-    <nav className="bg-gray-800/80 backdrop-blur-sm p-4 text-white fixed w-full top-0 z-50">
+    <nav className="bg-amber-800 backdrop-blur-sm p-4 text-white fixed w-full top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
         {/* Left Section - Logo */}
         <div className="flex items-center">
           <Link
-            className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"
+            className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-black transition-all duration-300 hover:scale-105 hover:drop-shadow-lg"
             to="/"
           >
             NovelSync
@@ -69,19 +69,19 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center space-x-6">
           <Link
             to="/home"
-            className="text-gray-300 hover:text-white transition duration-300"
+            className="text-black hover:text-white transition duration-300"
           >
             Community
           </Link>
           <Link
             to="/explore"
-            className="text-gray-300 hover:text-white transition duration-300"
+            className="text-black hover:text-white transition duration-300"
           >
             Explore
           </Link>
           <Link
             to="/book-clubs"
-            className="text-gray-300 hover:text-white transition duration-300"
+            className="text-black hover:text-white transition duration-300"
           >
             Book Clubs
           </Link>

@@ -15,42 +15,8 @@ import {
 import { Link } from "react-router-dom";
 
 const HomePage = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [isVisible, setIsVisible] = useState<Record<string, boolean>>({});
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  const novels = [
-    {
-      title: "The Lost Kingdom",
-      author: "John Doe",
-      description:
-        "An epic fantasy adventure that takes you through mystical realms and ancient prophecies.",
-      cover:
-        "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=600&fit=crop",
-      genre: "Fantasy",
-      rating: 4.8,
-    },
-    {
-      title: "Future Visions",
-      author: "Alice Johnson",
-      description:
-        "A mind-bending journey into tomorrow's possibilities and technological wonders.",
-      cover:
-        "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=600&fit=crop",
-      genre: "Sci-Fi",
-      rating: 4.9,
-    },
-    {
-      title: "Midnight Chronicles",
-      author: "Emma Blake",
-      description:
-        "Dark mysteries unfold in this thrilling tale of suspense and intrigue.",
-      cover:
-        "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=600&fit=crop",
-      genre: "Mystery",
-      rating: 4.7,
-    },
-  ];
 
   const features = [
     {
@@ -128,13 +94,6 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % novels.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -174,7 +133,7 @@ const HomePage = () => {
       <FloatingElements />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center">
+      <section className="relative min-h-screen flex flex-col items-center justify-center text-center">
         <div className="absolute inset-0 bg-gradient-to-r from-amber-900/20 to-amber-900/20"></div>
         <div className="absolute inset-0">
           <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-amber-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
@@ -182,7 +141,7 @@ const HomePage = () => {
           <div className="absolute bottom-1/4 left-1/2 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
         </div>
 
-        <div className="relative z-10 text-center px-6 max-w-6xl mx-auto">
+        <div className="relative z-10 text-center px-6 max-w-6xl mx-auto mt-20">
           <div className="mb-8 animate-fade-in">
             <Sparkles className="w-16 h-16 mx-auto mb-6 text-yellow-400 animate-spin-slow" />
           </div>
@@ -215,257 +174,163 @@ const HomePage = () => {
             </Link>
           </div>
         </div>
-      </section>
 
-      {/* Featured Stories */}
-      <section className="py-20 relative">
-        <div className="container mx-auto px-6">
-          <div
-            id="featured-stories"
-            data-animate
-            className={`transition-all duration-1000 ${
-              isVisible["featured-stories"]
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10"
-            }`}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-white to-amber-200 bg-clip-text text-transparent">
-              Featured Stories
-            </h2>
+        {/* Features Section */}
+        <section className="py-20">
+          <div className="container mx-auto px-6">
+            <div
+              id="features"
+              data-animate
+              className={`transition-all duration-1000 ${
+                isVisible["features"]
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
+            >
+              <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-white to-amber-200 bg-clip-text text-transparent">
+                Powerful Features
+              </h2>
 
-            <div className="max-w-4xl mx-auto">
-              <div className="relative h-96 md:h-[500px] rounded-2xl overflow-hidden">
-                {novels.map((novel, index) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {features.map((feature, index) => (
                   <div
                     key={index}
-                    className={`absolute inset-0 transition-all duration-700 ${
-                      index === currentSlide
-                        ? "opacity-100 scale-100"
-                        : "opacity-0 scale-95"
-                    }`}
+                    className="group relative p-8 rounded-2xl bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm border border-gray-700 hover:border-amber-500 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/10"
+                    style={{ animationDelay: `${index * 0.1}s` }}
                   >
-                    <div className="relative h-full bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent"></div>
-                      <img
-                        src={novel.cover}
-                        alt={novel.title}
-                        className="absolute right-0 top-0 h-full w-1/2 object-cover"
-                      />
+                    <div
+                      className={`w-16 h-16 rounded-xl bg-gradient-to-r ${feature.gradient} p-3 mb-6 group-hover:scale-110 transition-transform duration-300`}
+                    >
+                      {feature.icon}
+                    </div>
 
-                      <div className="relative z-10 p-8 md:p-12 h-full flex flex-col justify-center max-w-xl">
-                        <div className="flex items-center mb-4">
-                          <span className="px-3 py-1 bg-amber-500 rounded-full text-sm font-medium mr-3">
-                            {novel.genre}
-                          </span>
-                          <div className="flex items-center">
-                            {[...Array(5)].map((_, i) => (
-                              <Star
-                                key={i}
-                                className={`w-4 h-4 ${
-                                  i < Math.floor(novel.rating)
-                                    ? "text-yellow-400 fill-current"
-                                    : "text-gray-400"
-                                }`}
-                              />
-                            ))}
-                            <span className="ml-2 text-sm text-gray-300">
-                              {novel.rating}
-                            </span>
-                          </div>
-                        </div>
+                    <h3 className="text-xl font-bold mb-4 group-hover:text-amber-300 transition-colors duration-300">
+                      {feature.title}
+                    </h3>
+                    <p className="text-gray-300 leading-relaxed">
+                      {feature.description}
+                    </p>
 
-                        <h3 className="text-3xl md:text-4xl font-bold mb-2">
-                          {novel.title}
-                        </h3>
-                        <p className="text-amber-300 mb-4 text-lg">
-                          by {novel.author}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-amber-500/0 to-amber-500/0 group-hover:from-amber-500/5 group-hover:to-amber-500/5 transition-all duration-500"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials */}
+        <section className="py-20">
+          <div className="container mx-auto px-6">
+            <div
+              id="testimonials"
+              data-animate
+              className={`transition-all duration-1000 ${
+                isVisible["testimonials"]
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
+            >
+              <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-white to-amber-200 bg-clip-text text-transparent">
+                What Writers Say
+              </h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                {testimonials.map((testimonial, index) => (
+                  <div
+                    key={index}
+                    className="relative p-8 rounded-2xl bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm border border-gray-700 hover:border-amber-500 transition-all duration-500 hover:scale-105"
+                  >
+                    <div className="flex mb-4">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className="w-5 h-5 text-yellow-400 fill-current"
+                        />
+                      ))}
+                    </div>
+
+                    <p className="text-gray-300 mb-6 italic leading-relaxed">
+                      "{testimonial.text}"
+                    </p>
+
+                    <div className="flex items-center">
+                      <div className="w-12 h-12 bg-gradient-to-r from-amber-500 to-amber-500 rounded-full flex items-center justify-center mr-4">
+                        <span className="text-white font-bold">
+                          {testimonial.author
+                            .split(" ")
+                            .map((n) => n[0])
+                            .join("")}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="font-semibold">{testimonial.author}</p>
+                        <p className="text-sm text-gray-400">
+                          {testimonial.role}
                         </p>
-                        <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                          {novel.description}
-                        </p>
-
-                        <button className="self-start px-6 py-3 bg-white text-black rounded-full font-semibold hover:bg-gray-100 transition-colors duration-300">
-                          Read Now
-                        </button>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
-
-              <div className="flex justify-center mt-6 space-x-2">
-                {novels.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                      index === currentSlide
-                        ? "bg-amber-500 scale-125"
-                        : "bg-gray-600 hover:bg-gray-500"
-                    }`}
-                  />
-                ))}
-              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Features Section */}
-      <section className="py-20 relative">
-        <div className="container mx-auto px-6">
-          <div
-            id="features"
-            data-animate
-            className={`transition-all duration-1000 ${
-              isVisible["features"]
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10"
-            }`}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-white to-amber-200 bg-clip-text text-transparent">
-              Powerful Features
-            </h2>
+        {/* CTA Section */}
+        <section className="py-20">
+          <div className="container mx-auto px-6 text-center">
+            <div
+              id="cta"
+              data-animate
+              className={`transition-all duration-1000 ${
+                isVisible["cta"]
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
+            >
+              <div className="relative p-12 rounded-3xl bg-gradient-to-r from-amber-900/30 to-amber-900/30 backdrop-blur-sm border border-amber-500/20 max-w-4xl mx-auto">
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-amber-500/10 rounded-3xl"></div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {features.map((feature, index) => (
-                <div
-                  key={index}
-                  className="group relative p-8 rounded-2xl bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm border border-gray-700 hover:border-amber-500 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/10"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div
-                    className={`w-16 h-16 rounded-xl bg-gradient-to-r ${feature.gradient} p-3 mb-6 group-hover:scale-110 transition-transform duration-300`}
-                  >
-                    {feature.icon}
-                  </div>
-
-                  <h3 className="text-xl font-bold mb-4 group-hover:text-amber-300 transition-colors duration-300">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-300 leading-relaxed">
-                    {feature.description}
+                <div className="relative z-10">
+                  <Award className="w-16 h-16 mx-auto mb-6 text-yellow-400" />
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                    Ready to Start Your Journey?
+                  </h2>
+                  <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                    Join thousands of writers and readers in the most innovative
+                    storytelling platform ever created.
                   </p>
 
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-amber-500/0 to-amber-500/0 group-hover:from-amber-500/5 group-hover:to-amber-500/5 transition-all duration-500"></div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-20 relative">
-        <div className="container mx-auto px-6">
-          <div
-            id="testimonials"
-            data-animate
-            className={`transition-all duration-1000 ${
-              isVisible["testimonials"]
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10"
-            }`}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-white to-amber-200 bg-clip-text text-transparent">
-              What Writers Say
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {testimonials.map((testimonial, index) => (
-                <div
-                  key={index}
-                  className="relative p-8 rounded-2xl bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm border border-gray-700 hover:border-amber-500 transition-all duration-500 hover:scale-105"
-                >
-                  <div className="flex mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="w-5 h-5 text-yellow-400 fill-current"
-                      />
-                    ))}
-                  </div>
-
-                  <p className="text-gray-300 mb-6 italic leading-relaxed">
-                    "{testimonial.text}"
-                  </p>
-
-                  <div className="flex items-center">
-                    <div className="w-12 h-12 bg-gradient-to-r from-amber-500 to-amber-500 rounded-full flex items-center justify-center mr-4">
-                      <span className="text-white font-bold">
-                        {testimonial.author
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button className="group relative px-8 py-4 bg-gradient-to-r from-amber-600 to-amber-600 rounded-full font-semibold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/25">
+                      <span className="relative z-10 flex items-center justify-center">
+                        <Heart className="w-5 h-5 mr-2" />
+                        Join NovelSync
                       </span>
-                    </div>
-                    <div>
-                      <p className="font-semibold">{testimonial.author}</p>
-                      <p className="text-sm text-gray-400">
-                        {testimonial.role}
-                      </p>
-                    </div>
+                    </button>
+
+                    <button className="px-8 py-4 border-2 border-amber-400 rounded-full font-semibold text-lg transition-all duration-300 hover:bg-amber-400 hover:text-white hover:scale-105">
+                      Learn More
+                    </button>
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 relative">
-        <div className="container mx-auto px-6 text-center">
-          <div
-            id="cta"
-            data-animate
-            className={`transition-all duration-1000 ${
-              isVisible["cta"]
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10"
-            }`}
-          >
-            <div className="relative p-12 rounded-3xl bg-gradient-to-r from-amber-900/30 to-amber-900/30 backdrop-blur-sm border border-amber-500/20 max-w-4xl mx-auto">
-              <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-amber-500/10 rounded-3xl"></div>
-
-              <div className="relative z-10">
-                <Award className="w-16 h-16 mx-auto mb-6 text-yellow-400" />
-                <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                  Ready to Start Your Journey?
-                </h2>
-                <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                  Join thousands of writers and readers in the most innovative
-                  storytelling platform ever created.
-                </p>
-
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <button className="group relative px-8 py-4 bg-gradient-to-r from-amber-600 to-amber-600 rounded-full font-semibold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/25">
-                    <span className="relative z-10 flex items-center justify-center">
-                      <Heart className="w-5 h-5 mr-2" />
-                      Join NovelSync
-                    </span>
-                  </button>
-
-                  <button className="px-8 py-4 border-2 border-amber-400 rounded-full font-semibold text-lg transition-all duration-300 hover:bg-amber-400 hover:text-white hover:scale-105">
-                    Learn More
-                  </button>
                 </div>
               </div>
             </div>
           </div>
+        </section>
+
+        {/* Beta Notice */}
+        <div className="bg-gradient-to-r from-orange-900/20 to-red-900/20 border-t border-orange-500/20 py-4">
+          <div className="container mx-auto px-6 text-center">
+            <p className="text-orange-300 flex items-center justify-center">
+              <TrendingUp className="w-4 h-4 mr-2" />
+              Beta Version - Crafting the future of storytelling, one update at
+              a time
+            </p>
+          </div>
         </div>
       </section>
-
-      {/* Beta Notice */}
-      <div className="bg-gradient-to-r from-orange-900/20 to-red-900/20 border-t border-orange-500/20 py-4">
-        <div className="container mx-auto px-6 text-center">
-          <p className="text-orange-300 flex items-center justify-center">
-            <TrendingUp className="w-4 h-4 mr-2" />
-            Beta Version - Crafting the future of storytelling, one update at a
-            time
-          </p>
-        </div>
-      </div>
 
       <style>{`
         @keyframes fade-in {

@@ -203,17 +203,10 @@ export function SimpleEditor() {
           <Loader className="w-12 h-12 text-amber-800 animate-spin" />
         </div>
       ) : (
-        <div className="flex flex-col lg:flex-row h-screen w-full gap-4 ">
+        <div className="flex flex-col lg:flex-row h-screen w-full gap-2">
           {/* Main Content Area */}
           <div className="lg:w-2/3 flex flex-col space-y-4">
-            <div className="bg-amber-50 p-6 rounded-lg ">
-              <h1 className="mb-4 text-3xl font-bold text-slate-800 italic">
-                Summon your ultimate writing muse by pressing{" "}
-                <span className="underline decoration-wavy text-blue-600">
-                  TAB
-                </span>
-              </h1>
-
+            <div className="bg-amber-50 px-4 rounded-lg ">
               {/* Story Metadata Component */}
               <StoryMetadata
                 storyTitle={storyTitle}
