@@ -226,27 +226,24 @@ const PlotTimeline: React.FC = () => {
       <div className="flex space-x-4 mb-4">
         <button
           onClick={addPlotLine}
-          className="mb-4 py-2 px-4 rounded-sm bg-amber-600 text-white flex items-center justify-center hover:bg-amber-700 transition duration-300"
+          className="mb-4 py-2 px-4 rounded-sm  text-white flex items-center justify-center  transition duration-300"
         >
           Add Plot
         </button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button
-              variant="outline"
-              className="flex items-center bg-amber-100 border-amber-300 text-amber-800 hover:bg-amber-200 hover:text-amber-900"
-            >
+            <Button variant="outline" className="flex items-center     hover:">
               <Book className="mr-2 h-4 w-4" />
               Plot Templates
               <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-amber-50 border border-amber-200 shadow-lg rounded-md p-1 min-w-[200px]">
+          <DropdownMenuContent className=" border  shadow-lg rounded-md p-1 min-w-[200px]">
             {templates.map((template, idx) => (
               <DropdownMenuItem
                 key={idx}
                 onSelect={() => addPlotLineFromTemplate(template)}
-                className="px-4 py-2 hover:bg-amber-100 text-amber-800 hover:text-amber-900 rounded-sm cursor-pointer transition-colors duration-150 ease-in-out"
+                className="px-4 py-2 hover:  hover: rounded-sm cursor-pointer transition-colors duration-150 ease-in-out"
               >
                 <span className="font-serif">{template.name}</span>
               </DropdownMenuItem>
@@ -340,7 +337,7 @@ const PlotTimeline: React.FC = () => {
       <div className="flex">
         <button
           onClick={generateText}
-          className="mb-4 py-2 px-4 rounded-sm bg-amber-900 text-white flex items-center justify-center hover:bg-amber-700 transition duration-300"
+          className="mb-4 py-2 px-4 rounded-sm  text-white flex items-center justify-center  transition duration-300"
         >
           Generate Plot Ideas
         </button>

@@ -72,7 +72,7 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="bg-amber-50 min-h-screen p-24">
+    <div className=" min-h-screen p-24">
       {/* Profile Section */}
       <div className="max-w-xl mx-auto">
         <div className="mb-6">
@@ -120,9 +120,9 @@ const UserProfile = () => {
           </CardHeader>
           <CardContent>
             <div className="flex items-center">
-              <BookOpen className="w-5 h-5 text-amber-600 mr-2" />
+              <BookOpen className="w-5 h-5  mr-2" />
               {loading ? (
-                <Loader className="w-5 h-5 text-amber-600" />
+                <Loader className="w-5 h-5 " />
               ) : (
                 <span className="text-gray-600">
                   Published Stories: {stories.length}
@@ -130,9 +130,9 @@ const UserProfile = () => {
               )}
             </div>
             <div className="flex items-center">
-              <PenTool className="w-5 h-5 text-amber-600 mr-2" />
+              <PenTool className="w-5 h-5  mr-2" />
               {loading ? (
-                <Loader className="w-5 h-5 text-amber-600" />
+                <Loader className="w-5 h-5 " />
               ) : (
                 <span className="text-gray-600">
                   Drafts: {stories.filter((s) => !s.isPublished).length}
@@ -154,7 +154,7 @@ const UserProfile = () => {
           />
           <button
             onClick={handlePostMessage}
-            className="bg-amber-600 text-white py-2 px-4 rounded"
+            className=" text-white py-2 px-4 rounded"
             disabled={true} // Disable the button for now
           >
             Post
@@ -166,7 +166,7 @@ const UserProfile = () => {
               messages.map((message) => (
                 <div
                   key={String(message.id)}
-                  className="p-4 bg-amber-50 rounded-lg shadow"
+                  className="p-4  rounded-lg shadow"
                 >
                   <p className="text-gray-700">{message.text}</p>
                 </div>

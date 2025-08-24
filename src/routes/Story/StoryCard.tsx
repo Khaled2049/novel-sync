@@ -23,15 +23,13 @@ export const StoryCard: React.FC<StoryCardProps> = ({
   const isPublished = story.isPublished;
 
   return (
-    <div className="border border-gray-200 bg-amber-200 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+    <div className="border border-gray-200  rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
       <div className="p-5">
         <div className="flex items-center justify-between mb-3">
           {/* Status Indicator */}
           <span
             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-              isPublished
-                ? "bg-sky-100 text-sky-800"
-                : "bg-amber-100 text-amber-800"
+              isPublished ? "bg-sky-100 text-sky-800" : " "
             }`}
           >
             {isPublished ? (

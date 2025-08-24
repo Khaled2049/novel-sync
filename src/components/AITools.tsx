@@ -82,7 +82,7 @@ const AITools = ({ text }: AIToolsProps) => {
     navigator.clipboard.writeText(generatedText);
   };
   return (
-    <div className="p-2 my-3 shadow-lg rounded-md bg-amber-50">
+    <div className="p-2 my-3 shadow-lg rounded-md ">
       <div className="font-semibold p-2 focus:outline-none">
         Selected Text: {text}
       </div>
@@ -93,7 +93,7 @@ const AITools = ({ text }: AIToolsProps) => {
           showDropdown={showToneDropdown}
           setShowDropdown={setShowToneDropdown}
           onSelect={(option) => handleToneSelection(option)}
-          bgColor="bg-amber-600"
+          bgColor=""
         />
         <DropdownButton
           label="Dialogue"
@@ -101,7 +101,7 @@ const AITools = ({ text }: AIToolsProps) => {
           showDropdown={showDialogueDropdown}
           setShowDropdown={setShowDialogueDropdown}
           onSelect={(option) => handlEnhanceDialogue(option)}
-          bgColor="bg-amber-600"
+          bgColor=""
         />
         <DropdownButton
           label="Theme"
@@ -109,7 +109,7 @@ const AITools = ({ text }: AIToolsProps) => {
           showDropdown={showThemeDropdown}
           setShowDropdown={setShowThemeDropdown}
           onSelect={(option) => handleThemeSelection(option)}
-          bgColor="bg-amber-600"
+          bgColor=""
         />
       </div>
       {generatedText && (
@@ -123,7 +123,7 @@ const AITools = ({ text }: AIToolsProps) => {
             />
           </div>
           <button
-            className="w-full py-2 px-3 bg-amber-500 text-white rounded-full flex items-center justify-center hover:bg-amber-600 transition duration-300"
+            className="w-full py-2 px-3 0 text-white rounded-full flex items-center justify-center hover: transition duration-300"
             onClick={copyGeneratedText}
           >
             Copy <Copy size={16} />

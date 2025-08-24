@@ -6,7 +6,7 @@ const Story = () => {
 
   return (
     <div className="flex flex-col ">
-      <nav className="bg-amber-100 pt-20">
+      <nav className=" pt-20">
         <ul className="flex space-x-4">
           {["Editor", "Plot", "Characters", "Places", "Dashboard"].map(
             (tab) => (
@@ -17,8 +17,8 @@ const Story = () => {
                   className={({ isActive }) =>
                     `px-3 py-2 rounded-md ${
                       isActive || (isRootPath && tab === "Editor")
-                        ? "bg-amber-800 text-white"
-                        : "text-amber-800 hover:bg-amber-200"
+                        ? " text-white"
+                        : " "
                     }`
                   }
                 >
@@ -30,7 +30,7 @@ const Story = () => {
         </ul>
       </nav>
 
-      <main className="flex-grow overflow-auto bg-amber-50">
+      <main className="flex-grow overflow-auto ">
         <Outlet />
       </main>
     </div>

@@ -54,7 +54,7 @@ export const CommentInput: React.FC<CommentInputProps> = ({
               ? "bg-gray-900 border-gray-700 text-gray-200"
               : "bg-white border-gray-300 text-gray-800"
           } 
-          focus:outline-none focus:ring-2 focus:ring-amber-500`}
+          focus:outline-none focus:ring-2 `}
         rows={3}
       />
       {currentUser && (
@@ -66,8 +66,8 @@ export const CommentInput: React.FC<CommentInputProps> = ({
               !message.trim()
                 ? "bg-gray-400 cursor-not-allowed"
                 : isDarkMode
-                ? "bg-amber-600 hover:bg-amber-700"
-                : "bg-amber-500 hover:bg-amber-600"
+                ? " "
+                : "0 hover:"
             }`}
         >
           <Send className="w-5 h-5" /> Post Comment

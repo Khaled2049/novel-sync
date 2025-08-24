@@ -28,7 +28,7 @@ const BookClubCard = ({
   onLeave,
 }: BookClubCardProps) => {
   return (
-    <div className="h-56 bg-amber-100 rounded-lg shadow-md overflow-hidden mb-4 border border-amber-200 transition-all duration-300 hover:shadow-lg">
+    <div className="h-56  rounded-lg shadow-md overflow-hidden mb-4 border  transition-all duration-300 hover:shadow-lg">
       {/* <img
     src={club.image}
     alt={club.name}
@@ -41,16 +41,16 @@ const BookClubCard = ({
             key={club.id}
             className="block transition duration-300"
           >
-            <h2 className="text-2xl font-serif font-bold mb-2 text-amber-900 truncate">
+            <h2 className="text-2xl font-serif font-bold mb-2  truncate">
               {club.name}
             </h2>
           </Link>
-          <p className="text-amber-700 mb-3 font-serif overflow-hidden text-ellipsis">
+          <p className=" mb-3 font-serif overflow-hidden text-ellipsis">
             {club.description}
           </p>
         </div>
         <div>
-          <div className="flex items-center text-sm text-amber-600 mb-3">
+          <div className="flex items-center text-sm  mb-3">
             <Users size={16} className="mr-1" />
             <span className="mr-3">
               {club.members.length.toLocaleString()} members
@@ -65,7 +65,7 @@ const BookClubCard = ({
               {!joined ? (
                 <button
                   onClick={() => onJoin(club.id)}
-                  className="w-full py-2 px-4 rounded-full bg-amber-600 text-white flex items-center justify-center hover:bg-amber-700 transition duration-300"
+                  className="w-full py-2 px-4 rounded-full  text-white flex items-center justify-center  transition duration-300"
                 >
                   <UserPlus size={16} className="mr-2" />
                   Join Group
@@ -73,7 +73,7 @@ const BookClubCard = ({
               ) : (
                 <button
                   onClick={() => onLeave(club.id)}
-                  className="w-full py-2 px-4 rounded-full bg-amber-200 text-amber-800 flex items-center justify-center hover:bg-amber-300 transition duration-300"
+                  className="w-full py-2 px-4 rounded-full   flex items-center justify-center  transition duration-300"
                 >
                   <X size={16} className="mr-2" />
                   Leave Group
@@ -85,7 +85,7 @@ const BookClubCard = ({
             <div className="ml-4 flex space-x-2 flex-grow">
               <button
                 onClick={onEdit}
-                className="w-full py-2 px-3 bg-amber-500 text-white rounded-full flex items-center justify-center hover:bg-amber-600 transition duration-300"
+                className="w-full py-2 px-3 0 text-white rounded-full flex items-center justify-center hover: transition duration-300"
               >
                 <Edit size={16} />
               </button>

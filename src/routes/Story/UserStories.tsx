@@ -56,7 +56,7 @@ const UserStories = () => {
   const publishedStories = stories.filter((story) => story.isPublished);
 
   return (
-    <div className="bg-amber-50 min-h-screen py-24">
+    <div className=" min-h-screen py-24">
       <div className="container mx-auto px-4md:py-16">
         {/*
           This flex container handles the responsiveness.
@@ -67,7 +67,7 @@ const UserStories = () => {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Drafts Column */}
           <div className="w-full lg:w-1/2 flex flex-col gap-6">
-            <h2 className="text-3xl font-bold text-slate-800 border-b-2 border-amber-400 pb-2">
+            <h2 className="text-3xl font-bold text-slate-800 border-b-2  pb-2">
               Drafts
             </h2>
             {drafts.length === 0 ? (

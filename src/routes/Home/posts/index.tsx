@@ -58,20 +58,20 @@ const Posts = () => {
   };
 
   return (
-    <div className="w-full lg:w-1/2 bg-amber-50 p-4 overflow-y-auto  border-amber-200">
+    <div className="w-full lg:w-1/2  p-4 overflow-y-auto  ">
       <form onSubmit={handlePostSubmit} className="mb-6">
-        <div className="flex items-center bg-amber-50 rounded-lg p-2 border border-amber-200">
+        <div className="flex items-center  rounded-lg p-2 border ">
           <input
             type="text"
             value={post}
             onChange={(e) => setPost(e.target.value)}
             placeholder="Share your thoughts..."
             maxLength={maxCharacters}
-            className="flex-grow bg-transparent outline-none font-serif text-amber-900 p-3"
+            className="flex-grow bg-transparent outline-none font-serif  p-3"
           />
           <button
             type="submit"
-            className="ml-2 text-amber-700 hover:text-amber-900"
+            className="ml-2  hover:"
             disabled={post.length === 0}
           >
             {loading ? <span>Posting...</span> : <Send size={20} />}
@@ -82,7 +82,7 @@ const Posts = () => {
           <div className="text-red-500 mt-2 text-sm">{errorMessage}</div>
         )}
 
-        <div className="text-right mt-2 text-sm text-amber-700">
+        <div className="text-right mt-2 text-sm ">
           {maxCharacters - post.length} characters left
         </div>
       </form>
@@ -91,7 +91,7 @@ const Posts = () => {
         <button
           onClick={() => setIsMyFeed(true)}
           className={`w-full py-2 px-4 text-center font-serif font-bold ${
-            isMyFeed ? "bg-amber-600 text-white" : "bg-amber-200 text-amber-900"
+            isMyFeed ? " text-white" : " "
           }`}
         >
           My Feed
@@ -99,9 +99,7 @@ const Posts = () => {
         <button
           onClick={() => setIsMyFeed(false)}
           className={`w-full py-2 px-4 text-center font-serif font-bold ${
-            !isMyFeed
-              ? "bg-amber-600 text-white"
-              : "bg-amber-200 text-amber-900"
+            !isMyFeed ? " text-white" : " "
           }`}
         >
           Discover
@@ -112,46 +110,36 @@ const Posts = () => {
 
       {isMyFeed
         ? followingPosts.map((post, index) => (
-            <div
-              key={index}
-              className="bg-amber-50 shadow rounded-lg p-4 mb-4 border border-amber-200"
-            >
+            <div key={index} className=" shadow rounded-lg p-4 mb-4 border ">
               <div className="flex items-center mb-2 justify-between">
                 <div className="flex items-center">
-                  <User className="mr-2 text-amber-700" />
-                  <span className="font-serif font-bold text-amber-900">
+                  <User className="mr-2 " />
+                  <span className="font-serif font-bold ">
                     {post.authorName}
                   </span>
                 </div>
-                <span className="text-amber-600 text-sm">
-                  Post #{index + 1}
-                </span>
+                <span className=" text-sm">Post #{index + 1}</span>
               </div>
-              <p className="mb-2 font-serif text-amber-800">{post.content}</p>
-              <div className="flex items-center text-amber-600">
+              <p className="mb-2 font-serif ">{post.content}</p>
+              <div className="flex items-center ">
                 <BookOpen size={16} className="mr-1" />
                 <span>100 likes</span>
               </div>
             </div>
           ))
         : allPosts.map((post, index) => (
-            <div
-              key={index}
-              className="bg-amber-50 shadow rounded-lg p-4 mb-4 border border-amber-200"
-            >
+            <div key={index} className=" shadow rounded-lg p-4 mb-4 border ">
               <div className="flex items-center mb-2 justify-between">
                 <div className="flex items-center">
-                  <User className="mr-2 text-amber-700" />
-                  <span className="font-serif font-bold text-amber-900">
+                  <User className="mr-2 " />
+                  <span className="font-serif font-bold ">
                     {post.authorName}
                   </span>
                 </div>
-                <span className="text-amber-600 text-sm">
-                  Post #{index + 1}
-                </span>
+                <span className=" text-sm">Post #{index + 1}</span>
               </div>
-              <p className="mb-2 font-serif text-amber-800">{post.content}</p>
-              <div className="flex items-center text-amber-600">
+              <p className="mb-2 font-serif ">{post.content}</p>
+              <div className="flex items-center ">
                 <BookOpen size={16} className="mr-1" />
                 <span>100 likes</span>
               </div>

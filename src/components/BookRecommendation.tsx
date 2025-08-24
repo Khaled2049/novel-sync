@@ -27,8 +27,8 @@ const BookRecommendation = () => {
   };
 
   return (
-    <div className="bg-amber-50 p-4 max-w-lg mx-auto space-y-4 rounded-lg shadow-lg border border-amber-200 overflow-hidden">
-      <h2 className="text-xl font-serif text-amber-900 text-center">
+    <div className=" p-4 max-w-lg mx-auto space-y-4 rounded-lg shadow-lg border  overflow-hidden">
+      <h2 className="text-xl font-serif  text-center">
         Get Book Recommendations
       </h2>
 
@@ -43,7 +43,7 @@ const BookRecommendation = () => {
             value={book}
             onChange={(e) => handleBookChange(index, e.target.value)}
             placeholder={`Book ${index + 1}`}
-            className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-amber-600"
+            className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 "
           />
         ))}
       </div>
@@ -57,7 +57,7 @@ const BookRecommendation = () => {
           value={vibe}
           onChange={(e) => setVibe(e.target.value)}
           placeholder="e.g., adventurous, romantic, thrilling"
-          className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-amber-600"
+          className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 "
         />
       </div>
 
@@ -65,7 +65,7 @@ const BookRecommendation = () => {
       {books.every((book) => book) && vibe && (
         <button
           onClick={handleSubmit}
-          className="w-full bg-amber-600 text-white py-2 rounded-md font-medium text-sm hover:bg-amber-700 transition-colors duration-200"
+          className="w-full  text-white py-2 rounded-md font-medium text-sm  transition-colors duration-200"
         >
           Submit
         </button>
@@ -78,16 +78,14 @@ const BookRecommendation = () => {
       )}
       {submitted && (
         <div className="mt-4 space-y-2">
-          <h3 className="text-lg font-serif text-amber-900 text-center">
-            Recommended Books
-          </h3>
+          <h3 className="text-lg font-serif  text-center">Recommended Books</h3>
           <ul className="list-disc pl-5 space-y-1 text-sm text-gray-800">
             {recommendations.map((recommendation, index) => (
               <li key={index}>{recommendation}</li>
             ))}
           </ul>
           <button
-            className="w-full bg-amber-600 text-white py-2 rounded-md font-medium text-sm hover:bg-amber-700 transition-colors duration-200"
+            className="w-full  text-white py-2 rounded-md font-medium text-sm  transition-colors duration-200"
             onClick={() => {
               setSubmitted(false);
               setRecommendations([]);

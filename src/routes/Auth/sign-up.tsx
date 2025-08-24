@@ -61,21 +61,18 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen bg-amber-50 pt-12">
+    <div className="flex flex-col items-center justify-start min-h-screen  pt-12">
       <div className="flex items-center text-center mb-8 -ml-6">
-        <h1 className="text-4xl font-serif text-amber-900 ml-4">NovelSync</h1>
+        <h1 className="text-4xl font-serif  ml-4">NovelSync</h1>
       </div>
 
-      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg border border-amber-200">
-        <h2 className="text-3xl font-serif text-amber-900 mb-6">Sign Up</h2>
+      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg border ">
+        <h2 className="text-3xl font-serif  mb-6">Sign Up</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label
-              htmlFor="userName"
-              className="block text-sm font-medium text-amber-800"
-            >
+            <label htmlFor="userName" className="block text-sm font-medium ">
               Username
             </label>
             <input
@@ -86,14 +83,11 @@ const Signup: React.FC = () => {
               value={formData.userName}
               onChange={handleChange}
               required
-              className="mt-1 block w-full px-3 py-2 border border-amber-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border  rounded-md shadow-sm focus:outline-none  focus: sm:text-sm"
             />
           </div>
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-amber-800"
-            >
+            <label htmlFor="email" className="block text-sm font-medium ">
               Email
             </label>
             <input
@@ -104,15 +98,12 @@ const Signup: React.FC = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="mt-1 block w-full px-3 py-2 border border-amber-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border  rounded-md shadow-sm focus:outline-none  focus: sm:text-sm"
             />
           </div>
 
           <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-amber-800"
-            >
+            <label htmlFor="password" className="block text-sm font-medium ">
               Password
             </label>
             <input
@@ -123,13 +114,13 @@ const Signup: React.FC = () => {
               value={formData.password}
               onChange={handleChange}
               required
-              className="mt-1 block w-full px-3 py-2 border border-amber-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border  rounded-md shadow-sm focus:outline-none  focus: sm:text-sm"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-amber-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
+            className="w-full  text-white py-2 px-4 rounded-md shadow-sm  focus:outline-none focus:ring-2  focus:ring-offset-2"
           >
             Sign Up
           </button>
@@ -148,7 +139,7 @@ const Signup: React.FC = () => {
         {/* Google Sign Up Button */}
         <button
           onClick={googleSignUp}
-          className="w-full flex items-center justify-center gap-2 bg-white text-gray-700 py-2 px-4 rounded-md shadow-sm border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 mb-4"
+          className="w-full flex items-center justify-center gap-2 bg-white text-gray-700 py-2 px-4 rounded-md shadow-sm border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2  focus:ring-offset-2 mb-4"
         >
           <FaGoogle size={20} />
           <span>Continue with Google</span>
@@ -157,12 +148,12 @@ const Signup: React.FC = () => {
         {/* Anonymous Sign Up Button */}
         <button
           onClick={anonymousSignUp}
-          className="w-full bg-amber-900 text-white py-2 px-4 rounded-md shadow-sm hover:bg-amber-950 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
+          className="w-full  text-white py-2 px-4 rounded-md shadow-sm  focus:outline-none focus:ring-2  focus:ring-offset-2"
         >
           Continue Anonymously
         </button>
         <div className="text-center mt-4">
-          <Link to="/sign-in" className="text-amber-600 hover:text-amber-800">
+          <Link to="/sign-in" className=" hover:">
             Already have an account? Sign In
           </Link>
         </div>

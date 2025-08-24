@@ -35,21 +35,16 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen bg-amber-50 pt-12">
+    <div className="flex flex-col items-center justify-start min-h-screen  pt-12">
       <div className="flex items-center text-center mb-8 -ml-6">
-        <h1 className="text-4xl font-serif text-amber-900 ml-4">NovelSync</h1>
+        <h1 className="text-4xl font-serif  ml-4">NovelSync</h1>
       </div>
 
-      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg border border-amber-200">
-        <h2 className="text-3xl font-serif text-amber-900 mb-6">
-          Forgot Password
-        </h2>
+      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg border ">
+        <h2 className="text-3xl font-serif  mb-6">Forgot Password</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-amber-800"
-            >
+            <label htmlFor="email" className="block text-sm font-medium ">
               Email
             </label>
             <input
@@ -59,7 +54,7 @@ const ForgotPassword = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="mt-1 block w-full px-3 py-2 border border-amber-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border  rounded-md shadow-sm focus:outline-none  focus: sm:text-sm"
             />
           </div>
 
@@ -71,7 +66,7 @@ const ForgotPassword = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full bg-amber-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 ${
+            className={`w-full  text-white py-2 px-4 rounded-md shadow-sm  focus:outline-none focus:ring-2  focus:ring-offset-2 ${
               isLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
@@ -79,7 +74,7 @@ const ForgotPassword = () => {
           </button>
 
           <div className="text-center mt-4">
-            <Link to="/sign-in" className="text-amber-600 hover:text-amber-800">
+            <Link to="/sign-in" className=" hover:">
               Back to Sign In
             </Link>
           </div>

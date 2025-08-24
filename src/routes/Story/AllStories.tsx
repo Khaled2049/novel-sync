@@ -60,11 +60,11 @@ const AllStories: React.FC = () => {
   };
 
   return (
-    <div className="bg-amber-50 min-h-screen relative">
+    <div className=" min-h-screen relative">
       <div className="container mx-auto px-4">
         {user ? (
           <div className="max-w-4xl mx-auto sm:p-6 bg-white rounded-lg shadow-lg mb-8">
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-serif text-amber-900 mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-serif  mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               {/* Welcome Message */}
               <span>
                 {user.displayName
@@ -75,7 +75,7 @@ const AllStories: React.FC = () => {
               {/* Button */}
               <button
                 onClick={handleNewStory}
-                className="bg-amber-600 text-white px-3 sm:px-4 py-2 rounded-full font-sans text-sm sm:text-base hover:bg-amber-700 transition-colors duration-200 flex items-center justify-center w-full sm:w-auto"
+                className=" text-white px-3 sm:px-4 py-2 rounded-full font-sans text-sm sm:text-base  transition-colors duration-200 flex items-center justify-center w-full sm:w-auto"
               >
                 Start a New Story
                 <FaArrowRight className="ml-2" />
@@ -93,11 +93,11 @@ const AllStories: React.FC = () => {
           </div>
         ) : (
           <div className="max-w-4xl mx-auto p-4 sm:p-6 bg-white rounded-lg shadow-lg mb-8">
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-serif text-amber-900 mb-4 flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-between gap-4 text-center sm:text-left">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-serif  mb-4 flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-between gap-4 text-center sm:text-left">
               <span>Welcome to NovelSync!</span>
               <Link
                 to="/sign-in"
-                className="bg-amber-600 text-white px-3 sm:px-4 py-2 rounded-full font-sans text-sm sm:text-base hover:bg-amber-700 transition-colors duration-200 flex items-center justify-center"
+                className=" text-white px-3 sm:px-4 py-2 rounded-full font-sans text-sm sm:text-base  transition-colors duration-200 flex items-center justify-center"
               >
                 Sign In
                 <FaArrowRight className="ml-2" />
@@ -107,12 +107,12 @@ const AllStories: React.FC = () => {
         )}
 
         <div className="flex flex-wrap mx-4">
-          <div className="w-full lg:w-1/4 px-4 border-t-2 lg:border-t-0 lg:border-r-2 border-amber-700 space-y-4 order-2 lg:order-1 pt-5">
+          <div className="w-full lg:w-1/4 px-4 border-t-2 lg:border-t-0 lg:border-r-2 space-y-4 order-2 lg:order-1 pt-5">
             <BookRecommendation />
           </div>
 
           <div className="w-full lg:w-3/4 px-4 lg:order-1">
-            <h2 className="text-2xl font-serif text-amber-900 mb-6">Stories</h2>
+            <h2 className="text-2xl font-serif  mb-6">Stories</h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {currentStories.map((story) => (
@@ -122,7 +122,7 @@ const AllStories: React.FC = () => {
                   className="hover:shadow-lg transition-shadow duration-200 cursor-pointer"
                 >
                   <CardHeader>
-                    <CardTitle className="font-serif text-lg sm:text-xl text-amber-900 text-left">
+                    <CardTitle className="font-serif text-lg sm:text-xl  text-left">
                       {story.title}
                     </CardTitle>
                   </CardHeader>
@@ -132,7 +132,7 @@ const AllStories: React.FC = () => {
                       <img
                         src={story.coverImageUrl}
                         alt={`${story.title} cover`}
-                        className="w-20 sm:w-24 h-28 sm:h-32 object-cover rounded-md mb-4 sm:mb-0 sm:mr-4 border border-amber-200"
+                        className="w-20 sm:w-24 h-28 sm:h-32 object-cover rounded-md mb-4 sm:mb-0 sm:mr-4 border "
                       />
                     ) : null}
 
@@ -149,7 +149,7 @@ const AllStories: React.FC = () => {
                           {story.tags.map((tag, index) => (
                             <span
                               key={index}
-                              className="bg-amber-100 text-amber-800 text-xs px-2 py-1 rounded-full"
+                              className="  text-xs px-2 py-1 rounded-full"
                             >
                               {tag}
                             </span>
@@ -178,9 +178,7 @@ const AllStories: React.FC = () => {
                     key={pageNumber}
                     onClick={() => handlePageChange(pageNumber)}
                     className={`mx-1 px-3 py-1 rounded ${
-                      currentPage === pageNumber
-                        ? "bg-amber-600 text-white"
-                        : "bg-amber-100 text-amber-800 hover:bg-amber-200"
+                      currentPage === pageNumber ? " text-white" : "  "
                     }`}
                   >
                     {pageNumber}

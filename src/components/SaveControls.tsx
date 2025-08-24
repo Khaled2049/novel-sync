@@ -22,7 +22,7 @@ export const SaveControls: React.FC<SaveControlsProps> = ({
           saveStatus === "Saved"
             ? "text-green-600"
             : saveStatus === "Saving..."
-            ? "text-amber-600"
+            ? ""
             : saveStatus.includes("Error")
             ? "text-red-600"
             : "text-gray-600"

@@ -202,7 +202,7 @@ const StoryDetail: React.FC = () => {
   return (
     <div
       className={`min-h-screen ${
-        isDarkMode ? "bg-gray-900 text-white" : "bg-amber-50 text-black"
+        isDarkMode ? "bg-gray-900 text-white" : " text-black"
       }`}
     >
       {story && (
@@ -227,7 +227,7 @@ const StoryDetail: React.FC = () => {
               )}
               <h1
                 className={`text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-center ${
-                  isDarkMode ? "text-amber-400" : "text-amber-900"
+                  isDarkMode ? "" : ""
                 }`}
               >
                 {story.title}
@@ -251,9 +251,7 @@ const StoryDetail: React.FC = () => {
                 <button
                   onClick={handleLike}
                   className={`flex items-center px-4 py-2 rounded-md mr-2 ${
-                    isDarkMode
-                      ? "bg-amber-600 hover:bg-amber-700 text-white"
-                      : "bg-amber-500 hover:bg-amber-600 text-white"
+                    isDarkMode ? "  text-white" : "0 hover: text-white"
                   }`}
                 >
                   👍 Like
@@ -276,7 +274,7 @@ const StoryDetail: React.FC = () => {
                   <div className="mb-6">
                     <h2
                       className={`text-2xl md:text-3xl font-semibold mb-4 ${
-                        isDarkMode ? "text-amber-400" : "text-amber-900"
+                        isDarkMode ? "" : ""
                       }`}
                     >
                       {currentChapter.title}
@@ -298,8 +296,8 @@ const StoryDetail: React.FC = () => {
                       currentChapterIndex === 0
                         ? "bg-gray-300 cursor-not-allowed"
                         : isDarkMode
-                        ? "bg-amber-600 hover:bg-amber-700"
-                        : "bg-amber-500 hover:bg-amber-600"
+                        ? " "
+                        : "0 hover:"
                     } text-white`}
                   >
                     Previous
@@ -311,8 +309,8 @@ const StoryDetail: React.FC = () => {
                       currentChapterIndex === chapters.length - 1
                         ? "bg-gray-300 cursor-not-allowed"
                         : isDarkMode
-                        ? "bg-amber-600 hover:bg-amber-700"
-                        : "bg-amber-500 hover:bg-amber-600"
+                        ? " "
+                        : "0 hover:"
                     } text-white`}
                   >
                     Next
@@ -321,7 +319,7 @@ const StoryDetail: React.FC = () => {
                 <div className="mt-8">
                   <h2
                     className={`text-2xl font-semibold mb-6 ${
-                      isDarkMode ? "text-amber-400" : "text-amber-900"
+                      isDarkMode ? "" : ""
                     }`}
                   >
                     Comments

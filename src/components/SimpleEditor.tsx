@@ -200,13 +200,13 @@ export function SimpleEditor() {
     <div className="flex p-4 mt-4 justify-center overflow-auto">
       {storyLoading ? (
         <div className="flex items-center justify-center w-full h-full">
-          <Loader className="w-12 h-12 text-amber-800 animate-spin" />
+          <Loader className="w-12 h-12  animate-spin" />
         </div>
       ) : (
         <div className="flex flex-col lg:flex-row h-screen w-full gap-2">
           {/* Main Content Area */}
           <div className="lg:w-2/3 flex flex-col space-y-4">
-            <div className="bg-amber-50 px-4 rounded-lg ">
+            <div className=" px-4 rounded-lg ">
               {/* Story Metadata Component */}
               <StoryMetadata
                 storyTitle={storyTitle}

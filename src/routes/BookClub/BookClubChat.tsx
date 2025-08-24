@@ -49,12 +49,12 @@ const BookClubChat: React.FC<{ clubId: string; user: IUser }> = ({
 
   return (
     <div className="bg-white shadow-lg rounded-lg p-6 mb-6">
-      <h2 className="text-2xl font-serif font-bold mb-4 text-amber-800 flex items-center">
+      <h2 className="text-2xl font-serif font-bold mb-4  flex items-center">
         <MessageCircle className="mr-2" /> Chat Room
       </h2>
 
       {/* Messages Container */}
-      <div className="h-96 overflow-y-auto mb-4 border border-amber-200 rounded-lg p-4">
+      <div className="h-96 overflow-y-auto mb-4 border  rounded-lg p-4">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -65,7 +65,7 @@ const BookClubChat: React.FC<{ clubId: string; user: IUser }> = ({
             <div
               className={`inline-block p-3 rounded-lg ${
                 message.sender === displayName
-                  ? "bg-amber-100 text-amber-800"
+                  ? " "
                   : "bg-gray-100 text-gray-800"
               }`}
             >
@@ -87,11 +87,11 @@ const BookClubChat: React.FC<{ clubId: string; user: IUser }> = ({
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Type your message..."
-          className="flex-1 p-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+          className="flex-1 p-2 border  rounded-lg focus:outline-none focus:ring-2 "
         />
         <button
           type="submit"
-          className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors"
+          className=" text-white px-4 py-2 rounded-lg  transition-colors"
         >
           Send
         </button>

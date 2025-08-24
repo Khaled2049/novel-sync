@@ -125,7 +125,7 @@ export const Comment: React.FC<CommentProps> = React.memo(
               <textarea
                 value={editedMessage}
                 onChange={(e) => setEditedMessage(e.target.value)}
-                className={`w-full p-3 rounded-md border focus:ring-2 focus:ring-amber-500 transition-all ${
+                className={`w-full p-3 rounded-md border focus:ring-2  transition-all ${
                   isDarkMode
                     ? "bg-gray-700 border-gray-600 text-gray-200"
                     : "bg-white border-gray-300"
@@ -136,7 +136,7 @@ export const Comment: React.FC<CommentProps> = React.memo(
               <div className="flex gap-2 mt-2">
                 <button
                   onClick={handleEdit}
-                  className="px-4 py-2 text-sm font-medium rounded-md bg-amber-500 text-white hover:bg-amber-600 disabled:opacity-50"
+                  className="px-4 py-2 text-sm font-medium rounded-md 0 text-white hover: disabled:opacity-50"
                   disabled={isLoading}
                 >
                   {isLoading ? "Saving..." : "Save"}
@@ -228,7 +228,7 @@ export const Comment: React.FC<CommentProps> = React.memo(
                 value={replyMessage}
                 onChange={(e) => setReplyMessage(e.target.value)}
                 placeholder="Write a reply..."
-                className={`w-full p-3 rounded-md border focus:ring-2 focus:ring-amber-500 transition-all ${
+                className={`w-full p-3 rounded-md border focus:ring-2  transition-all ${
                   isDarkMode
                     ? "bg-gray-700 border-gray-600 text-gray-200"
                     : "bg-white border-gray-300"
@@ -239,7 +239,7 @@ export const Comment: React.FC<CommentProps> = React.memo(
               <div className="flex gap-2 mt-2">
                 <button
                   onClick={handleReply}
-                  className="px-4 py-2 text-sm font-medium rounded-md bg-amber-500 text-white hover:bg-amber-600 disabled:opacity-50"
+                  className="px-4 py-2 text-sm font-medium rounded-md 0 text-white hover: disabled:opacity-50"
                   disabled={isLoading}
                 >
                   {isLoading ? "Posting..." : "Reply"}

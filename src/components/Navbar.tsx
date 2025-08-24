@@ -53,7 +53,7 @@ const Navbar = () => {
   }, [isDropdownOpen]);
 
   return (
-    <nav className="bg-amber-800 backdrop-blur-sm p-4 text-white fixed w-full top-0 z-50">
+    <nav className=" backdrop-blur-sm p-4 text-white fixed w-full top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
         {/* Left Section - Logo */}
         <div className="flex items-center">

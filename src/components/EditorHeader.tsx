@@ -64,7 +64,7 @@ const EditorHeader: React.FC<EditorHeaderProps> = ({ editor }) => {
   }, [editor, genImage, closeModal]);
 
   return (
-    <div className="flex flex-wrap gap-2 p-2 bg-amber-600 rounded-lg w-full text-center justify-center">
+    <div className="flex flex-wrap gap-2 p-2  rounded-lg w-full text-center justify-center">
       <button
         className="p-2 rounded-md hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         onClick={() => editor.chain().focus().undo().run()}

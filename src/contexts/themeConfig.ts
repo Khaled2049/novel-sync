@@ -18,7 +18,7 @@ export const theme: Theme = {
     text: "text-gray-800",
     primary: "text-indigo-700",
     secondary: "text-teal-600",
-    accent: "text-amber-600",
+    accent: "",
     border: "border-gray-300",
   },
   dark: {
@@ -26,7 +26,7 @@ export const theme: Theme = {
     text: "text-gray-100",
     primary: "text-indigo-400",
     secondary: "text-teal-400",
-    accent: "text-amber-400",
+    accent: "",
     border: "border-gray-700",
   },
 };
