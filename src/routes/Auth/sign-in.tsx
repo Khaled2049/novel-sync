@@ -63,7 +63,14 @@ const Signin: React.FC = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="mt-1 block w-full px-3 py-2 border border-black/20 dark:border-white/20 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black transition-colors duration-300 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 
+             bg-white text-black dark:bg-black dark:text-white 
+             border border-black/20 dark:border-white/20 
+             rounded-md shadow-sm 
+             focus:outline-none focus:ring-2 
+             focus:ring-dark-green dark:focus:ring-light-green 
+             focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black 
+             transition-colors duration-300 sm:text-sm"
             />
           </div>
           <div>
@@ -80,7 +87,14 @@ const Signin: React.FC = () => {
               value={formData.password}
               onChange={handleChange}
               required
-              className="mt-1 block w-full px-3 py-2 border border-black/20 dark:border-white/20 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black transition-colors duration-300 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 
+             bg-white text-black dark:bg-black dark:text-white 
+             border border-black/20 dark:border-white/20 
+             rounded-md shadow-sm 
+             focus:outline-none focus:ring-2 
+             focus:ring-dark-green dark:focus:ring-light-green 
+             focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black 
+             transition-colors duration-300 sm:text-sm"
             />
           </div>
           {/* forgot password */}

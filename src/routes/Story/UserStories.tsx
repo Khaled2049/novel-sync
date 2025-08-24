@@ -57,7 +57,7 @@ const UserStories = () => {
 
   return (
     <div className="min-h-screen py-24  dark:bg-black text-black dark:text-white transition-colors duration-300">
-      <div className="container mx-auto px-4 md:py-16">
+      <div className="container mx-auto px-4">
         {/*
           This flex container handles the responsiveness.
           - flex-col: Stacks columns vertically on mobile.
