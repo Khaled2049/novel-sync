@@ -1,3 +1,4 @@
+// contexts/ThemeContext.tsx
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
@@ -13,6 +14,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [theme, setTheme] = useState<Theme>(() => {
+    // Check localStorage first, then system preference
     const saved = localStorage.getItem("theme") as Theme;
     if (saved) return saved;
 

@@ -16,21 +16,6 @@ export const SaveControls: React.FC<SaveControlsProps> = ({
 }) => {
   return (
     <div className="">
-      {/* Save Status */}
-      <div
-        className={`text-sm px-2 py-4 h-2 text-center rounded-md ${
-          saveStatus === "Saved"
-            ? "text-green-600"
-            : saveStatus === "Saving..."
-            ? ""
-            : saveStatus.includes("Error")
-            ? "text-red-600"
-            : "text-gray-600"
-        }`}
-      >
-        {saveStatus}
-      </div>
-
       {/* Action Buttons */}
       <div className="grid grid-cols-2 gap-3">
         <button

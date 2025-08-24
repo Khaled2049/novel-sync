@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Loader } from "lucide-react";
 import { useParams } from "react-router-dom";
 import { storiesRepo } from "../../services/StoriesRepo";
-import ThemeToggle from "@/components/ThemeToggle";
 import { Chapter } from "@/types/IStory";
 import { CommentInput } from "@/components/CommentInput";
 import { CommentList } from "@/components/CommentList";
@@ -211,13 +210,6 @@ const StoryDetail: React.FC = () => {
             <Loader className="m-auto" size="2rem" />
           ) : (
             <div className="max-w-[90%] md:max-w-[75%] lg:max-w-[65%] mx-auto p-4 md:p-8 rounded-lg">
-              <div className="flex justify-end mb-4">
-                <ThemeToggle
-                  isDarkMode={isDarkMode}
-                  toggleTheme={toggleTheme}
-                />
-              </div>
-
               {story.coverImageUrl && (
                 <img
                   src={story?.coverImageUrl}

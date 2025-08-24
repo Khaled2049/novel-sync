@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
 import { useState, useEffect, useRef } from "react";
 import { Loader, Menu, User } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
 const Navbar = () => {
   const { signout } = useFirebaseAuth();
@@ -63,6 +64,7 @@ const Navbar = () => {
           >
             NovelSync
           </Link>
+          <ThemeToggle />
         </div>
 
         {/* Right Section - Desktop */}

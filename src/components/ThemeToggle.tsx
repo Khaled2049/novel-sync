@@ -1,20 +1,14 @@
-interface ThemeToggleProps {
-  isDarkMode: boolean;
-  toggleTheme: () => void;
-}
+import { useTheme } from "@/contexts/ThemeContext";
 
-const ThemeToggle: React.FC<ThemeToggleProps> = ({
-  isDarkMode,
-  toggleTheme,
-}) => {
+const ThemeToggle = () => {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <button
       onClick={toggleTheme}
-      className={`p-2 rounded-md ${
-        isDarkMode ? " text-yellow-300" : " text-gray-800"
-      }`}
+      className="p-2 rounded bg-light-green dark:bg-dark-green text-white"
     >
-      {isDarkMode ? "🌙" : "☀️"}
+      {theme === "light" ? "🌙" : "☀️"}
     </button>
   );
 };
