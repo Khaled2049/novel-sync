@@ -27,13 +27,13 @@ const BookRecommendation = () => {
   };
 
   return (
-    <div className="bg-amber-50 p-4 max-w-lg mx-auto space-y-4 rounded-lg shadow-lg border border-amber-200 overflow-hidden">
-      <h2 className="text-xl font-serif text-amber-900 text-center">
+    <div className="p-4 max-w-lg mx-auto space-y-4 rounded-lg shadow-lg border border-black/20 dark:border-white/20 overflow-hidden bg-white dark:bg-black transition-colors duration-200">
+      <h2 className="text-xl font-serif text-black dark:text-white text-center">
         Get Book Recommendations
       </h2>
 
       <div className="space-y-2">
-        <p className="text-sm text-gray-700 text-center">
+        <p className="text-sm text-black/70 dark:text-white/70 text-center">
           Enter the names of 3 books you like:
         </p>
         {books.map((book, index) => (
@@ -43,13 +43,13 @@ const BookRecommendation = () => {
             value={book}
             onChange={(e) => handleBookChange(index, e.target.value)}
             placeholder={`Book ${index + 1}`}
-            className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-amber-600"
+            className="w-full px-3 py-2 text-sm border border-black/20 dark:border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green bg-white dark:bg-black text-black dark:text-white"
           />
         ))}
       </div>
 
       <div className="space-y-2">
-        <p className="text-sm text-gray-700 text-center">
+        <p className="text-sm text-black/70 dark:text-white/70 text-center">
           What's the vibe you're looking for?
         </p>
         <input
@@ -57,7 +57,7 @@ const BookRecommendation = () => {
           value={vibe}
           onChange={(e) => setVibe(e.target.value)}
           placeholder="e.g., adventurous, romantic, thrilling"
-          className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-amber-600"
+          className="w-full px-3 py-2 text-sm border border-black/20 dark:border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green bg-white dark:bg-black text-black dark:text-white"
         />
       </div>
 
@@ -65,29 +65,29 @@ const BookRecommendation = () => {
       {books.every((book) => book) && vibe && (
         <button
           onClick={handleSubmit}
-          className="w-full bg-amber-600 text-white py-2 rounded-md font-medium text-sm hover:bg-amber-700 transition-colors duration-200"
+          className="w-full bg-dark-green dark:bg-light-green text-white py-2 rounded-md font-medium text-sm hover:bg-light-green dark:hover:bg-dark-green transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
         >
           Submit
         </button>
       )}
 
       {loading && (
-        <span className="flex items-center justify-center">
+        <span className="flex items-center justify-center text-dark-green dark:text-light-green">
           <Loader className="animate-spin mr-2" size={18} />
         </span>
       )}
       {submitted && (
         <div className="mt-4 space-y-2">
-          <h3 className="text-lg font-serif text-amber-900 text-center">
+          <h3 className="text-lg font-serif text-black dark:text-white text-center">
             Recommended Books
           </h3>
-          <ul className="list-disc pl-5 space-y-1 text-sm text-gray-800">
+          <ul className="list-disc pl-5 space-y-1 text-sm text-black/80 dark:text-white/80">
             {recommendations.map((recommendation, index) => (
               <li key={index}>{recommendation}</li>
             ))}
           </ul>
           <button
-            className="w-full bg-amber-600 text-white py-2 rounded-md font-medium text-sm hover:bg-amber-700 transition-colors duration-200"
+            className="w-full bg-black/10 dark:bg-white/10 text-black dark:text-white py-2 rounded-md font-medium text-sm hover:bg-black/20 dark:hover:bg-white/20 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
             onClick={() => {
               setSubmitted(false);
               setRecommendations([]);

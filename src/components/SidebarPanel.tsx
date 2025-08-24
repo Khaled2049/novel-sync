@@ -23,46 +23,46 @@ export const SidebarPanel: React.FC<SidebarPanelProps> = ({
   onTabChange = () => {},
 }) => {
   return (
-    <div className=" bg-amber-100 rounded-lg shadow-md w-full flex flex-col">
+    <div className="bg-white dark:bg-black rounded-lg shadow-md w-full flex flex-col transition-colors duration-200">
       {/* Tab Navigation */}
-      <div className="flex bg-amber-200 border-b border-amber-300 rounded-t-lg">
+      <div className="flex border-b border-black/20 dark:border-white/20 rounded-t-lg">
         <button
-          className={`flex-1 py-2 px-4 flex items-center justify-center space-x-2 ${
+          className={`flex-1 py-2 px-4 flex items-center justify-center space-x-2 text-black/70 dark:text-white/70 hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-200 ${
             activeTab === "chapters"
-              ? "bg-amber-100 font-medium"
-              : "hover:bg-amber-300/50"
+              ? "border-b-2 border-dark-green dark:border-light-green text-black dark:text-white font-medium"
+              : ""
           }`}
           onClick={() => onTabChange("chapters")}
         >
-          <Book className="w-4 h-4" />
+          <Book className="w-4 h-4 text-dark-green dark:text-light-green" />
           <span>Chapters</span>
         </button>
         <button
-          className={`flex-1 py-2 px-4 flex items-center justify-center space-x-2 ${
+          className={`flex-1 py-2 px-4 flex items-center justify-center space-x-2 text-black/70 dark:text-white/70 hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-200 ${
             activeTab === "ai"
-              ? "bg-amber-100 font-medium"
-              : "hover:bg-amber-300/50"
+              ? "border-b-2 border-dark-green dark:border-light-green text-black dark:text-white font-medium"
+              : ""
           }`}
           onClick={() => onTabChange("ai")}
         >
-          <Sparkles className="w-4 h-4" />
+          <Sparkles className="w-4 h-4 text-dark-green dark:text-light-green" />
           <span>AI Tools</span>
         </button>
       </div>
 
       {/* Content based on active tab */}
-      <div className="p-6 overflow-y-auto flex-1">
+      <div className="p-6 overflow-y-auto flex-1 text-black dark:text-white">
         {activeTab === "chapters" ? (
           // Chapters Tab
           <>
-            <h2 className="text-2xl font-bold mb-4 text-amber-800">
+            <h2 className="text-2xl font-bold mb-4 text-black dark:text-white">
               Editing: {chapterTitle || "Untitled Chapter"}
             </h2>
 
             {chapters.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-10">
-                <Book className="w-12 h-12 text-amber-400 mb-4" />
-                <p className="text-amber-700 italic text-center">
+                <Book className="w-12 h-12 text-black/50 dark:text-white/50 mb-4" />
+                <p className="italic text-black/50 dark:text-white/50 text-center">
                   No chapters added yet. Start your journey!
                 </p>
               </div>
@@ -71,10 +71,10 @@ export const SidebarPanel: React.FC<SidebarPanelProps> = ({
                 {chapters.map((chapter) => (
                   <li
                     key={chapter.id}
-                    className={`rounded-md shadow transition-all hover:shadow-md ${
+                    className={`rounded-md shadow transition-all hover:shadow-md hover:bg-black/5 dark:hover:bg-white/5 ${
                       currentChapterId === chapter.id
-                        ? "bg-amber-200 border-l-4 border-amber-500"
-                        : "bg-white"
+                        ? "border-l-4 border-dark-green dark:border-light-green"
+                        : "border-l-4 border-transparent"
                     }`}
                   >
                     <button
@@ -83,17 +83,13 @@ export const SidebarPanel: React.FC<SidebarPanelProps> = ({
                     >
                       <div className="flex items-center space-x-3">
                         <Book
-                          className={`w-5 h-5 ${
-                            currentChapterId === chapter.id
-                              ? "text-amber-700"
-                              : "text-amber-600"
-                          }`}
+                          className={`w-5 h-5 text-dark-green dark:text-light-green`}
                         />
                         <span
                           className={`font-medium ${
                             currentChapterId === chapter.id
-                              ? "text-amber-900"
-                              : "text-amber-800"
+                              ? "text-black dark:text-white"
+                              : "text-black/70 dark:text-white/70"
                           }`}
                         >
                           {chapter.title || "Untitled Chapter"}
@@ -108,7 +104,7 @@ export const SidebarPanel: React.FC<SidebarPanelProps> = ({
         ) : (
           // AI Tools Tab
           <>
-            <h2 className="text-2xl font-bold mb-4 text-amber-800">
+            <h2 className="text-2xl font-bold mb-4 text-black dark:text-white">
               AI Writing Assistant
             </h2>
 
@@ -116,11 +112,11 @@ export const SidebarPanel: React.FC<SidebarPanelProps> = ({
               <AITools text={selectedText} />
             ) : (
               <div className="flex flex-col items-center justify-center py-10 text-center">
-                <Sparkles className="w-12 h-12 text-amber-400 mb-4" />
-                <p className="text-amber-700 mb-2">
+                <Sparkles className="w-12 h-12 text-black/50 dark:text-white/50 mb-4" />
+                <p className="text-black/70 dark:text-white/70 mb-2">
                   Select text in the editor to use AI tools
                 </p>
-                <p className="text-amber-600 text-sm">
+                <p className="text-black/70 dark:text-white/70 text-sm">
                   Or press <span className="font-bold">TAB</span> to continue
                   your writing with AI assistance
                 </p>

@@ -188,7 +188,7 @@ const CategoriesPage = () => {
               {books.map((book) => (
                 <div
                   key={book.id}
-                  className="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow"
+                  className=" rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow"
                 >
                   <div className="aspect-w-3 aspect-h-4">
                     {book.volumeInfo.imageLinks ? (

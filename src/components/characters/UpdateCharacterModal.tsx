@@ -40,7 +40,7 @@ const UpdateCharacterModal: React.FC<UpdateCharacterModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-lg">
+      <div className=" p-6 rounded-lg">
         <h2 className="text-xl font-bold mb-4">Update Character</h2>
         <form onSubmit={handleSubmit}>
           <input

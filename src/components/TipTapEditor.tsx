@@ -214,24 +214,24 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
       <BubbleMenu
         editor={editor}
         tippyOptions={{ duration: 150 }}
-        className="bg-gray-800 text-white rounded-lg shadow-lg"
+        className="bg-black text-white rounded-lg shadow-lg dark:bg-black"
         shouldShow={({ from, to }) => from !== to}
       >
-        <div className="flex min-w-[18rem] justify-center bg-gray-800 p-1 rounded-lg shadow-lg">
+        <div className="flex min-w-[18rem] justify-center bg-black p-1 rounded-lg shadow-lg">
           <button
-            className="py-1 px-3 m-1 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="py-1 px-3 m-1 text-sm font-medium text-white bg-dark-green rounded-md hover:bg-light-green focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dark-green transition-colors duration-200"
             onClick={() => handleAction("expandText")}
           >
             Expand
           </button>
           <button
-            className="py-1 px-3 m-1 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="py-1 px-3 m-1 text-sm font-medium text-white bg-dark-green rounded-md hover:bg-light-green focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dark-green transition-colors duration-200"
             onClick={() => handleAction("paraphraseText")}
           >
             Paraphrase
           </button>
           <button
-            className="py-1 px-3 m-1 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="py-1 px-3 m-1 text-sm font-medium text-white bg-dark-green rounded-md hover:bg-light-green focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dark-green transition-colors duration-200"
             onClick={() => handleAction("summarize")}
           >
             Summarize
@@ -239,12 +239,12 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
         </div>
       </BubbleMenu>
 
-      <div className="bg-white p-4 rounded-lg border border-gray-300">
+      <div className="p-4 rounded-lg border border-black/20 dark:border-white/20 bg-white dark:bg-black transition-colors duration-200">
         <div className="min-h-[28rem] w-full flex justify-center">
-          <div className="w-full focus:outline-none bg-white selection:bg-blue-100">
+          <div className="w-full focus:outline-none selection:bg-light-green/20 dark:selection:bg-dark-green/20">
             <EditorContent
               onClick={() => editor.commands.focus()}
-              className="w-full focus:outline-none bg-white selection:bg-blue-100"
+              className="w-full focus:outline-none selection:bg-light-green/20 dark:selection:bg-dark-green/20 text-black dark:text-white"
               editor={editor}
             />
           </div>

@@ -90,78 +90,128 @@ const StoryMetadataModal: React.FC<StoryMetadataModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] max-h-[80vh] flex flex-col">
+      <DialogContent className="sm:max-w-[425px] max-h-[80vh] flex flex-col bg-white dark:bg-black text-black dark:text-white border border-black/20 dark:border-white/20 transition-colors duration-200">
         <DialogHeader>
-          <DialogTitle>Create New Story</DialogTitle>
+          <DialogTitle className="text-black dark:text-white">
+            Create New Story
+          </DialogTitle>
         </DialogHeader>
         <div className="flex-grow overflow-y-auto px-4 -mr-4">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="title">Title</Label>
+              <Label htmlFor="title" className="text-black dark:text-white">
+                Title
+              </Label>
               <Input
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
+                className="bg-white dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
+              <Label
+                htmlFor="description"
+                className="text-black dark:text-white"
+              >
+                Description
+              </Label>
               <Textarea
                 id="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+                className="bg-white dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="category">Category</Label>
+              <Label htmlFor="category" className="text-black dark:text-white">
+                Category
+              </Label>
               <Select value={category} onValueChange={setCategory}>
-                <SelectTrigger>
+                <SelectTrigger className="bg-white dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green">
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="fiction">Fiction</SelectItem>
-                  <SelectItem value="non-fiction">Non-Fiction</SelectItem>
-                  <SelectItem value="poetry">Poetry</SelectItem>
+                <SelectContent className="bg-white dark:bg-black border-black/20 dark:border-white/20">
+                  <SelectItem
+                    value="fiction"
+                    className="text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10"
+                  >
+                    Fiction
+                  </SelectItem>
+                  <SelectItem
+                    value="non-fiction"
+                    className="text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10"
+                  >
+                    Non-Fiction
+                  </SelectItem>
+                  <SelectItem
+                    value="poetry"
+                    className="text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10"
+                  >
+                    Poetry
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="tags">Tags (comma-separated)</Label>
+              <Label htmlFor="tags" className="text-black dark:text-white">
+                Tags (comma-separated)
+              </Label>
               <Input
                 id="tags"
                 value={tags}
                 onChange={(e) => setTags(e.target.value)}
+                className="bg-white dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="targetAudience">Target Audience</Label>
+              <Label
+                htmlFor="targetAudience"
+                className="text-black dark:text-white"
+              >
+                Target Audience
+              </Label>
               <Input
                 id="targetAudience"
                 value={targetAudience}
                 onChange={(e) => setTargetAudience(e.target.value)}
+                className="bg-white dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="language">Language</Label>
+              <Label htmlFor="language" className="text-black dark:text-white">
+                Language
+              </Label>
               <Input
                 id="language"
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
+                className="bg-white dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green"
               />
             </div>
             <div className="space-y-2">
               <Select value={copyright} onValueChange={setCopyright}>
-                <SelectTrigger>
+                <SelectTrigger className="bg-white dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green">
                   <SelectValue placeholder="Copyright" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="CC0">Creative Commons Zero</SelectItem>
+                <SelectContent className="bg-white dark:bg-black border-black/20 dark:border-white/20">
+                  <SelectItem
+                    value="CC0"
+                    className="text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10"
+                  >
+                    Creative Commons Zero
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="coverImage">Cover Image</Label>
+              <Label
+                htmlFor="coverImage"
+                className="text-black dark:text-white"
+              >
+                Cover Image
+              </Label>
               <Input
                 id="coverImage"
                 type="file"
@@ -173,7 +223,7 @@ const StoryMetadataModal: React.FC<StoryMetadataModalProps> = ({
               <Button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="w-full"
+                className="w-full bg-dark-green dark:bg-light-green text-white hover:bg-light-green dark:hover:bg-dark-green transition-colors duration-200"
               >
                 Choose Cover Image
               </Button>
@@ -190,7 +240,11 @@ const StoryMetadataModal: React.FC<StoryMetadataModalProps> = ({
           </form>
         </div>
         <DialogFooter className="mt-4">
-          <Button type="submit" onClick={handleSubmit}>
+          <Button
+            type="submit"
+            onClick={handleSubmit}
+            className="bg-dark-green dark:bg-light-green text-white hover:bg-light-green dark:hover:bg-dark-green transition-colors duration-200"
+          >
             Create Story
           </Button>
         </DialogFooter>

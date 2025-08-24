@@ -94,8 +94,8 @@ const BookClubs = () => {
 
   if (!user) {
     return (
-      <div className="flex items-center bg-amber-50  justify-center h-screen ">
-        <div className="text-center bg-white p-8 rounded-lg shadow-lg max-w-md mx-auto">
+      <div className="flex items-center   justify-center h-screen ">
+        <div className="text-center  p-8 rounded-lg shadow-lg max-w-md mx-auto">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">
             Please Sign In
           </h2>
@@ -104,7 +104,7 @@ const BookClubs = () => {
           </p>
           <Link
             to="/sign-in"
-            className="px-6 py-2 bg-amber-500 text-white rounded-full flex items-center justify-center hover:bg-amber-600 transition duration-300"
+            className="px-6 py-2 0 text-white rounded-full flex items-center justify-center hover: transition duration-300"
           >
             Sign In
           </Link>
@@ -114,18 +114,21 @@ const BookClubs = () => {
   }
 
   return (
-    <div className="bg-amber-50 min-h-screen py-24">
+    <div className="min-h-screen py-24 bg-white dark:bg-black">
       {!showCreateForm && !showUpdateForm ? (
         <>
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-serif font-bold text-amber-800 mb-4 md:mb-0 flex items-center">
-                <Book className="mr-3" size={36} />
+              <h1 className="text-3xl md:text-4xl font-serif font-bold text-black dark:text-white mb-4 md:mb-0 flex items-center">
+                <Book
+                  className="mr-3 text-dark-green dark:text-light-green"
+                  size={36}
+                />
                 Discover Book Clubs
               </h1>
               <button
                 onClick={handleShowCreateForm}
-                className="bg-amber-600 hover:bg-amber-700 text-white px-6 py-3 rounded-full flex items-center transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
+                className="bg-dark-green dark:bg-light-green text-white px-6 py-3 rounded-full flex items-center transition-colors duration-200 ease-in-out transform hover:bg-light-green dark:hover:bg-dark-green hover:scale-105 shadow-lg focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
               >
                 <Plus size={20} className="mr-2" />
                 Create Club
@@ -148,7 +151,7 @@ const BookClubs = () => {
           </div>
         </>
       ) : showCreateForm && user ? (
-        <div className="max-w-2xl mx-auto p-6 rounded-lg shadow-lg">
+        <div className="max-w-2xl mx-auto p-6 rounded-lg shadow-lg border border-black/20 dark:border-white/20 bg-white dark:bg-black">
           <CreateBookClub
             user={user}
             onCreate={handleCreateClub}
@@ -158,7 +161,7 @@ const BookClubs = () => {
       ) : (
         showUpdateForm &&
         selectedClub && (
-          <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+          <div className="max-w-2xl mx-auto p-6 rounded-lg shadow-lg border border-black/20 dark:border-white/20 bg-white dark:bg-black">
             <UpdateBookClub
               club={selectedClub}
               onUpdate={handleUpdateClub}

@@ -4,7 +4,7 @@ const WritingResources: React.FC = () => {
       <h2 className="text-2xl font-bold mb-4">Writing Resources</h2>
 
       {/* Blog Post Content */}
-      <div className="resource-post bg-white rounded-lg shadow-md p-6 mb-6">
+      <div className="resource-post  rounded-lg shadow-md p-6 mb-6">
         <h3 className="text-xl font-semibold text-blue-600 mb-4">
           How to Write an Amazing Story
         </h3>

@@ -25,7 +25,7 @@ export function SimpleEditor() {
   const [storyTitle, setStoryTitle] = useState("");
   const [storyDescription, setStoryDescription] = useState("");
   const [chapterTitle, setChapterTitle] = useState("");
-  const [saveStatus, setSaveStatus] = useState("");
+  const [_saveStatus, setSaveStatus] = useState("");
   const [storyLoading, setStoryLoading] = useState(true);
   const [selectedText, setSelectedText] = useState("");
   const [activeTab, setActiveTab] = useState<"chapters" | "ai">("chapters");
@@ -197,23 +197,16 @@ export function SimpleEditor() {
   };
 
   return (
-    <div className="flex p-4 mt-4 justify-center overflow-auto">
+    <div className="flex p-4 mt-4 justify-center overflow-auto bg-white dark:bg-black transition-colors duration-200">
       {storyLoading ? (
-        <div className="flex items-center justify-center w-full h-full">
-          <Loader className="w-12 h-12 text-amber-800 animate-spin" />
+        <div className="flex items-center justify-center w-full h-full text-dark-green dark:text-light-green">
+          <Loader className="w-12 h-12 animate-spin" />
         </div>
       ) : (
-        <div className="flex flex-col lg:flex-row h-screen w-full gap-4 ">
+        <div className="flex flex-col lg:flex-row h-screen w-full gap-2">
           {/* Main Content Area */}
           <div className="lg:w-2/3 flex flex-col space-y-4">
-            <div className="bg-amber-50 p-6 rounded-lg ">
-              <h1 className="mb-4 text-3xl font-bold text-slate-800 italic">
-                Summon your ultimate writing muse by pressing{" "}
-                <span className="underline decoration-wavy text-blue-600">
-                  TAB
-                </span>
-              </h1>
-
+            <div className="px-4 rounded-lg">
               {/* Story Metadata Component */}
               <StoryMetadata
                 storyTitle={storyTitle}
@@ -238,7 +231,7 @@ export function SimpleEditor() {
               {/* Save Controls Component */}
               <SaveControls
                 isPublished={currentStory?.isPublished || false}
-                saveStatus={saveStatus}
+                // saveStatus={saveStatus}
                 onPublish={handlePublish}
                 onNewChapter={handleNewChapter}
               />

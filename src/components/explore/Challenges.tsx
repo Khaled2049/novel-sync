@@ -42,7 +42,7 @@ const Challenges: React.FC = () => {
         {mockChallenges.map((challenge) => (
           <li
             key={challenge.id}
-            className="p-4 border-l-4 border-green-600 bg-white rounded-md shadow-sm cursor-pointer"
+            className="p-4 border-l-4 border-green-600  rounded-md shadow-sm cursor-pointer"
             onClick={() => handleChallengeClick(challenge)}
           >
             <h3 className="text-lg font-semibold text-green-600">

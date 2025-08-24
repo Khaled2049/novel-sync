@@ -28,22 +28,19 @@ const Library = () => {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-amber-50 p-4">
+    <div className="flex flex-col items-center min-h-screen  p-4">
       {/* Search Bar */}
       <div className="w-full max-w-md mb-8">
-        <div className="flex items-center border border-amber-200 rounded-lg shadow-md bg-white">
+        <div className="flex items-center border  rounded-lg shadow-md ">
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="flex-grow p-2 bg-white rounded-l-lg focus:outline-none"
+            className="flex-grow p-2  rounded-l-lg focus:outline-none"
             placeholder="Search for books..."
           />
-          <button
-            onClick={searchBooks}
-            className="p-2 bg-amber-100 hover:bg-amber-200 rounded-r-lg"
-          >
-            <SearchIcon className="w-6 h-6 text-amber-500" />
+          <button onClick={searchBooks} className="p-2   rounded-r-lg">
+            <SearchIcon className="w-6 h-6" />
           </button>
         </div>
       </div>
@@ -55,15 +52,13 @@ const Library = () => {
             <div
               onClick={() => handleBookClick(book.id)}
               key={book.id}
-              className="p-4 mb-4 border border-amber-200 rounded-lg shadow-md bg-white"
+              className="p-4 mb-4 border  rounded-lg shadow-md "
             >
-              <h2 className="text-lg font-semibold text-amber-700">
+              <h2 className="text-lg font-semibold ">
                 {book.volumeInfo.title}
               </h2>
-              <p className="text-sm text-amber-600">
-                {book.volumeInfo.authors?.join(", ")}
-              </p>
-              <p className="text-sm text-amber-500">
+              <p className="text-sm ">{book.volumeInfo.authors?.join(", ")}</p>
+              <p className="text-sm">
                 {book.volumeInfo.description
                   ? `${book.volumeInfo.description.slice(0, 150)}...`
                   : "No description available."}
@@ -71,9 +66,7 @@ const Library = () => {
             </div>
           ))
         ) : (
-          <p className="text-amber-500">
-            No results found. Try a different search.
-          </p>
+          <p className="">No results found. Try a different search.</p>
         )}
       </div>
     </div>

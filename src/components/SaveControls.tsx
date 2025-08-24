@@ -3,42 +3,27 @@ import { BookPlus, Upload } from "lucide-react";
 
 interface SaveControlsProps {
   isPublished: boolean;
-  saveStatus: string;
+  // saveStatus: string;
   onPublish: () => void;
   onNewChapter: () => void;
 }
 
 export const SaveControls: React.FC<SaveControlsProps> = ({
   isPublished,
-  saveStatus,
+  // saveStatus,
   onPublish,
   onNewChapter,
 }) => {
   return (
-    <div className="">
-      {/* Save Status */}
-      <div
-        className={`text-sm px-2 py-4 h-2 text-center rounded-md ${
-          saveStatus === "Saved"
-            ? "text-green-600"
-            : saveStatus === "Saving..."
-            ? "text-amber-600"
-            : saveStatus.includes("Error")
-            ? "text-red-600"
-            : "text-gray-600"
-        }`}
-      >
-        {saveStatus}
-      </div>
-
+    <div className="bg-white dark:bg-black p-4 rounded-lg transition-colors duration-200">
       {/* Action Buttons */}
       <div className="grid grid-cols-2 gap-3">
         <button
           onClick={onPublish}
-          className={`p-3 flex items-center justify-center rounded-lg shadow-sm transition-colors ${
+          className={`p-3 flex items-center justify-center rounded-lg shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
             isPublished
-              ? "bg-red-500 text-white hover:bg-red-600"
-              : "bg-green-500 text-white hover:bg-green-600"
+              ? "bg-red-500 text-white hover:bg-red-600 focus:ring-red-500 focus:ring-offset-white dark:focus:ring-offset-black"
+              : "bg-dark-green dark:bg-light-green text-white hover:bg-light-green dark:hover:bg-dark-green focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-white dark:focus:ring-offset-black"
           }`}
         >
           <Upload className="w-5 h-5 mr-2" />
@@ -47,7 +32,7 @@ export const SaveControls: React.FC<SaveControlsProps> = ({
 
         <button
           onClick={onNewChapter}
-          className="p-3 bg-blue-500 text-white rounded-lg shadow-sm hover:bg-blue-600 transition-colors flex items-center justify-center"
+          className="p-3 bg-dark-green dark:bg-light-green text-white rounded-lg shadow-sm hover:bg-light-green dark:hover:bg-dark-green transition-colors duration-200 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
         >
           <BookPlus className="w-5 h-5 mr-2" />
           <span>New Chapter</span>

@@ -74,7 +74,7 @@ const BookSearch: React.FC<BookSearchProps> = ({ onBookSelect }) => {
             value={query}
             onChange={handleInputChange}
             placeholder="Search for books..."
-            className="w-full px-4 py-2 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-colors"
+            className="w-full px-4 py-2 border  rounded-lg focus:ring-2  focus:border-transparent transition-colors"
           />
           {/* <button
             type="submit"

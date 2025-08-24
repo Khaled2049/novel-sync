@@ -8,9 +8,9 @@ interface CollapsibleDivProps {
 const CollapsibleDiv = ({ title, children }: CollapsibleDivProps) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="border rounded-lg border-amber-300 shadow mb-4">
+    <div className="border border-black/20 dark:border-white/20 rounded-lg bg-white dark:bg-black shadow mb-4 transition-colors duration-200">
       <button
-        className="w-full p-4 text-left text-2xl bg-amber-50 font-medium text-amber-800 hover:bg-amber-200"
+        className="w-full p-4 text-left text-2xl text-black dark:text-white font-medium hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
         onClick={() => setIsOpen(!isOpen)}
       >
         {title}

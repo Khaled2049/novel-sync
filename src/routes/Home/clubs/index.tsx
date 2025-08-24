@@ -6,8 +6,8 @@ interface ClubsProps {
 
 const Clubs = ({ bookClubs }: ClubsProps) => {
   return (
-    <div className="w-full lg:w-1/4 bg-amber-50 p-4 overflow-y-auto">
-      <h2 className="text-2xl font-serif font-bold mb-4 text-amber-900">
+    <div className="w-full lg:w-1/4 p-4 overflow-y-auto bg-white dark:bg-black transition-colors duration-200">
+      <h2 className="text-2xl font-serif font-bold mb-4 text-black dark:text-white">
         Book Clubs
       </h2>
       <ul>
@@ -15,14 +15,14 @@ const Clubs = ({ bookClubs }: ClubsProps) => {
           <Link
             to={`/book-clubs/${club.id}`}
             key={club.id}
-            className="block transition duration-300 ease-in-out transform hover:scale-105"
+            className="block transition-colors duration-200 ease-in-out transform hover:scale-105"
           >
             <li
               key={club.id}
-              className="mb-4 p-3 bg-white rounded-lg border border-amber-200"
+              className="mb-4 p-3 rounded-lg border border-black/20 dark:border-white/20 hover:bg-black/10 dark:hover:bg-white/10"
             >
               <div className="flex justify-between items-center">
-                <span className="font-serif font-semibold text-amber-900">
+                <span className="font-serif font-semibold text-black dark:text-white">
                   {club.name}
                 </span>
               </div>
@@ -33,8 +33,8 @@ const Clubs = ({ bookClubs }: ClubsProps) => {
       <div className="flex justify-center items-center">
         <Link
           to="/book-clubs"
-          className="w-full mt-4 text-center bg-amber-700 text-white py-2 px-4 rounded-full hover:bg-amber-800 transition duration-300 font-serif mx-auto"
-          style={{ maxWidth: "200px" }} // Optional: Set a max width if you want a specific size
+          className="w-full mt-4 text-center text-white py-2 px-4 rounded-full bg-dark-green dark:bg-light-green hover:bg-light-green dark:hover:bg-dark-green transition-colors duration-200 font-serif mx-auto focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
+          style={{ maxWidth: "200px" }}
         >
           View All Clubs
         </Link>

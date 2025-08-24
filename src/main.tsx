@@ -39,6 +39,7 @@ import WritingResources from "./components/explore/WritingResources";
 import Announcements from "./components/explore/Announcements";
 import { CampaignProvider } from "./contexts/campaignContext";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 const router = createBrowserRouter([
   {
@@ -164,11 +165,13 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <AuthProvider>
-    <ThirdwebProvider activeChain="sepolia">
-      <CampaignProvider>
-        <RouterProvider router={router} />
-      </CampaignProvider>
-    </ThirdwebProvider>
-  </AuthProvider>
+  <ThemeProvider>
+    <AuthProvider>
+      <ThirdwebProvider activeChain="sepolia">
+        <CampaignProvider>
+          <RouterProvider router={router} />
+        </CampaignProvider>
+      </ThirdwebProvider>
+    </AuthProvider>
+  </ThemeProvider>
 );
