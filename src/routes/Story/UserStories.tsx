@@ -56,7 +56,7 @@ const UserStories = () => {
   const publishedStories = stories.filter((story) => story.isPublished);
 
   return (
-    <div className="min-h-screen py-24 bg-white dark:bg-black text-black dark:text-white transition-colors duration-300">
+    <div className="min-h-screen py-24  dark:bg-black text-black dark:text-white transition-colors duration-300">
       <div className="container mx-auto px-4 md:py-16">
         {/*
           This flex container handles the responsiveness.
@@ -71,7 +71,7 @@ const UserStories = () => {
               Drafts
             </h2>
             {drafts.length === 0 ? (
-              <div className="text-center py-10 px-6 bg-white dark:bg-black rounded-lg shadow-sm border border-black/20 dark:border-white/20 transition-colors duration-300">
+              <div className="text-center py-10 px-6  dark:bg-black rounded-lg shadow-sm border border-black/20 dark:border-white/20 transition-colors duration-300">
                 <p className="text-black/70 dark:text-white/70">
                   You have no drafts.
                 </p>
@@ -98,7 +98,7 @@ const UserStories = () => {
               Published Stories
             </h2>
             {publishedStories.length === 0 ? (
-              <div className="text-center py-10 px-6 bg-white dark:bg-black rounded-lg shadow-sm border border-black/20 dark:border-white/20 transition-colors duration-300">
+              <div className="text-center py-10 px-6  dark:bg-black rounded-lg shadow-sm border border-black/20 dark:border-white/20 transition-colors duration-300">
                 <p className="text-black/70 dark:text-white/70">
                   You have no published stories.
                 </p>

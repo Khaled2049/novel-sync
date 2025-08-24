@@ -40,7 +40,7 @@ const Events: React.FC = () => {
         {decemberEvents.map((event) => (
           <div
             key={event.id}
-            className="event-item bg-white rounded-lg shadow-md p-4 border-l-4 border-purple-600"
+            className="event-item  rounded-lg shadow-md p-4 border-l-4 border-purple-600"
           >
             <h3 className="text-lg font-semibold text-purple-600 mb-1">
               {event.title}

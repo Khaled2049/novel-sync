@@ -60,10 +60,10 @@ const AllStories: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen relative bg-white dark:bg-black text-black dark:text-white transition-colors duration-300">
+    <div className="min-h-screen relative  dark:bg-black text-black dark:text-white transition-colors duration-300">
       <div className="container mx-auto px-4">
         {user ? (
-          <div className="max-w-4xl mx-auto sm:p-6 bg-white dark:bg-black rounded-lg shadow-lg dark:shadow-white/20 mb-8 transition-colors duration-300">
+          <div className="max-w-4xl mx-auto sm:p-6  dark:bg-black rounded-lg shadow-lg dark:shadow-white/20 mb-8 transition-colors duration-300">
             <h1 className="text-xl sm:text-2xl md:text-3xl font-serif text-dark-green dark:text-light-green mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               {/* Welcome Message */}
               <span>
@@ -92,7 +92,7 @@ const AllStories: React.FC = () => {
             )}
           </div>
         ) : (
-          <div className="max-w-4xl mx-auto p-4 sm:p-6 bg-white dark:bg-black rounded-lg shadow-lg dark:shadow-white/20 mb-8 transition-colors duration-300">
+          <div className="max-w-4xl mx-auto p-4 sm:p-6  dark:bg-black rounded-lg shadow-lg dark:shadow-white/20 mb-8 transition-colors duration-300">
             <h1 className="text-xl sm:text-2xl md:text-3xl font-serif text-dark-green dark:text-light-green mb-4 flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-between gap-4 text-center sm:text-left">
               <span>Welcome to NovelSync!</span>
               <Link
@@ -121,7 +121,7 @@ const AllStories: React.FC = () => {
                 <Card
                   key={story.id}
                   onClick={() => handleStoryClick(story)}
-                  className="hover:shadow-lg dark:hover:shadow-white/20 transition-shadow duration-200 cursor-pointer bg-white dark:bg-black text-black dark:text-white border border-black/20 dark:border-white/20"
+                  className="hover:shadow-lg dark:hover:shadow-white/20 transition-shadow duration-200 cursor-pointer  dark:bg-black text-black dark:text-white border border-black/20 dark:border-white/20"
                 >
                   <CardHeader>
                     <CardTitle className="font-serif text-lg sm:text-xl text-dark-green dark:text-light-green text-left">

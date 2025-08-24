@@ -8,7 +8,6 @@ import {
   Star,
   Zap,
   Heart,
-  TrendingUp,
   Award,
   Sparkles,
 } from "lucide-react";
@@ -16,7 +15,7 @@ import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const [isVisible, setIsVisible] = useState<Record<string, boolean>>({});
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [_mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const features = [
     {
@@ -114,7 +113,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white to-light-green dark:from-black dark:to-dark-green text-black dark:text-white overflow-hidden">
+    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white overflow-hidden">
       {/* Hero Section */}
       <section className="relative min-h-screen flex flex-col items-center justify-center text-center">
         <div className="relative z-10 text-center px-6 max-w-6xl mx-auto mt-20">
@@ -297,17 +296,6 @@ const HomePage = () => {
             </div>
           </div>
         </section>
-
-        {/* Beta Notice */}
-        <div className="bg-gradient-to-r from-dark-green/20 to-light-green/20 border-t border-dark-green/20 dark:border-light-green/20 py-4">
-          <div className="container mx-auto px-6 text-center">
-            <p className="text-dark-green dark:text-light-green flex items-center justify-center">
-              <TrendingUp className="w-4 h-4 mr-2" />
-              Beta Version - Crafting the future of storytelling, one update at
-              a time
-            </p>
-          </div>
-        </div>
       </section>
 
       <style>{`

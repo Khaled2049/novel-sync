@@ -66,7 +66,7 @@ const Signup: React.FC = () => {
         <h1 className="text-4xl font-serif  ml-4">NovelSync</h1>
       </div>
 
-      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg border ">
+      <div className="w-full max-w-md p-8  rounded-lg shadow-lg border ">
         <h2 className="text-3xl font-serif  mb-6">Sign Up</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
 
@@ -132,14 +132,14 @@ const Signup: React.FC = () => {
             <div className="w-full border-t border-gray-300"></div>
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-white px-2 text-gray-500">Or</span>
+            <span className=" px-2 text-gray-500">Or</span>
           </div>
         </div>
 
         {/* Google Sign Up Button */}
         <button
           onClick={googleSignUp}
-          className="w-full flex items-center justify-center gap-2 bg-white text-gray-700 py-2 px-4 rounded-md shadow-sm border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2  focus:ring-offset-2 mb-4"
+          className="w-full flex items-center justify-center gap-2  text-gray-700 py-2 px-4 rounded-md shadow-sm border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2  focus:ring-offset-2 mb-4"
         >
           <FaGoogle size={20} />
           <span>Continue with Google</span>

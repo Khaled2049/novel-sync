@@ -29,17 +29,12 @@ const BookClubCard = ({
 }: BookClubCardProps) => {
   return (
     <div className="h-56 rounded-lg shadow-md overflow-hidden mb-4 border border-black/20 dark:border-white/20 transition-all duration-300 hover:shadow-lg hover:shadow-black/20 dark:hover:shadow-white/20 bg-white dark:bg-black">
-      {/* <img
-    src={club.image}
-    alt={club.name}
-    className="w-full h-48 object-cover"
-  /> */}
       <div className="p-4 h-full flex flex-col justify-between">
         <div>
           <Link
             to={`/book-clubs/${club.id}`}
             key={club.id}
-            className="block transition duration-300"
+            className="block transition-colors duration-200"
           >
             <h2 className="text-2xl font-serif font-bold mb-2 text-dark-green dark:text-light-green truncate">
               {club.name}
@@ -74,7 +69,7 @@ const BookClubCard = ({
               {!joined ? (
                 <button
                   onClick={() => onJoin(club.id)}
-                  className="w-full py-2 px-4 rounded-full bg-dark-green dark:bg-light-green text-white flex items-center justify-center hover:bg-light-green dark:hover:bg-dark-green transition-colors duration-300"
+                  className="w-full py-2 px-4 rounded-full bg-dark-green dark:bg-light-green text-white flex items-center justify-center hover:bg-light-green dark:hover:bg-dark-green transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
                 >
                   <UserPlus size={16} className="mr-2" />
                   Join Group
@@ -82,7 +77,7 @@ const BookClubCard = ({
               ) : (
                 <button
                   onClick={() => onLeave(club.id)}
-                  className="w-full py-2 px-4 rounded-full border border-dark-green dark:border-light-green text-dark-green dark:text-light-green flex items-center justify-center hover:bg-dark-green dark:hover:bg-light-green hover:text-white dark:hover:text-black transition-colors duration-300"
+                  className="w-full py-2 px-4 rounded-full border border-dark-green dark:border-light-green text-dark-green dark:text-light-green flex items-center justify-center hover:bg-dark-green dark:hover:bg-light-green hover:text-white dark:hover:text-black transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
                 >
                   <X size={16} className="mr-2" />
                   Leave Group
@@ -94,13 +89,13 @@ const BookClubCard = ({
             <div className="ml-4 flex space-x-2 flex-grow">
               <button
                 onClick={onEdit}
-                className="w-full py-2 px-3 bg-white dark:bg-black text-dark-green dark:text-light-green border border-dark-green dark:border-light-green rounded-full flex items-center justify-center hover:bg-dark-green dark:hover:bg-light-green hover:text-white dark:hover:text-black transition-colors duration-300"
+                className="w-full py-2 px-3 bg-white dark:bg-black text-dark-green dark:text-light-green border border-dark-green dark:border-light-green rounded-full flex items-center justify-center hover:bg-dark-green dark:hover:bg-light-green hover:text-white dark:hover:text-black transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
               >
                 <Edit size={16} />
               </button>
               <button
                 onClick={onDelete}
-                className="w-full py-2 px-3 bg-red-600 text-white rounded-full flex items-center justify-center hover:bg-red-700 transition duration-300"
+                className="w-full py-2 px-3 bg-red-600 text-white rounded-full flex items-center justify-center hover:bg-red-700 transition-colors duration-200"
               >
                 <Trash2 size={16} />
               </button>

@@ -72,21 +72,23 @@ const UserProfile = () => {
   };
 
   return (
-    <div className=" min-h-screen p-24">
+    <div className="min-h-screen p-24 bg-white dark:bg-black text-black dark:text-white transition-colors duration-200">
       {/* Profile Section */}
       <div className="max-w-xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">{profile.name}</h1>
+          <h1 className="text-3xl font-bold text-black dark:text-white">
+            {profile.name}
+          </h1>
         </div>
 
         {/* About Section */}
-        <Card className="mb-6">
+        <Card className="mb-6 border border-black/20 dark:border-white/20 bg-white dark:bg-black shadow">
           <CardHeader>
-            <CardTitle className="flex justify-between items-center">
+            <CardTitle className="flex justify-between items-center text-black dark:text-white">
               <span>About</span>
               <button
                 onClick={() => setIsEditing(!isEditing)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-black/70 dark:text-white/70 hover:text-dark-green dark:hover:text-light-green transition-colors duration-200"
               >
                 <Edit className="w-4 h-4" />
               </button>
@@ -98,43 +100,44 @@ const UserProfile = () => {
                 <Textarea
                   value={editedText}
                   onChange={(e) => setEditedText(e.target.value)}
-                  className="w-full"
+                  className="w-full bg-white dark:bg-black border border-black/20 dark:border-white/20 text-black dark:text-white focus:ring-dark-green dark:focus:ring-light-green"
                   rows={4}
                 />
-                <Button onClick={handleSave} className="mt-2">
+                <Button
+                  onClick={handleSave}
+                  className="mt-2 bg-dark-green dark:bg-light-green text-white hover:bg-light-green dark:hover:bg-dark-green transition-colors duration-200 focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
+                >
                   Save
                 </Button>
               </>
             ) : (
-              <p className="text-gray-600">{profile.bio}</p>
+              <p className="text-black/70 dark:text-white/70">{profile.bio}</p>
             )}
           </CardContent>
         </Card>
 
         {/* Stats Section */}
-        <Card className="mb-6">
+        <Card className="mb-6 border border-black/20 dark:border-white/20 bg-white dark:bg-black shadow">
           <CardHeader>
-            <CardTitle className="flex justify-between items-center">
+            <CardTitle className="flex justify-between items-center text-black dark:text-white">
               <span>Stats</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center">
-              <BookOpen className="w-5 h-5  mr-2" />
+            <div className="flex items-center text-black/70 dark:text-white/70">
+              <BookOpen className="w-5 h-5 text-dark-green dark:text-light-green mr-2" />
               {loading ? (
-                <Loader className="w-5 h-5 " />
+                <Loader className="w-5 h-5 text-black/70 dark:text-white/70 animate-spin" />
               ) : (
-                <span className="text-gray-600">
-                  Published Stories: {stories.length}
-                </span>
+                <span>Published Stories: {stories.length}</span>
               )}
             </div>
-            <div className="flex items-center">
-              <PenTool className="w-5 h-5  mr-2" />
+            <div className="flex items-center text-black/70 dark:text-white/70">
+              <PenTool className="w-5 h-5 text-dark-green dark:text-light-green mr-2" />
               {loading ? (
-                <Loader className="w-5 h-5 " />
+                <Loader className="w-5 h-5 text-black/70 dark:text-white/70 animate-spin" />
               ) : (
-                <span className="text-gray-600">
+                <span>
                   Drafts: {stories.filter((s) => !s.isPublished).length}
                 </span>
               )}
@@ -143,18 +146,20 @@ const UserProfile = () => {
         </Card>
 
         {/* Message Wall Section */}
-        <div className="bg-white shadow p-4 rounded-lg mb-6">
-          <h2 className="text-lg font-bold mb-4">Message Wall</h2>
+        <div className="shadow p-4 rounded-lg mb-6 border border-black/20 dark:border-white/20 bg-white dark:bg-black">
+          <h2 className="text-lg font-bold mb-4 text-black dark:text-white">
+            Message Wall
+          </h2>
           <Textarea
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Write something..."
-            className="w-full mb-4"
+            className="w-full mb-4 bg-white dark:bg-black border border-black/20 dark:border-white/20 text-black dark:text-white focus:ring-dark-green dark:focus:ring-light-green"
             rows={3}
           />
           <button
             onClick={handlePostMessage}
-            className=" text-white py-2 px-4 rounded"
+            className="bg-dark-green dark:bg-light-green text-white py-2 px-4 rounded transition-colors duration-200 hover:bg-light-green dark:hover:bg-dark-green disabled:bg-black/20 dark:disabled:bg-white/20 disabled:text-black/50 dark:disabled:text-white/50"
             disabled={true} // Disable the button for now
           >
             Post
@@ -166,13 +171,15 @@ const UserProfile = () => {
               messages.map((message) => (
                 <div
                   key={String(message.id)}
-                  className="p-4  rounded-lg shadow"
+                  className="p-4 rounded-lg shadow border border-black/20 dark:border-white/20 bg-white dark:bg-black"
                 >
-                  <p className="text-gray-700">{message.text}</p>
+                  <p className="text-black/70 dark:text-white/70">
+                    {message.text}
+                  </p>
                 </div>
               ))
             ) : (
-              <p className="text-gray-500">
+              <p className="text-black/50 dark:text-white/50">
                 No messages yet. Be the first to post!
               </p>
             )}

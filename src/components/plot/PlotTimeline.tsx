@@ -222,28 +222,31 @@ const PlotTimeline: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 bg-white dark:bg-black transition-colors duration-200">
       <div className="flex space-x-4 mb-4">
         <button
           onClick={addPlotLine}
-          className="mb-4 py-2 px-4 rounded-sm  text-white flex items-center justify-center  transition duration-300"
+          className="mb-4 py-2 px-4 rounded-sm bg-dark-green dark:bg-light-green text-white flex items-center justify-center hover:bg-light-green dark:hover:bg-dark-green transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
         >
           Add Plot
         </button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="flex items-center     hover:">
-              <Book className="mr-2 h-4 w-4" />
+            <Button
+              variant="outline"
+              className="flex items-center text-black dark:text-white border-black/20 dark:border-white/20 hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
+            >
+              <Book className="mr-2 h-4 w-4 text-dark-green dark:text-light-green" />
               Plot Templates
-              <ChevronDown className="ml-2 h-4 w-4" />
+              <ChevronDown className="ml-2 h-4 w-4 text-black dark:text-white" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className=" border  shadow-lg rounded-md p-1 min-w-[200px]">
+          <DropdownMenuContent className="border border-black/20 dark:border-white/20 bg-white dark:bg-black shadow-lg rounded-md p-1 min-w-[200px]">
             {templates.map((template, idx) => (
               <DropdownMenuItem
                 key={idx}
                 onSelect={() => addPlotLineFromTemplate(template)}
-                className="px-4 py-2 hover:  hover: rounded-sm cursor-pointer transition-colors duration-150 ease-in-out"
+                className="px-4 py-2 hover:bg-black/10 dark:hover:bg-white/10 rounded-sm cursor-pointer transition-colors duration-150 ease-in-out text-black dark:text-white"
               >
                 <span className="font-serif">{template.name}</span>
               </DropdownMenuItem>
@@ -254,11 +257,11 @@ const PlotTimeline: React.FC = () => {
 
       <div className="flex">
         {/* PlotLine management column */}
-        <div className="space-y-16 w-64 pr-4 border-r">
+        <div className="space-y-16 w-64 pr-4 border-r border-black/20 dark:border-white/20">
           {plotLines.map((plotLine) => (
             <div
               key={plotLine.id}
-              className="rounded-lg shadow-lg p-4 bg-red-400"
+              className="rounded-lg shadow-lg p-4 bg-light-green dark:bg-dark-green text-white"
             >
               <div
                 className="flex items-center justify-between p-2 rounded cursor-pointer"
@@ -270,6 +273,7 @@ const PlotTimeline: React.FC = () => {
                     e.stopPropagation();
                     removePlotline(plotLine.id);
                   }}
+                  className="text-white/70 hover:text-white transition-colors duration-200"
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>
@@ -283,7 +287,7 @@ const PlotTimeline: React.FC = () => {
           {plotLines.map((plotLine) => (
             <div key={plotLine.id} className="">
               <div className="relative h-32 overflow-x-auto">
-                <div className="absolute top-[2.5rem] left-0 right-0 h-1 bg-gray-300 transform -translate-y-1/2" />
+                <div className="absolute top-[2.5rem] left-0 right-0 h-1 bg-black/20 dark:bg-white/20 transform -translate-y-1/2" />
 
                 <AnimatePresence>
                   {plotLine.events.map((event, index) => (
@@ -297,7 +301,7 @@ const PlotTimeline: React.FC = () => {
                       style={{ left: `${index * 220}px` }}
                       onClick={() => openEditEventModal(plotLine.id, event)}
                     >
-                      <div className="w-48 bg-blue-500 rounded-lg shadow-lg p-4 text-white cursor-pointer hover:bg-blue-600 transition-colors duration-200">
+                      <div className="w-48 bg-light-green dark:bg-dark-green rounded-lg shadow-lg p-4 text-white cursor-pointer hover:bg-dark-green dark:hover:bg-light-green transition-colors duration-200">
                         <h3 className="font-bold text-lg mb-2">{event.name}</h3>
                         <div className="text-sm">Click to edit</div>
                       </div>
@@ -307,7 +311,7 @@ const PlotTimeline: React.FC = () => {
 
                 <button
                   onClick={() => addEvent(plotLine.id)}
-                  className="absolute top-[2.5rem] p-3 pl-4 pr-6 flex items-center space-x-2 rounded-full transform -translate-y-1/2 z-10 bg-gray-200 "
+                  className="absolute top-[2.5rem] p-3 pl-4 pr-6 flex items-center space-x-2 rounded-full transform -translate-y-1/2 z-10 bg-black/10 dark:bg-white/10 text-black dark:text-white hover:bg-black/20 dark:hover:bg-white/20 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
                   style={{ left: `${plotLine.events.length * 220}px` }}
                 >
                   <PlusCircle className="h-4 w-4" />
@@ -337,7 +341,7 @@ const PlotTimeline: React.FC = () => {
       <div className="flex">
         <button
           onClick={generateText}
-          className="mb-4 py-2 px-4 rounded-sm  text-white flex items-center justify-center  transition duration-300"
+          className="mb-4 py-2 px-4 rounded-sm bg-dark-green dark:bg-light-green text-white flex items-center justify-center hover:bg-light-green dark:hover:bg-dark-green transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
         >
           Generate Plot Ideas
         </button>

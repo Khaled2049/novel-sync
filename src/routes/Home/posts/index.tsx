@@ -60,7 +60,7 @@ const Posts = () => {
   return (
     <div className="w-full lg:w-1/2 p-4 overflow-y-auto text-black dark:text-white transition-colors duration-300">
       <form onSubmit={handlePostSubmit} className="mb-6">
-        <div className="flex items-center rounded-lg p-2 border border-black/20 dark:border-white/20 transition-colors duration-300 bg-white dark:bg-black">
+        <div className="flex items-center rounded-lg p-2 border border-black/20 dark:border-white/20 transition-colors duration-300  dark:bg-black">
           <input
             type="text"
             value={post}
@@ -87,13 +87,13 @@ const Posts = () => {
         </div>
       </form>
 
-      <div className="flex justify-between mb-4 bg-white/50 dark:bg-black/50 rounded-lg p-1 transition-colors duration-300">
+      <div className="flex justify-between mb-4 /50 dark:bg-black/50 rounded-lg p-1 transition-colors duration-300">
         <button
           onClick={() => setIsMyFeed(true)}
           className={`w-full py-2 px-4 text-center font-serif font-bold rounded-lg transition-colors duration-200 ${
             isMyFeed
               ? "bg-dark-green dark:bg-light-green text-white"
-              : "text-black/70 dark:text-white/70 hover:bg-black/10 dark:hover:bg-white/10"
+              : "text-black/70 dark:text-white/70 hover:bg-black/10 dark:hover:/10"
           }`}
         >
           My Feed
@@ -103,7 +103,7 @@ const Posts = () => {
           className={`w-full py-2 px-4 text-center font-serif font-bold rounded-lg transition-colors duration-200 ${
             !isMyFeed
               ? "bg-dark-green dark:bg-light-green text-white"
-              : "text-black/70 dark:text-white/70 hover:bg-black/10 dark:hover:bg-white/10"
+              : "text-black/70 dark:text-white/70 hover:bg-black/10 dark:hover:/10"
           }`}
         >
           Discover
@@ -115,7 +115,7 @@ const Posts = () => {
         ? followingPosts.map((post, index) => (
             <div
               key={index}
-              className="shadow rounded-lg p-4 mb-4 border border-black/20 dark:border-white/20 bg-white dark:bg-black transition-colors duration-300"
+              className="shadow rounded-lg p-4 mb-4 border border-black/20 dark:border-white/20  dark:bg-black transition-colors duration-300"
             >
               <div className="flex items-center mb-2 justify-between">
                 <div className="flex items-center">
@@ -143,7 +143,7 @@ const Posts = () => {
         : allPosts.map((post, index) => (
             <div
               key={index}
-              className="shadow rounded-lg p-4 mb-4 border border-black/20 dark:border-white/20 bg-white dark:bg-black transition-colors duration-300"
+              className="shadow rounded-lg p-4 mb-4 border border-black/20 dark:border-white/20  dark:bg-black transition-colors duration-300"
             >
               <div className="flex items-center mb-2 justify-between">
                 <div className="flex items-center">

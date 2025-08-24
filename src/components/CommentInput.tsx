@@ -9,14 +9,12 @@ interface CommentInputProps {
   storyId: string;
   chapterId: string;
   currentUser: IUser;
-  isDarkMode: boolean;
 }
 
 export const CommentInput: React.FC<CommentInputProps> = ({
   storyId,
   chapterId,
   currentUser,
-  isDarkMode,
 }) => {
   const [message, setMessage] = useState("");
   const commentService = new CommentService();
@@ -48,13 +46,10 @@ export const CommentInput: React.FC<CommentInputProps> = ({
           currentUser ? "Add a comment..." : "Please login to comment"
         }
         disabled={!currentUser}
-        className={`w-full p-3 rounded-lg border transition-all duration-200 resize-none 
-          ${
-            isDarkMode
-              ? "bg-gray-900 border-gray-700 text-gray-200"
-              : "bg-white border-gray-300 text-gray-800"
-          } 
-          focus:outline-none focus:ring-2 `}
+        className={`w-full p-3 rounded-lg border transition-all duration-200 resize-none
+          bg-gray-900 border-gray-700 text-gray-200
+          focus:outline-none focus:ring-2
+        `}
         rows={3}
       />
       {currentUser && (
@@ -65,9 +60,7 @@ export const CommentInput: React.FC<CommentInputProps> = ({
             ${
               !message.trim()
                 ? "bg-gray-400 cursor-not-allowed"
-                : isDarkMode
-                ? " "
-                : "0 hover:"
+                : "bg-gray-700 hover:bg-gray-600"
             }`}
         >
           <Send className="w-5 h-5" /> Post Comment

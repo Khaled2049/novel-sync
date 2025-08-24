@@ -48,7 +48,7 @@ const BookClubChat: React.FC<{ clubId: string; user: IUser }> = ({
   };
 
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 mb-6">
+    <div className=" shadow-lg rounded-lg p-6 mb-6">
       <h2 className="text-2xl font-serif font-bold mb-4  flex items-center">
         <MessageCircle className="mr-2" /> Chat Room
       </h2>

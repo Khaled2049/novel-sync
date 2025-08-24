@@ -23,7 +23,7 @@ export const StoryCard: React.FC<StoryCardProps> = ({
   const isPublished = story.isPublished;
 
   return (
-    <div className="border border-black/20 dark:border-white/20 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 bg-white dark:bg-black text-black dark:text-white">
+    <div className="border border-black/20 dark:border-white/20 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300  dark:bg-black text-black dark:text-white">
       <div className="p-5">
         <div className="flex items-center justify-between mb-3">
           {/* Status Indicator */}
@@ -31,7 +31,7 @@ export const StoryCard: React.FC<StoryCardProps> = ({
             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
               isPublished
                 ? "bg-light-green/20 dark:bg-dark-green/20 text-dark-green dark:text-light-green"
-                : "bg-black/10 dark:bg-white/10 text-black/70 dark:text-white/70"
+                : "bg-black/10 dark:/10 text-black/70 dark:text-white/70"
             }`}
           >
             {isPublished ? (
@@ -60,7 +60,7 @@ export const StoryCard: React.FC<StoryCardProps> = ({
           {isPublished ? (
             <button
               onClick={() => onUnpublish(story.id)}
-              className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-black dark:text-white border border-black dark:border-white hover:bg-black/10 dark:hover:bg-white/10 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
+              className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-black dark:text-white border border-black dark:border-white hover:bg-black/10 dark:hover:/10 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
             >
               <FaEyeSlash className="mr-2" />
               Unpublish

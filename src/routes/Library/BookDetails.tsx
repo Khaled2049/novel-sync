@@ -73,7 +73,7 @@ const BookDetails: React.FC<BookDetailsProps> = () => {
 
   return (
     <div className="flex flex-col items-center min-h-screen  p-4">
-      <div className="w-full max-w-lg border  rounded-lg shadow-md bg-white p-4">
+      <div className="w-full max-w-lg border  rounded-lg shadow-md  p-4">
         <h1 className="text-2xl font-bold  mb-4">{book.volumeInfo.title}</h1>
         <div className="mb-4">
           <img

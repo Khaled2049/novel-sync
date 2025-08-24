@@ -91,7 +91,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen py-24 bg-white dark:bg-black">
+    <div className="flex flex-col lg:flex-row min-h-screen py-24  dark:bg-black">
       {usersLoading ? (
         <Loader
           className="m-auto text-dark-green dark:text-light-green"
@@ -142,7 +142,7 @@ const Home: React.FC = () => {
                       }
                       className={`flex items-center justify-center text-sm sm:text-base rounded p-2 transition duration-300 ${
                         isFollowing
-                          ? "text-white bg-black dark:bg-white dark:text-black hover:bg-dark-green dark:hover:bg-light-green border border-black dark:border-white"
+                          ? "text-white bg-black dark: dark:text-black hover:bg-dark-green dark:hover:bg-light-green border border-black dark:border-white"
                           : "text-white bg-dark-green dark:bg-light-green hover:bg-light-green dark:hover:bg-dark-green border border-dark-green dark:border-light-green"
                       }`}
                       aria-label={`${isFollowing ? "Unfollow" : "Follow"} ${

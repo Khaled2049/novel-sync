@@ -31,12 +31,12 @@ const Library = () => {
     <div className="flex flex-col items-center min-h-screen  p-4">
       {/* Search Bar */}
       <div className="w-full max-w-md mb-8">
-        <div className="flex items-center border  rounded-lg shadow-md bg-white">
+        <div className="flex items-center border  rounded-lg shadow-md ">
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="flex-grow p-2 bg-white rounded-l-lg focus:outline-none"
+            className="flex-grow p-2  rounded-l-lg focus:outline-none"
             placeholder="Search for books..."
           />
           <button onClick={searchBooks} className="p-2   rounded-r-lg">
@@ -52,7 +52,7 @@ const Library = () => {
             <div
               onClick={() => handleBookClick(book.id)}
               key={book.id}
-              className="p-4 mb-4 border  rounded-lg shadow-md bg-white"
+              className="p-4 mb-4 border  rounded-lg shadow-md "
             >
               <h2 className="text-lg font-semibold ">
                 {book.volumeInfo.title}

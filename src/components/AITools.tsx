@@ -36,7 +36,7 @@ const AITools = ({ text }: AIToolsProps) => {
         {label}
       </button>
       {showDropdown && (
-        <div className="absolute z-10 mt-1 w-40 bg-white rounded-md shadow-lg">
+        <div className="absolute z-10 mt-1 w-40  rounded-md shadow-lg">
           {options.map((option) => (
             <button
               key={option}

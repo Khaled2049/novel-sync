@@ -5,8 +5,8 @@ const Story = () => {
   const isRootPath = location.pathname === "/create-story";
 
   return (
-    <div className="flex flex-col ">
-      <nav className=" pt-20">
+    <div className="flex flex-col bg-white dark:bg-black min-h-screen transition-colors duration-200">
+      <nav className="pt-20">
         <ul className="flex space-x-4">
           {["Editor", "Plot", "Characters", "Places", "Dashboard"].map(
             (tab) => (
@@ -15,10 +15,10 @@ const Story = () => {
                   to={tab.toLowerCase() === "editor" ? "" : tab.toLowerCase()}
                   end
                   className={({ isActive }) =>
-                    `px-3 py-2 rounded-md ${
+                    `px-3 py-2 rounded-md transition-colors duration-200 ${
                       isActive || (isRootPath && tab === "Editor")
-                        ? " text-white"
-                        : " "
+                        ? "bg-dark-green dark:bg-light-green text-white hover:bg-light-green dark:hover:bg-dark-green"
+                        : "text-black/70 dark:text-white/70 hover:bg-black/10 dark:hover:bg-white/10"
                     }`
                   }
                 >
@@ -30,7 +30,7 @@ const Story = () => {
         </ul>
       </nav>
 
-      <main className="flex-grow overflow-auto ">
+      <main className="flex-grow overflow-auto p-4">
         <Outlet />
       </main>
     </div>

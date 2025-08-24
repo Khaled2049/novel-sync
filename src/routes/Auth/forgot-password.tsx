@@ -35,14 +35,14 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen bg-white dark:bg-black text-black dark:text-white pt-12 transition-colors duration-300">
+    <div className="flex flex-col items-center justify-start min-h-screen  dark:bg-black text-black dark:text-white pt-12 transition-colors duration-300">
       <div className="flex items-center text-center mb-8 -ml-6">
         <h1 className="text-4xl font-serif text-dark-green dark:text-light-green ml-4 transition-colors duration-300">
           NovelSync
         </h1>
       </div>
 
-      <div className="w-full max-w-md p-8 bg-white dark:bg-black rounded-lg shadow-lg border border-black dark:border-white transition-colors duration-300">
+      <div className="w-full max-w-md p-8  dark:bg-black rounded-lg shadow-lg border border-black dark:border-white transition-colors duration-300">
         <h2 className="text-3xl font-serif text-black dark:text-white mb-6 transition-colors duration-300">
           Forgot Password
         </h2>
