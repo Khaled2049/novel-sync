@@ -113,34 +113,10 @@ const HomePage = () => {
     return () => observer.disconnect();
   }, []);
 
-  const FloatingElements = () => (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none">
-      <div className="absolute top-1/4 left-1/4 w-2 h-2  rounded-full animate-pulse opacity-60"></div>
-      <div className="absolute top-3/4 right-1/4 w-1 h-1 rounded-full animate-bounce opacity-60"></div>
-      <div className="absolute top-1/2 left-3/4 w-3 h-3  rounded-full animate-pulse opacity-40"></div>
-      <div
-        className="absolute w-4 h-4 bg-gradient-to-r  rounded-full opacity-30 transition-all duration-300 ease-out"
-        style={{
-          left: mousePosition.x / 50 + "px",
-          top: mousePosition.y / 50 + "px",
-        }}
-      ></div>
-    </div>
-  );
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-white to-light-green dark:from-black dark:to-dark-green text-black dark:text-white overflow-hidden">
-      <FloatingElements />
-
       {/* Hero Section */}
       <section className="relative min-h-screen flex flex-col items-center justify-center text-center">
-        <div className="absolute inset-0"></div>
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-light-green dark:bg-dark-green rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-          <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-dark-green dark:bg-light-green rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-          <div className="absolute bottom-1/4 left-1/2 w-80 h-80 bg-light-green dark:bg-dark-green rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-        </div>
-
         <div className="relative z-10 text-center px-6 max-w-6xl mx-auto mt-20">
           <div className="mb-8 animate-fade-in">
             <Sparkles className="w-16 h-16 mx-auto mb-6 text-dark-green dark:text-light-green animate-spin-slow" />
