@@ -12,7 +12,7 @@ const Campaigns = () => {
 
   const fetchCampaigns = async () => {
     setIsLoading(true);
-    const data = await getCampaigns(0, 1);
+    const data = await getCampaigns(0, 10);
     setCampaigns(data);
     setIsLoading(false);
   };

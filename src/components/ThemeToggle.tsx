@@ -4,7 +4,7 @@ const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <button onClick={toggleTheme} className="">
+    <button onClick={toggleTheme} className="p-2 focus:outline-none rounded">
       {theme === "light" ? "🌙" : "☀️"}
     </button>
   );

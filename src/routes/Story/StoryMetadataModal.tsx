@@ -19,10 +19,12 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, DollarSign, Users, FileText } from "lucide-react";
+import { Calendar, DollarSign, Users, FileText, Info } from "lucide-react";
 import { storiesRepo } from "@/services/StoriesRepo";
 import { storage } from "@/config/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { useCampaignContext } from "@/contexts/campaignContext";
+import { useAddress } from "@thirdweb-dev/react";
 
 interface StoryMetadataModalProps {
   isOpen: boolean;
@@ -38,8 +40,10 @@ const StoryMetadataModal: React.FC<StoryMetadataModalProps> = ({
   userId,
 }) => {
   const navigate = useNavigate();
-  const [creationType, setCreationType] = useState<CreationType>("regular");
+  const address = useAddress();
+  const { createCampaign } = useCampaignContext();
 
+  const [creationType, setCreationType] = useState<CreationType>("regular");
   // Common fields
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -50,7 +54,7 @@ const StoryMetadataModal: React.FC<StoryMetadataModalProps> = ({
   const [copyright, setCopyright] = useState("");
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   // Crowdfunding specific fields
   const [fundingTarget, setFundingTarget] = useState("");
   const [fundingDuration, setFundingDuration] = useState("30");
@@ -58,7 +62,8 @@ const StoryMetadataModal: React.FC<StoryMetadataModalProps> = ({
   const [expectedLength, setExpectedLength] = useState("");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-
+  const isCrowdfundedAndDisconnected =
+    creationType === "crowdfunded" && !address;
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -104,6 +109,9 @@ const StoryMetadataModal: React.FC<StoryMetadataModalProps> = ({
 
   const handleCrowdfundingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    setIsSubmitting(true);
+
     try {
       let coverImageUrl = "";
       if (coverImage) {
@@ -115,33 +123,27 @@ const StoryMetadataModal: React.FC<StoryMetadataModalProps> = ({
         coverImageUrl = await getDownloadURL(storageRef);
       }
 
-      // Calculate deadline (current time + duration in days)
-      const deadline =
-        Math.floor(Date.now() / 1000) +
-        parseInt(fundingDuration) * 24 * 60 * 60;
+      const deadlineDate = new Date();
+      deadlineDate.setDate(deadlineDate.getDate() + parseInt(fundingDuration));
 
-      // Convert ETH to wei (assuming fundingTarget is in ETH)
-      const targetInWei = (parseFloat(fundingTarget) * 1e18).toString();
-
-      // TODO: Call smart contract createCampaign function
-      // const campaignId = await createCampaign(title, storyConcept, targetInWei, deadline, coverImageUrl);
-
-      console.log("Creating crowdfunding campaign:", {
-        title,
-        concept: storyConcept,
-        target: targetInWei,
-        deadline,
+      await createCampaign({
+        title: title,
+        description: storyConcept,
+        target: fundingTarget, // Pass the ETH amount as a string
+        deadline: deadlineDate.toISOString(), // Pass the date as a string
         image: coverImageUrl,
-        expectedLength,
-        category,
-        tags: tags.split(",").map((tag) => tag.trim()),
       });
 
+      console.log("Successfully created crowdfunding campaign!");
+
       onClose();
-      // navigate(`/campaigns/${campaignId}`);
-      navigate(`/campaigns`); // Temporary redirect
+      navigate(`/campaigns`);
     } catch (error) {
       console.error("Error creating crowdfunding campaign:", error);
+      // Add user-facing error handling, e.g., a toast notification
+      // showError("Failed to create campaign. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -526,11 +528,19 @@ const StoryMetadataModal: React.FC<StoryMetadataModalProps> = ({
         </Tabs>
 
         <DialogFooter className="mt-4">
+          {isCrowdfundedAndDisconnected && (
+            <p className="text-sm text-yellow-600 dark:text-yellow-400 flex items-center gap-2 mb-2">
+              <Info size={16} />
+              Please connect your wallet to launch a campaign.
+            </p>
+          )}
           <Button variant="outline" onClick={handleClose} className="mr-2">
             Cancel
           </Button>
           <Button
             type="submit"
+            // Step 2: Update the disabled logic
+            disabled={isSubmitting || isCrowdfundedAndDisconnected}
             onClick={
               creationType === "regular"
                 ? handleRegularStorySubmit

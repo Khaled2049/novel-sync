@@ -134,11 +134,12 @@ const HomePage = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-delayed-2">
-            <button className="group relative px-8 py-4 bg-gradient-to-r from-dark-green to-light-green rounded-full font-semibold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl text-white">
-              <span className="relative z-10">Start Writing</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-light-green to-dark-green transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-            </button>
-
+            <Link to="/campaigns">
+              <button className="group relative px-8 py-4 bg-gradient-to-r from-dark-green to-light-green rounded-full font-semibold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl text-white">
+                <span className="relative z-10">View Campaigns</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-light-green to-dark-green transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+              </button>
+            </Link>
             <Link to="/explore">
               <button className="group px-8 py-4 border-2 border-dark-green dark:border-light-green text-dark-green dark:text-light-green rounded-full font-semibold text-lg transition-all duration-300 hover:bg-dark-green dark:hover:bg-light-green hover:text-white dark:hover:text-black hover:scale-105">
                 <span className="flex items-center justify-center">

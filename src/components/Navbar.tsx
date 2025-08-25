@@ -5,6 +5,7 @@ import { useAuthContext } from "../contexts/AuthContext";
 import { useState, useEffect, useRef } from "react";
 import { Loader, Menu, User } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
+import { ConnectWallet } from "@thirdweb-dev/react";
 
 const Navbar = () => {
   const { signout } = useFirebaseAuth();
@@ -58,6 +59,7 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center">
         {/* Left Section - Logo */}
         <div className="flex items-center">
+          <ThemeToggle />
           <Link
             className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-dark-green to-light-green dark:from-light-green dark:to-dark-green transition-all duration-300 hover:scale-105 hover:drop-shadow-lg"
             to="/"
@@ -68,10 +70,10 @@ const Navbar = () => {
 
         {/* Right Section - Desktop */}
         <div className="hidden lg:flex items-center space-x-6">
-          <ThemeToggle />
+          <ConnectWallet className="bg-dark-green dark:bg-light-green text-white hover:bg-light-green dark:hover:bg-dark-green transition-colors duration-200" />
           <Link
             to="/campaigns"
-            className="block px-4 py-2 text-white bg-transparent hover:bg-white hover:text-black transition duration-300 ease-in-out rounded"
+            className="text-black dark:text-white hover:text-dark-green dark:hover:text-light-green transition duration-300"
           >
             Campaigns
           </Link>
