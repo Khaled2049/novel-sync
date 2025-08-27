@@ -27,6 +27,7 @@ interface StateContextType {
   getProposals: (pId: number) => Promise<Proposal[]>;
   finalizeCampaign: (pId: number) => Promise<void>;
   withdrawFunds: (pId: number) => Promise<void>;
+  getCampaignSummary: (campaignId: number) => Promise<CampaignSummary>;
 }
 
 const StateContext = createContext<StateContextType>({
@@ -44,6 +45,20 @@ const StateContext = createContext<StateContextType>({
   getProposals: async () => [],
   finalizeCampaign: async () => {},
   withdrawFunds: async () => {},
+  getCampaignSummary: async () => ({
+    owner: "",
+    title: "",
+    description: "",
+    target: "0",
+    deadline: 0,
+    amountCollected: "0",
+    image: "",
+    phase: 0,
+    votingDeadline: 0,
+    winningProposalIndex: 0,
+    proposalsCount: 0,
+    pId: 0,
+  }),
 });
 
 export const CampaignProvider = ({ children }: any) => {
@@ -88,8 +103,6 @@ export const CampaignProvider = ({ children }: any) => {
     if (!contract) return [];
 
     const campaigns = await contract.call("getCampaigns", [start, limit]);
-
-    console.log("campaigns", campaigns);
 
     return campaigns.map((campaign: any, i: number) => ({
       owner: campaign.owner,
@@ -175,6 +188,11 @@ export const CampaignProvider = ({ children }: any) => {
     await contract.call("withdrawFunds", [pId]);
   };
 
+  const getCampaignSummary = async (campaignId: number) => {
+    if (!contract) throw new Error("Contract not available");
+    return await contract.call("getCampaignSummary", [campaignId]);
+  };
+
   return (
     <StateContext.Provider
       value={{
@@ -192,6 +210,7 @@ export const CampaignProvider = ({ children }: any) => {
         getProposals,
         finalizeCampaign,
         withdrawFunds,
+        getCampaignSummary,
       }}
     >
       {children}

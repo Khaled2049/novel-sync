@@ -40,6 +40,7 @@ import Announcements from "./components/explore/Announcements";
 import { CampaignProvider } from "./contexts/campaignContext";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import CampaignDetails from "./routes/Campaigns/CampaignDetails";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
       {
         path: "/campaigns",
         element: <Campaigns />,
+      },
+      {
+        path: "/campaign-details/:id", // Add this route
+        element: <CampaignDetails />,
       },
       {
         path: "/explore",

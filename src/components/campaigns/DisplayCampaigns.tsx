@@ -40,6 +40,8 @@ const DisplayCampaigns: React.FC<DisplayCampaignsProps> = ({
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   const handleNavigate = (campaign: CampaignSummary) => {
+    // Store in sessionStorage for the artifact demo
+    // sessionStorage.setItem("campaignState", JSON.stringify(campaign));
     navigate(`/campaign-details/${campaign.pId}`, { state: campaign });
   };
 

@@ -22,7 +22,7 @@ export interface CampaignSummary {
   votingDeadline: number;
   winningProposalIndex: number;
   proposalsCount: number;
-  pId?: number; // Added for backward compatibility
+  pId?: number;
 }
 
 export interface Form {
