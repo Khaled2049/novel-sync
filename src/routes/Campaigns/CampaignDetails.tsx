@@ -12,6 +12,7 @@ import {
 import { useCampaignContext } from "@/contexts/campaignContext";
 import { CampaignSummary } from "@/types/ICampaigns";
 import { daysLeft } from "@/lib/utils";
+import ActionPanel from "@/components/campaigns/ActionPanel";
 
 enum Phase {
   Funding = 0,
@@ -268,16 +269,8 @@ const CampaignDetails: React.FC = () => {
           {/* TODO: Implement detailed progress tracking */}
         </div>
 
-        {/* TODO: Action Section */}
         <div className="bg-white dark:bg-black rounded-2xl border border-gray-200 dark:border-gray-800 p-8 mb-8 transition-colors duration-200">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-            Take Action
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400">
-            Phase-specific actions (donate/vote/owner controls) will be
-            displayed here based on current phase: {phaseInfo.name}
-          </p>
-          {/* TODO: Implement phase-specific actions */}
+          {campaign && <ActionPanel campaign={campaign} isOwner={isOwner} />}
         </div>
 
         {/* TODO: Details Section */}
