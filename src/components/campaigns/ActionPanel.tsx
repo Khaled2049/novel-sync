@@ -24,20 +24,18 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ campaign, isOwner }) => {
     withdrawFunds,
   } = useCampaignContext();
 
-  // --- State Management (no changes needed here) ---
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // State for forms
   const [donationAmount, setDonationAmount] = useState("");
-  const [votingDuration, setVotingDuration] = useState("7"); // Default to 7 days
+  const [votingDuration, setVotingDuration] = useState("7");
   const [proposalDesc, setProposalDesc] = useState("");
 
   // State for dynamic data
   const [isDonor, setIsDonor] = useState(false);
   const [proposals, setProposals] = useState<Proposal[]>([]);
 
-  // --- Data Fetching Effect (Refactored) ---
   useEffect(() => {
     const fetchData = async () => {
       // Check if the current user is a donor using the correct function name
@@ -85,6 +83,7 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ campaign, isOwner }) => {
 
   const handleStartVoting = async () => {
     const durationInSeconds = parseInt(votingDuration) * 24 * 60 * 60;
+    console.log("Duration in seconds:", durationInSeconds);
     if (isNaN(durationInSeconds) || durationInSeconds <= 0)
       return setError("Please enter a valid duration.");
     setIsLoading(true);
@@ -156,9 +155,26 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ campaign, isOwner }) => {
     switch (campaign.phase) {
       case Phase.Funding:
         // Use parseFloat for comparison as values are formatted ETH strings
+        const currentTimeInSeconds = Math.floor(Date.now() / 1000);
         const canStartVoting =
-          Date.now() / 1000 > campaign.deadline &&
+          currentTimeInSeconds > Number(campaign.deadline) &&
           parseFloat(campaign.amountCollected) >= parseFloat(campaign.target);
+
+        // Add debugging information
+        console.log("Current time (seconds):", currentTimeInSeconds);
+        console.log("Campaign deadline (seconds):", Number(campaign.deadline));
+        console.log(
+          "Time comparison:",
+          currentTimeInSeconds > Number(campaign.deadline)
+        );
+        console.log("Amount collected:", campaign.amountCollected);
+        console.log("Target:", campaign.target);
+        console.log(
+          "Target met:",
+          parseFloat(campaign.amountCollected) >= parseFloat(campaign.target)
+        );
+        console.log("Can start voting:", canStartVoting);
+
         if (isOwner) {
           // Owner view for Funding Phase
           return (

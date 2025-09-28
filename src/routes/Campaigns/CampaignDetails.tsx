@@ -24,7 +24,11 @@ const CampaignDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
   const navigate = useNavigate();
-  const { getCampaignSummary, address } = useCampaignContext();
+  const {
+    getCampaignSummary,
+    address,
+    isLoading: contractLoading,
+  } = useCampaignContext();
 
   const [campaign, setCampaign] = useState<CampaignSummary>(
     (location.state as CampaignSummary) || null
@@ -34,7 +38,8 @@ const CampaignDetails: React.FC = () => {
 
   useEffect(() => {
     const fetchCampaign = async () => {
-      if (campaign || !id) return;
+      // Wait for contract to load before attempting to fetch campaign
+      if (campaign || !id || contractLoading) return;
 
       setIsLoading(true);
       setError(null);
@@ -51,7 +56,7 @@ const CampaignDetails: React.FC = () => {
     };
 
     fetchCampaign();
-  }, [id, campaign, getCampaignSummary]);
+  }, [id, campaign, getCampaignSummary, contractLoading]);
 
   const isOwner = campaign?.owner === address;
 
@@ -100,7 +105,7 @@ const CampaignDetails: React.FC = () => {
     navigate("/campaigns");
   };
 
-  if (isLoading) {
+  if (isLoading || contractLoading) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">

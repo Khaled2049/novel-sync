@@ -11,10 +11,10 @@ import { ethers } from "ethers";
 import { Form, CampaignSummary } from "@/types/ICampaigns";
 
 // Updated interfaces to match new contract structure
-
 interface StateContextType {
   address: string;
   contract: any;
+  isLoading: boolean; // Add loading state
   connectWallet: () => Promise<void>;
   createCampaign: (form: Form) => Promise<void>;
   getCampaigns: (start: number, limit: number) => Promise<CampaignSummary[]>;
@@ -33,6 +33,7 @@ interface StateContextType {
 const StateContext = createContext<StateContextType>({
   address: "",
   contract: null,
+  isLoading: true, // Default to loading
   connectWallet: async () => {},
   createCampaign: async () => {},
   getCampaigns: async () => [],
@@ -62,9 +63,10 @@ const StateContext = createContext<StateContextType>({
 });
 
 export const CampaignProvider = ({ children }: any) => {
-  const { contract } = useContract(
+  const { contract, isLoading: contractLoading } = useContract(
     "0xb4300329dbDe259002E82574075B0BAB7DD01647"
   );
+
   const { mutateAsync: createCampaign } = useContractWrite(
     contract,
     "createCampaign"
@@ -83,6 +85,8 @@ export const CampaignProvider = ({ children }: any) => {
   };
 
   const publishCampaign = async (form: Form): Promise<void> => {
+    if (!contract) throw new Error("Contract not loaded");
+
     try {
       const data = await createCampaign({
         args: [
@@ -96,11 +100,12 @@ export const CampaignProvider = ({ children }: any) => {
       console.log("contract call success", data);
     } catch (error) {
       console.log("contract call failure", error);
+      throw error;
     }
   };
 
   const getCampaigns = async (start: number, limit: number) => {
-    if (!contract) return [];
+    if (!contract) throw new Error("Contract not loaded");
 
     const campaigns = await contract.call("getCampaigns", [start, limit]);
 
@@ -123,7 +128,8 @@ export const CampaignProvider = ({ children }: any) => {
   };
 
   const getUserCampaigns = async () => {
-    if (!contract) return [];
+    if (!contract) throw new Error("Contract not loaded");
+
     const numberOfCampaigns = await contract.call("numberOfCampaigns");
     const allCampaigns = await getCampaigns(0, numberOfCampaigns.toNumber());
     return allCampaigns.filter((campaign: any) => campaign.owner === address);
@@ -133,14 +139,14 @@ export const CampaignProvider = ({ children }: any) => {
     pId: number,
     amount: string
   ): Promise<any> => {
-    if (!contract) throw new Error("Contract is not defined");
+    if (!contract) throw new Error("Contract not loaded");
     return contract.call("donateToCampaign", [pId], {
       value: ethers.utils.parseEther(amount),
     });
   };
 
   const getDonation = async (pId: number, donor: string): Promise<string> => {
-    if (!contract) throw new Error("Contract is not defined");
+    if (!contract) throw new Error("Contract not loaded");
     const donation = await contract.call("getDonation", [pId, donor]);
     return ethers.utils.formatEther(donation);
   };
@@ -149,7 +155,7 @@ export const CampaignProvider = ({ children }: any) => {
     pId: number,
     votingDuration: number
   ): Promise<void> => {
-    if (!contract) throw new Error("Contract is not defined");
+    if (!contract) throw new Error("Contract not loaded");
     await contract.call("startVoting", [pId, votingDuration]);
   };
 
@@ -157,7 +163,7 @@ export const CampaignProvider = ({ children }: any) => {
     pId: number,
     description: string
   ): Promise<void> => {
-    if (!contract) throw new Error("Contract is not defined");
+    if (!contract) throw new Error("Contract not loaded");
     await contract.call("createProposal", [pId, description]);
   };
 
@@ -165,12 +171,12 @@ export const CampaignProvider = ({ children }: any) => {
     pId: number,
     proposalIndex: number
   ): Promise<void> => {
-    if (!contract) throw new Error("Contract is not defined");
+    if (!contract) throw new Error("Contract not loaded");
     await contract.call("voteOnProposal", [pId, proposalIndex]);
   };
 
   const getProposals = async (pId: number): Promise<Proposal[]> => {
-    if (!contract) throw new Error("Contract is not defined");
+    if (!contract) throw new Error("Contract not loaded");
     const proposals = await contract.call("getProposals", [pId]);
     return proposals.map((proposal: any) => ({
       description: proposal.description,
@@ -179,17 +185,17 @@ export const CampaignProvider = ({ children }: any) => {
   };
 
   const finalizeCampaign = async (pId: number): Promise<void> => {
-    if (!contract) throw new Error("Contract is not defined");
+    if (!contract) throw new Error("Contract not loaded");
     await contract.call("finalizeCampaign", [pId]);
   };
 
   const withdrawFunds = async (pId: number): Promise<void> => {
-    if (!contract) throw new Error("Contract is not defined");
+    if (!contract) throw new Error("Contract not loaded");
     await contract.call("withdrawFunds", [pId]);
   };
 
   const getCampaignSummary = async (campaignId: number) => {
-    if (!contract) throw new Error("Contract not available");
+    if (!contract) throw new Error("Contract not loaded");
     return await contract.call("getCampaignSummary", [campaignId]);
   };
 
@@ -198,6 +204,7 @@ export const CampaignProvider = ({ children }: any) => {
       value={{
         address,
         contract,
+        isLoading: contractLoading,
         connectWallet,
         createCampaign: publishCampaign,
         getCampaigns,
