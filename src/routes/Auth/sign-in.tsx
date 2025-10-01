@@ -117,11 +117,11 @@ const Signin: React.FC = () => {
           >
             {isLoading ? "Signing In..." : "Sign In"}
           </button>
-          {/* <div className="text-center mt-4">
+          <div className="text-center mt-4">
             <Link to="/sign-up" className="text-dark-green dark:text-light-green hover:text-light-green dark:hover:text-dark-green transition-colors duration-200">
               Create an account
             </Link>
-          </div> */}
+          </div>
         </form>
       </div>
     </div>
