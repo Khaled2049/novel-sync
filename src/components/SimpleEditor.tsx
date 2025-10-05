@@ -25,7 +25,7 @@ export function SimpleEditor() {
   const [storyTitle, setStoryTitle] = useState("");
   const [storyDescription, setStoryDescription] = useState("");
   const [chapterTitle, setChapterTitle] = useState("");
-  const [_saveStatus, setSaveStatus] = useState("");
+  const [saveStatus, setSaveStatus] = useState("");
   const [storyLoading, setStoryLoading] = useState(true);
   const [selectedText, setSelectedText] = useState("");
   const [activeTab, setActiveTab] = useState<"chapters" | "ai">("chapters");
@@ -252,7 +252,6 @@ export function SimpleEditor() {
                 onMetadataChange={handleMetadataChange}
               />
 
-              {/* TipTap Editor Component */}
               {currentChapter && (
                 <div className="bg-neutral-50 dark:bg-transparent">
                   <TipTapEditor
@@ -260,6 +259,7 @@ export function SimpleEditor() {
                     onContentChange={handleContentChange}
                     onSave={handleSave}
                     onSelectionChange={handleSelectionChange}
+                    saveStatus={saveStatus}
                   />
                 </div>
               )}

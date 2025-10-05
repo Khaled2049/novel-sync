@@ -24,6 +24,7 @@ interface TipTapEditorProps {
   onContentChange: (content: string) => void;
   onSave: (content: string) => void;
   onSelectionChange: (selectedText: string) => void;
+  saveStatus: string;
 }
 
 export const TipTapEditor: React.FC<TipTapEditorProps> = ({
@@ -31,6 +32,7 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
   onContentChange,
   onSave,
   onSelectionChange,
+  saveStatus,
 }) => {
   const aiGeneratorRef = useRef<AITextGenerator | null>(null);
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -249,7 +251,14 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
         </div>
       </div>
 
-      <div className="flex my-3">
+      <div className="flex flex-col items-center my-3 space-y-1">
+        <span
+          className={`text-green-600 dark:text-green-400 min-h-[1.5rem] transition-opacity duration-300 ${
+            saveStatus ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          {saveStatus}
+        </span>
         <EditorHeader editor={editor} />
       </div>
     </div>
