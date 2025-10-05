@@ -1,13 +1,13 @@
 import React from "react";
-import { Book, Sparkles } from "lucide-react";
+import { Book, Trash2 } from "lucide-react";
 import { Chapter } from "@/types/IStory";
 
 interface SidebarPanelProps {
   chapters: Chapter[];
   currentChapterId: string;
   chapterTitle: string;
-  selectedText: string;
   onChapterSelect: (chapter: Chapter) => void;
+  onChapterDelete: (chapterId: string) => void;
   activeTab?: "chapters" | "ai";
   onTabChange?: (tab: "chapters" | "ai") => void;
 }
@@ -15,9 +15,9 @@ interface SidebarPanelProps {
 export const SidebarPanel: React.FC<SidebarPanelProps> = ({
   chapters,
   currentChapterId,
-  chapterTitle,
-  selectedText,
+
   onChapterSelect,
+  onChapterDelete,
   activeTab = "chapters",
   onTabChange = () => {},
 }) => {
@@ -50,22 +50,42 @@ export const SidebarPanel: React.FC<SidebarPanelProps> = ({
             </div>
           ) : (
             chapters.map((chapter) => (
-              <button
+              <div
                 key={chapter.id}
-                onClick={() => onChapterSelect(chapter)}
-                className={`w-full text-left px-4 py-3 rounded-lg transition-all ${
+                className={`w-full rounded-lg transition-all flex items-center justify-between group ${
                   currentChapterId === chapter.id
-                    ? "bg-dark-green/10 dark:bg-light-green/10 text-black dark:text-white"
-                    : "text-black/70 dark:text-white/70 hover:bg-black/5 dark:hover:bg-neutral-50/5"
+                    ? "bg-dark-green/10 dark:bg-light-green/10"
+                    : "hover:bg-black/5 dark:hover:bg-neutral-50/5"
                 }`}
               >
-                <div className="flex items-center space-x-3">
-                  <Book className="w-4 h-4 flex-shrink-0 text-dark-green dark:text-light-green" />
-                  <span className="text-sm truncate">
-                    {chapterTitle || "Untitled"}
-                  </span>
-                </div>
-              </button>
+                <button
+                  onClick={() => onChapterSelect(chapter)}
+                  className="flex-1 text-left px-4 py-3"
+                >
+                  <div className="flex items-center space-x-3">
+                    <Book className="w-4 h-4 flex-shrink-0 text-dark-green dark:text-light-green" />
+                    <span
+                      className={`text-sm truncate ${
+                        currentChapterId === chapter.id
+                          ? "text-black dark:text-white"
+                          : "text-black/70 dark:text-white/70"
+                      }`}
+                    >
+                      {chapter.title || "Untitled"}
+                    </span>
+                  </div>
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onChapterDelete(chapter.id);
+                  }}
+                  className="px-3 py-3 opacity-0 group-hover:opacity-100 transition-opacity text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300"
+                  aria-label="Delete chapter"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
             ))
           )}
         </div>

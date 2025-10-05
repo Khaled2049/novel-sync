@@ -198,6 +198,41 @@ export function SimpleEditor() {
     setSelectedText(text);
   };
 
+  const handleChapterDelete = async (chapterId: string) => {
+    if (!currentStory) return;
+
+    // Confirm deletion
+    if (!window.confirm("Are you sure you want to delete this chapter?")) {
+      return;
+    }
+
+    try {
+      await storiesRepo.deleteChapter(currentStory.id, chapterId);
+
+      // Remove from state
+      setChapters((prevChapters) =>
+        prevChapters.filter((ch) => ch.id !== chapterId)
+      );
+
+      // If deleting current chapter, switch to another one
+      if (currentChapter?.id === chapterId) {
+        const remainingChapters = chapters.filter((ch) => ch.id !== chapterId);
+        if (remainingChapters.length > 0) {
+          setCurrentChapter(remainingChapters[0]);
+          setChapterTitle(remainingChapters[0].title);
+        } else {
+          setCurrentChapter(null);
+          setChapterTitle("");
+        }
+      }
+    } catch (error) {
+      console.error("Error deleting chapter:", error);
+      setSaveStatus(
+        error instanceof Error ? error.message : "Error deleting chapter"
+      );
+    }
+  };
+
   return (
     <div className="h-screen w-full bg-neutral-50 dark:bg-neutral-950 flex overflow-hidden transition-colors duration-200">
       {storyLoading ? (
@@ -206,7 +241,6 @@ export function SimpleEditor() {
         </div>
       ) : (
         <>
-          {/* Left Sidebar - Chapters/AI Tools */}
           <div
             className={`relative bg-neutral-50 dark:bg-black border-r border-black/10 dark:border-white/10 transition-all duration-300 ease-in-out ${
               leftSidebarOpen ? "w-80" : "w-0"
@@ -217,8 +251,8 @@ export function SimpleEditor() {
                 chapters={chapters}
                 currentChapterId={currentChapter?.id || ""}
                 chapterTitle={chapterTitle}
-                selectedText={selectedText}
                 onChapterSelect={handleChapterSelect}
+                onChapterDelete={handleChapterDelete}
                 activeTab={activeTab}
                 onTabChange={setActiveTab}
               />
