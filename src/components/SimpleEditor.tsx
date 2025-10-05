@@ -27,7 +27,6 @@ export function SimpleEditor() {
   const [chapterTitle, setChapterTitle] = useState("");
   const [saveStatus, setSaveStatus] = useState("");
   const [storyLoading, setStoryLoading] = useState(true);
-  const [selectedText, setSelectedText] = useState("");
   const [activeTab, setActiveTab] = useState<"chapters" | "ai">("chapters");
   const [leftSidebarOpen, setLeftSidebarOpen] = useState(true);
   const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
