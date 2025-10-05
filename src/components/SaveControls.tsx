@@ -15,7 +15,7 @@ export const SaveControls: React.FC<SaveControlsProps> = ({
   onNewChapter,
 }) => {
   return (
-    <div className="bg-white dark:bg-black p-4 rounded-lg transition-colors duration-200">
+    <div className="bg-neutral-50 dark:bg-black p-4 rounded-lg transition-colors duration-200">
       {/* Action Buttons */}
       <div className="grid grid-cols-2 gap-3">
         <button

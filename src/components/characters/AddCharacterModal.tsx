@@ -47,7 +47,7 @@ const AddCharacterModal = ({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center dark:bg-black/50">
-      <div className="bg-white dark:bg-black p-6 rounded-lg transition-colors duration-200">
+      <div className="bg-neutral-50 dark:bg-black p-6 rounded-lg transition-colors duration-200">
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -55,7 +55,7 @@ const AddCharacterModal = ({
             value={character.name}
             onChange={handleChange}
             placeholder="Name"
-            className="w-full mb-2 p-2 border border-black/20 dark:border-white/20 rounded bg-white dark:bg-black text-black dark:text-white focus:ring-dark-green dark:focus:ring-light-green focus:border-dark-green dark:focus:border-light-green"
+            className="w-full mb-2 p-2 border border-black/20 dark:border-white/20 rounded bg-neutral-50 dark:bg-black text-black dark:text-white focus:ring-dark-green dark:focus:ring-light-green focus:border-dark-green dark:focus:border-light-green"
             required
           />
           <input
@@ -64,7 +64,7 @@ const AddCharacterModal = ({
             value={character.age}
             onChange={handleChange}
             placeholder="Age"
-            className="w-full mb-2 p-2 border border-black/20 dark:border-white/20 rounded bg-white dark:bg-black text-black dark:text-white focus:ring-dark-green dark:focus:ring-light-green focus:border-dark-green dark:focus:border-light-green"
+            className="w-full mb-2 p-2 border border-black/20 dark:border-white/20 rounded bg-neutral-50 dark:bg-black text-black dark:text-white focus:ring-dark-green dark:focus:ring-light-green focus:border-dark-green dark:focus:border-light-green"
             required
           />
           <textarea
@@ -72,7 +72,7 @@ const AddCharacterModal = ({
             value={character.backstory}
             onChange={handleChange}
             placeholder="Backstory"
-            className="w-full mb-2 p-2 border border-black/20 dark:border-white/20 rounded bg-white dark:bg-black text-black dark:text-white focus:ring-dark-green dark:focus:ring-light-green focus:border-dark-green dark:focus:border-light-green"
+            className="w-full mb-2 p-2 border border-black/20 dark:border-white/20 rounded bg-neutral-50 dark:bg-black text-black dark:text-white focus:ring-dark-green dark:focus:ring-light-green focus:border-dark-green dark:focus:border-light-green"
             required
           />
           <input
@@ -81,20 +81,20 @@ const AddCharacterModal = ({
             value={character.affiliations}
             onChange={handleChange}
             placeholder="Affiliations"
-            className="w-full mb-2 p-2 border border-black/20 dark:border-white/20 rounded bg-white dark:bg-black text-black dark:text-white focus:ring-dark-green dark:focus:ring-light-green focus:border-dark-green dark:focus:border-light-green"
+            className="w-full mb-2 p-2 border border-black/20 dark:border-white/20 rounded bg-neutral-50 dark:bg-black text-black dark:text-white focus:ring-dark-green dark:focus:ring-light-green focus:border-dark-green dark:focus:border-light-green"
           />
           <textarea
             name="notes"
             value={character.notes}
             onChange={handleChange}
             placeholder="Notes"
-            className="w-full mb-2 p-2 border border-black/20 dark:border-white/20 rounded bg-white dark:bg-black text-black dark:text-white focus:ring-dark-green dark:focus:ring-light-green focus:border-dark-green dark:focus:border-light-green"
+            className="w-full mb-2 p-2 border border-black/20 dark:border-white/20 rounded bg-neutral-50 dark:bg-black text-black dark:text-white focus:ring-dark-green dark:focus:ring-light-green focus:border-dark-green dark:focus:border-light-green"
           />
           <div className="flex justify-end">
             <button
               type="button"
               onClick={onClose}
-              className="bg-black/10 dark:bg-white/10 text-black dark:text-white px-4 py-2 rounded mr-2 hover:bg-black/20 dark:hover:bg-white/20 transition-colors duration-200"
+              className="bg-black/10 dark:bg-neutral-50/10 text-black dark:text-white px-4 py-2 rounded mr-2 hover:bg-black/20 dark:hover:bg-neutral-50/20 transition-colors duration-200"
             >
               Cancel
             </button>

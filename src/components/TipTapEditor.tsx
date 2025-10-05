@@ -23,14 +23,14 @@ interface TipTapEditorProps {
   initialContent: string;
   onContentChange: (content: string) => void;
   onSave: (content: string) => void;
-  onSelectionChange: (selectedText: string) => void;
+  saveStatus: string;
 }
 
 export const TipTapEditor: React.FC<TipTapEditorProps> = ({
   initialContent,
   onContentChange,
   onSave,
-  onSelectionChange,
+  saveStatus,
 }) => {
   const aiGeneratorRef = useRef<AITextGenerator | null>(null);
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -133,15 +133,15 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
       onContentChange(content);
       debouncedSave(content);
     },
-    onSelectionUpdate: ({ editor }) => {
-      const { from, to } = editor.state.selection;
-      if (from !== to) {
-        const selectedText = editor.state.doc.textBetween(from, to);
-        onSelectionChange(selectedText);
-      } else {
-        onSelectionChange("");
-      }
-    },
+    // onSelectionUpdate: ({ editor }) => {
+    //   const { from, to } = editor.state.selection;
+    //   if (from !== to) {
+    //     const selectedText = editor.state.doc.textBetween(from, to);
+    //     onSelectionChange(selectedText);
+    //   } else {
+    //     onSelectionChange("");
+    //   }
+    // },
   });
 
   // Update editor content when initialContent changes
@@ -214,10 +214,10 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
       <BubbleMenu
         editor={editor}
         tippyOptions={{ duration: 150 }}
-        className="bg-black text-white rounded-lg shadow-lg dark:bg-black"
+        className="bg-black text-white shadow-lg dark:bg-black"
         shouldShow={({ from, to }) => from !== to}
       >
-        <div className="flex min-w-[18rem] justify-center bg-black p-1 rounded-lg shadow-lg">
+        <div className="flex min-w-[18rem] justify-center bg-black p-1 shadow-lg">
           <button
             className="py-1 px-3 m-1 text-sm font-medium text-white bg-dark-green rounded-md hover:bg-light-green focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dark-green transition-colors duration-200"
             onClick={() => handleAction("expandText")}
@@ -239,19 +239,24 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
         </div>
       </BubbleMenu>
 
-      <div className="p-4 rounded-lg border border-black/20 dark:border-white/20 bg-white dark:bg-black transition-colors duration-200">
-        <div className="min-h-[28rem] w-full flex justify-center">
-          <div className="w-full focus:outline-none selection:bg-light-green/20 dark:selection:bg-dark-green/20">
-            <EditorContent
-              onClick={() => editor.commands.focus()}
-              className="w-full focus:outline-none selection:bg-light-green/20 dark:selection:bg-dark-green/20 text-black dark:text-white"
-              editor={editor}
-            />
-          </div>
+      <div className="py-8 transition-colors duration-200">
+        <div className="min-h-[28rem] w-full border-b border-black/10 dark:border-white/10 pb-8">
+          <EditorContent
+            onClick={() => editor.commands.focus()}
+            className="w-full focus:outline-none selection:bg-light-green/20 dark:selection:bg-dark-green/20 text-black dark:text-white prose prose-lg max-w-none dark:prose-invert"
+            editor={editor}
+          />
         </div>
       </div>
 
-      <div className="flex my-3">
+      <div className="flex flex-col items-center my-3 space-y-1">
+        <span
+          className={`text-green-600 dark:text-green-400 min-h-[1.5rem] transition-opacity duration-300 ${
+            saveStatus ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          {saveStatus}
+        </span>
         <EditorHeader editor={editor} />
       </div>
     </div>

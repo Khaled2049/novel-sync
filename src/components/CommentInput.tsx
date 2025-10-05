@@ -38,7 +38,7 @@ export const CommentInput: React.FC<CommentInputProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-6 p-4 bg-opacity-50 w-full ">
+    <form onSubmit={handleSubmit} className="mb-6 p-4 bg-opacity-50 w-full">
       <Textarea
         value={message}
         onChange={(e) => setMessage(e.target.value)}
@@ -47,9 +47,15 @@ export const CommentInput: React.FC<CommentInputProps> = ({
         }
         disabled={!currentUser}
         className={`w-full p-3 rounded-lg border transition-all duration-200 resize-none
-          bg-gray-900 border-gray-700 text-gray-200
-          focus:outline-none focus:ring-2
-        `}
+      bg-white dark:bg-gray-900 
+      border-gray-300 dark:border-gray-700 
+      text-gray-900 dark:text-gray-200
+      placeholder:text-gray-500 dark:placeholder:text-gray-400
+      focus:outline-none focus:ring-2 
+      focus:ring-dark-green dark:focus:ring-light-green
+      disabled:bg-gray-100 dark:disabled:bg-gray-800 
+      disabled:cursor-not-allowed
+    `}
         rows={3}
       />
       {currentUser && (
@@ -57,11 +63,11 @@ export const CommentInput: React.FC<CommentInputProps> = ({
           type="submit"
           disabled={!message.trim()}
           className={`mt-3 w-full py-2 text-lg font-medium flex items-center justify-center gap-2 transition-all duration-200 
-            ${
-              !message.trim()
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-gray-700 hover:bg-gray-600"
-            }`}
+        ${
+          !message.trim()
+            ? "bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed"
+            : "bg-dark-green dark:bg-light-green text-white dark:text-black hover:bg-light-green dark:hover:bg-dark-green"
+        }`}
         >
           <Send className="w-5 h-5" /> Post Comment
         </Button>

@@ -77,7 +77,7 @@ const Characters: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen bg-white dark:bg-black text-black dark:text-white transition-colors duration-200">
+    <div className="flex h-screen bg-neutral-50 dark:bg-black text-black dark:text-white transition-colors duration-200">
       <div className="w-1/2 p-4 border-r border-black/20 dark:border-white/20">
         <h2 className="text-xl font-bold mb-4">Characters</h2>
         <button
@@ -90,7 +90,7 @@ const Characters: React.FC = () => {
           {characters.map((character) => (
             <li
               key={character.id}
-              className="flex items-center justify-between hover:bg-black/10 dark:hover:bg-white/10 p-2 rounded-md transition-colors duration-200"
+              className="flex items-center justify-between hover:bg-black/10 dark:hover:bg-neutral-50/10 p-2 rounded-md transition-colors duration-200"
             >
               <span
                 className="cursor-pointer"
@@ -122,7 +122,7 @@ const Characters: React.FC = () => {
       <div className="w-1/2 p-4">
         <h2 className="text-xl font-bold mb-4">Character Details</h2>
         {selectedCharacter ? (
-          <div className="bg-white dark:bg-black p-4 rounded-lg border border-black/20 dark:border-white/20">
+          <div className="bg-neutral-50 dark:bg-black p-4 rounded-lg border border-black/20 dark:border-white/20">
             <h3 className="text-lg font-semibold">{selectedCharacter.name}</h3>
             <p className="text-black/70 dark:text-white/70">
               Age: {selectedCharacter.age}

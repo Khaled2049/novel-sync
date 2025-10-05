@@ -64,98 +64,97 @@ const EditorHeader: React.FC<EditorHeaderProps> = ({ editor }) => {
   }, [editor, genImage, closeModal]);
 
   return (
-    <div className="flex flex-wrap gap-2 p-2  rounded-lg w-full text-center justify-center">
+    <div className="flex flex-wrap gap-2 p-2 w-full text-center justify-center dark:bg-transparent transition-colors duration-200 border-b border-gray-200 dark:border-gray-800">
+      {/* Undo Button */}
       <button
-        className="p-2 rounded-md hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-gray-700 dark:text-gray-300"
         onClick={() => editor.chain().focus().undo().run()}
         disabled={!editor.can().undo()}
       >
         <Icons.RotateLeft />
       </button>
+      {/* Redo Button */}
       <button
-        className="p-2 rounded-md hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-gray-700 dark:text-gray-300"
         onClick={() => editor.chain().focus().redo().run()}
         disabled={!editor.can().redo()}
       >
         <Icons.RotateRight />
       </button>
 
+      {/* Bold Button */}
       <button
-        className={`p-2 rounded-md hover:bg-gray-200 transition-colors ${
-          editor.isActive("bold") ? "bg-gray-300" : ""
+        className={`p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300 ${
+          editor.isActive("bold")
+            ? "bg-gray-300 dark:bg-gray-700" // Active state (now a softer dark gray)
+            : ""
         }`}
         onClick={toggleBold}
       >
         <Icons.Bold />
       </button>
+      {/* Underline Button */}
       <button
-        className={`p-2 rounded-md hover:bg-gray-200 transition-colors ${
-          editor.isActive("underline") ? "bg-gray-300" : ""
+        className={`p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300 ${
+          editor.isActive("underline")
+            ? "bg-gray-300 dark:bg-gray-700" // Active state (now a softer dark gray)
+            : ""
         }`}
         onClick={toggleUnderline}
       >
         <Icons.Underline />
       </button>
+      {/* Italic Button */}
       <button
-        className={`p-2 rounded-md hover:bg-gray-200 transition-colors ${
-          editor.isActive("italic") ? "bg-gray-300" : ""
+        className={`p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300 ${
+          editor.isActive("italic")
+            ? "bg-gray-300 dark:bg-gray-700" // Active state (now a softer dark gray)
+            : ""
         }`}
         onClick={toggleItalic}
       >
         <Icons.Italic />
       </button>
 
-      {/* <button
-        onClick={openModal}
-        className="p-2 rounded-md hover:bg-gray-200 transition-colors relative"
-        disabled={isLoading}
-      >
-        {isLoading ? <h1>Loading...</h1> : <RiAiGenerate />}
-      </button> */}
-
+      {/* H1 Button */}
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-        className={`p-2 rounded-md hover:bg-gray-200 transition-colors ${
-          editor.isActive("heading", { level: 1 }) ? "bg-gray-300 " : ""
+        className={`p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300 ${
+          editor.isActive("heading", { level: 1 })
+            ? "bg-gray-300 dark:bg-gray-700" // Active state (now a softer dark gray)
+            : ""
         }`}
       >
         H1
       </button>
+      {/* H2 Button */}
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        className={`p-2 rounded-md hover:bg-gray-200 transition-colors ${
-          editor.isActive("heading", { level: 2 }) ? "bg-gray-300 " : ""
+        className={`p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300 ${
+          editor.isActive("heading", { level: 2 })
+            ? "bg-gray-300 dark:bg-gray-700" // Active state (now a softer dark gray)
+            : ""
         }`}
       >
         H2
       </button>
+      {/* Bullet List Button */}
       <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={editor.isActive("bulletList") ? "is-active" : ""}
+        className={`p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300 ${
+          editor.isActive("bulletList")
+            ? "bg-gray-300 dark:bg-gray-700" // Active state (now a softer dark gray)
+            : ""
+        }`}
       >
         <List />
       </button>
-      {/* <button
-        onClick={() => editor.chain().focus().splitListItem("listItem").run()}
-        disabled={!editor.can().splitListItem("listItem")}
-      >
-        Split list item
-      </button>
-      <button
-        onClick={() => editor.chain().focus().sinkListItem("listItem").run()}
-        disabled={!editor.can().sinkListItem("listItem")}
-      >
-        Sink list item
-      </button>
-      <button
-        onClick={() => editor.chain().focus().liftListItem("listItem").run()}
-        disabled={!editor.can().liftListItem("listItem")}
-      >
-        Lift list item
-      </button> */}
-      <div className="flex items-center justify-center h-12 p-2 rounded-md">
+
+      {/* Word Count */}
+      <div className="flex items-center justify-center h-12 p-2 rounded-md text-gray-500 dark:text-gray-400">
         {editor.storage.characterCount.words()} words
       </div>
+      {/* LinkModal (Keep as is) */}
       <LinkModal
         url={genImage}
         isOpen={modalIsOpen}

@@ -64,7 +64,7 @@ const Signin: React.FC = () => {
               onChange={handleChange}
               required
               className="mt-1 block w-full px-3 py-2 
-             bg-white text-black dark:bg-black dark:text-white 
+             bg-neutral-50 text-black dark:bg-black dark:text-white 
              border border-black/20 dark:border-white/20 
              rounded-md shadow-sm 
              focus:outline-none focus:ring-2 
@@ -88,7 +88,7 @@ const Signin: React.FC = () => {
               onChange={handleChange}
               required
               className="mt-1 block w-full px-3 py-2 
-             bg-white text-black dark:bg-black dark:text-white 
+             bg-neutral-50 text-black dark:bg-black dark:text-white 
              border border-black/20 dark:border-white/20 
              rounded-md shadow-sm 
              focus:outline-none focus:ring-2 
@@ -118,7 +118,10 @@ const Signin: React.FC = () => {
             {isLoading ? "Signing In..." : "Sign In"}
           </button>
           <div className="text-center mt-4">
-            <Link to="/sign-up" className="text-dark-green dark:text-light-green hover:text-light-green dark:hover:text-dark-green transition-colors duration-200">
+            <Link
+              to="/sign-up"
+              className="text-dark-green dark:text-light-green hover:text-light-green dark:hover:text-dark-green transition-colors duration-200"
+            >
               Create an account
             </Link>
           </div>

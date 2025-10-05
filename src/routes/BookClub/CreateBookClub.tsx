@@ -92,7 +92,7 @@ const CreateBookClub = ({
   };
 
   return (
-    <div className="bg-white dark:bg-black transition-colors duration-200">
+    <div className="bg-neutral-50 dark:bg-black transition-colors duration-200">
       <div className="max-w-2xl mx-auto rounded-lg border border-black/20 dark:border-white/20 p-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-3xl font-serif font-bold text-black dark:text-white flex items-center">
@@ -125,7 +125,7 @@ const CreateBookClub = ({
               name="name"
               value={newClub.name}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-black/20 dark:border-white/20 bg-white dark:bg-black text-black dark:text-white rounded-lg focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:border-transparent transition-colors duration-200"
+              className="w-full px-4 py-2 border border-black/20 dark:border-white/20 bg-neutral-50 dark:bg-black text-black dark:text-white rounded-lg focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:border-transparent transition-colors duration-200"
               placeholder="Enter club name"
             />
           </div>
@@ -142,7 +142,7 @@ const CreateBookClub = ({
               name="description"
               value={newClub.description}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-black/20 dark:border-white/20 bg-white dark:bg-black text-black dark:text-white rounded-lg focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:border-transparent transition-colors duration-200 h-32"
+              className="w-full px-4 py-2 border border-black/20 dark:border-white/20 bg-neutral-50 dark:bg-black text-black dark:text-white rounded-lg focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:border-transparent transition-colors duration-200 h-32"
               placeholder="Enter club description"
             />
           </div>
@@ -160,7 +160,7 @@ const CreateBookClub = ({
               name="category"
               value={newClub.category}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-black/20 dark:border-white/20 bg-white dark:bg-black text-black dark:text-white rounded-lg focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:border-transparent transition-colors duration-200"
+              className="w-full px-4 py-2 border border-black/20 dark:border-white/20 bg-neutral-50 dark:bg-black text-black dark:text-white rounded-lg focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:border-transparent transition-colors duration-200"
               placeholder="Enter club category"
             />
           </div>
@@ -178,7 +178,7 @@ const CreateBookClub = ({
               name="meetUp"
               value={newClub.meetUp}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-black/20 dark:border-white/20 bg-white dark:bg-black text-black dark:text-white rounded-lg focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:border-transparent transition-colors duration-200"
+              className="w-full px-4 py-2 border border-black/20 dark:border-white/20 bg-neutral-50 dark:bg-black text-black dark:text-white rounded-lg focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:border-transparent transition-colors duration-200"
               placeholder="Location"
             />
           </div>
@@ -194,7 +194,7 @@ const CreateBookClub = ({
         <div className="flex justify-end mt-8 space-x-4">
           <button
             onClick={onCancel}
-            className="px-6 py-2 bg-black/10 dark:bg-white/10 text-black dark:text-white rounded-full hover:bg-black/20 dark:hover:bg-white/20 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
+            className="px-6 py-2 bg-black/10 dark:bg-neutral-50/10 text-black dark:text-white rounded-full hover:bg-black/20 dark:hover:bg-neutral-50/20 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
           >
             Cancel
           </button>

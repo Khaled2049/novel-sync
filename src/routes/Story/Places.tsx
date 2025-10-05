@@ -75,7 +75,7 @@ const places: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen bg-white dark:bg-black text-black dark:text-white transition-colors duration-200">
+    <div className="flex h-screen bg-neutral-50 dark:bg-black text-black dark:text-white transition-colors duration-200">
       <div className="w-1/2 p-4 border-r border-black/20 dark:border-white/20">
         <h2 className="text-xl font-bold mb-4">places</h2>
         <button
@@ -88,7 +88,7 @@ const places: React.FC = () => {
           {places.map((place) => (
             <li
               key={place.id}
-              className="flex items-center justify-between hover:bg-black/10 dark:hover:bg-white/10 p-2 rounded-md transition-colors duration-200"
+              className="flex items-center justify-between hover:bg-black/10 dark:hover:bg-neutral-50/10 p-2 rounded-md transition-colors duration-200"
             >
               <span
                 className="cursor-pointer"
@@ -120,7 +120,7 @@ const places: React.FC = () => {
       <div className="w-1/2 p-4">
         <h2 className="text-xl font-bold mb-4">place Details</h2>
         {selectedplace ? (
-          <div className="bg-white dark:bg-black p-4 rounded-lg border border-black/20 dark:border-white/20">
+          <div className="bg-neutral-50 dark:bg-black p-4 rounded-lg border border-black/20 dark:border-white/20">
             <h3 className="text-lg font-semibold">{selectedplace.name}</h3>
             <p className="text-black/70 dark:text-white/70">
               Description: {selectedplace.description}

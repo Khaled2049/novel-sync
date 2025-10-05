@@ -90,7 +90,7 @@ const StoriesLayout = () => {
   const location = useLocation();
 
   return (
-    <div className="min-h-screen py-24 bg-white dark:bg-black">
+    <div className="min-h-screen py-24 bg-neutral-50 dark:bg-black">
       <div className="container mx-auto px-4">
         <div className="w-full mb-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -109,7 +109,7 @@ const StoriesLayout = () => {
                     (location.pathname === "/stories" &&
                       tab.path === "/stories")
                       ? "bg-dark-green dark:bg-light-green text-white"
-                      : "text-black/70 dark:text-white/70 hover:bg-black/10 dark:hover:bg-white/10"
+                      : "text-black/70 dark:text-white/70 hover:bg-black/10 dark:hover:bg-neutral-50/10"
                   }
                 `}
                   >

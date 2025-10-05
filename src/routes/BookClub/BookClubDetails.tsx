@@ -48,7 +48,7 @@ const BookClubDetails: React.FC = () => {
   }
 
   return (
-    <div className="mx-auto py-24 flex flex-col bg-white dark:bg-black transition-colors duration-200">
+    <div className="mx-auto py-24 flex flex-col bg-neutral-50 dark:bg-black transition-colors duration-200">
       {/* Main Content */}
       <div className="justify-center">
         {/* Club Header */}
@@ -58,7 +58,7 @@ const BookClubDetails: React.FC = () => {
         </div>
 
         {/* Book of the Month */}
-        <div className="shadow-lg rounded-lg p-6 mb-6 bg-white dark:bg-black border border-black/20 dark:border-white/20">
+        <div className="shadow-lg rounded-lg p-6 mb-6 bg-neutral-50 dark:bg-black border border-black/20 dark:border-white/20">
           <h2 className="text-2xl font-serif font-bold mb-4 text-black dark:text-white flex items-center">
             <Book className="mr-2 text-dark-green dark:text-light-green" /> Book
             of the Month
@@ -88,13 +88,13 @@ const BookClubDetails: React.FC = () => {
         </div>
 
         {/* Meetup Schedule */}
-        <div className="shadow-lg rounded-lg p-6 mb-6 bg-white dark:bg-black border border-black/20 dark:border-white/20">
+        <div className="shadow-lg rounded-lg p-6 mb-6 bg-neutral-50 dark:bg-black border border-black/20 dark:border-white/20">
           <h2 className="text-2xl font-serif font-bold mb-4 text-black dark:text-white flex items-center">
             <Calendar className="mr-2 text-dark-green dark:text-light-green" />{" "}
             Meet Up
           </h2>
           {club.meetUp ? (
-            <p className="text-black/70 dark:text-white/70 p-3 rounded-lg bg-black/5 dark:bg-white/5">
+            <p className="text-black/70 dark:text-white/70 p-3 rounded-lg bg-black/5 dark:bg-neutral-50/5">
               {club.meetUp}
             </p>
           ) : (
@@ -105,7 +105,7 @@ const BookClubDetails: React.FC = () => {
         </div>
 
         {/* Discussion Forum */}
-        <div className="shadow-lg rounded-lg p-6 mb-6 bg-white dark:bg-black border border-black/20 dark:border-white/20">
+        <div className="shadow-lg rounded-lg p-6 mb-6 bg-neutral-50 dark:bg-black border border-black/20 dark:border-white/20">
           <h2 className="text-2xl font-serif font-bold mb-4 text-black dark:text-white flex items-center">
             <MessageCircle className="mr-2 text-dark-green dark:text-light-green" />{" "}
             Discussion Forum
@@ -115,7 +115,7 @@ const BookClubDetails: React.FC = () => {
               {club.discussions.map((discussion) => (
                 <li
                   key={discussion.id}
-                  className="p-4 rounded-lg bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10"
+                  className="p-4 rounded-lg bg-black/5 dark:bg-neutral-50/5 border border-black/10 dark:border-white/10"
                 >
                   <h3 className="text-lg font-semibold text-black dark:text-white">
                     {discussion.title}

@@ -377,7 +377,7 @@ const StoryDetail: React.FC = () => {
           disabled={state.currentChapterIndex === 0}
           className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-white dark:focus:ring-offset-black ${
             state.currentChapterIndex === 0
-              ? "bg-black/10 dark:bg-white/10 text-black/50 dark:text-white/50 cursor-not-allowed"
+              ? "bg-black/10 dark:bg-neutral-50/10 text-black/50 dark:text-white/50 cursor-not-allowed"
               : "bg-dark-green dark:bg-light-green hover:bg-light-green dark:hover:bg-dark-green text-white shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
           }`}
         >
@@ -394,7 +394,7 @@ const StoryDetail: React.FC = () => {
           disabled={state.currentChapterIndex === state.chapters.length - 1}
           className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-white dark:focus:ring-offset-black ${
             state.currentChapterIndex === state.chapters.length - 1
-              ? "bg-black/10 dark:bg-white/10 text-black/50 dark:text-white/50 cursor-not-allowed"
+              ? "bg-black/10 dark:bg-neutral-50/10 text-black/50 dark:text-white/50 cursor-not-allowed"
               : "bg-dark-green dark:bg-light-green hover:bg-light-green dark:hover:bg-dark-green text-white shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
           }`}
         >
@@ -414,7 +414,7 @@ const StoryDetail: React.FC = () => {
   // Loading state
   if (state.loading) {
     return (
-      <div className="min-h-screen pt-20 bg-white dark:bg-black flex items-center justify-center transition-colors duration-200">
+      <div className="min-h-screen pt-20 bg-neutral-50 dark:bg-black flex items-center justify-center transition-colors duration-200">
         <div className="text-center">
           <Loader className="w-12 h-12 animate-spin mx-auto mb-4 text-dark-green dark:text-light-green" />
           <p className="text-black/70 dark:text-white/70">Loading story...</p>
@@ -426,7 +426,7 @@ const StoryDetail: React.FC = () => {
   // Error state
   if (state.error) {
     return (
-      <div className="min-h-screen pt-20 bg-white dark:bg-black flex items-center justify-center transition-colors duration-200">
+      <div className="min-h-screen pt-20 bg-neutral-50 dark:bg-black flex items-center justify-center transition-colors duration-200">
         <div className="text-center">
           <AlertCircle className="w-12 h-12 mx-auto mb-4 text-red-500" />
           <p className="text-red-600 dark:text-red-400 mb-4">{state.error}</p>
@@ -444,7 +444,7 @@ const StoryDetail: React.FC = () => {
   // No story found
   if (!state.story) {
     return (
-      <div className="min-h-screen pt-20 bg-white dark:bg-black flex items-center justify-center transition-colors duration-200">
+      <div className="min-h-screen pt-20 bg-neutral-50 dark:bg-black flex items-center justify-center transition-colors duration-200">
         <div className="text-center">
           <p className="text-black/70 dark:text-white/70">Story not found</p>
         </div>
@@ -453,10 +453,10 @@ const StoryDetail: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen pt-20 bg-white dark:bg-black transition-colors duration-200">
+    <div className="min-h-screen pt-20 bg-neutral-50 dark:bg-black transition-colors duration-200">
       <div className="max-w-4xl mx-auto p-6">
         {/* Story Header */}
-        <div className="bg-white dark:bg-black rounded-xl shadow-lg overflow-hidden mb-8 border border-black/20 dark:border-white/20">
+        <div className="bg-neutral-50 dark:bg-black rounded-xl shadow-lg overflow-hidden mb-8 border border-black/20 dark:border-white/20">
           {state.story.coverImageUrl && (
             <div className="relative h-64 md:h-80 overflow-hidden">
               <img
@@ -490,7 +490,7 @@ const StoryDetail: React.FC = () => {
                   disabled={state.hasLikedRecently}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-white dark:focus:ring-offset-black ${
                     state.hasLikedRecently
-                      ? "bg-black/10 dark:bg-white/10 text-black/50 dark:text-white/50 cursor-not-allowed"
+                      ? "bg-black/10 dark:bg-neutral-50/10 text-black/50 dark:text-white/50 cursor-not-allowed"
                       : "bg-dark-green dark:bg-light-green hover:bg-light-green dark:hover:bg-dark-green text-white shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
                   }`}
                 >
@@ -507,7 +507,7 @@ const StoryDetail: React.FC = () => {
 
         {/* Chapter Content */}
         {state.currentChapter && (
-          <div className="bg-white dark:bg-black rounded-xl shadow-lg p-6 md:p-8 mb-8 border border-black/20 dark:border-white/20">
+          <div className="bg-neutral-50 dark:bg-black rounded-xl shadow-lg p-6 md:p-8 mb-8 border border-black/20 dark:border-white/20">
             <h2 className="text-2xl md:text-3xl font-bold mb-6 text-black dark:text-white">
               {state.currentChapter.title}
             </h2>
@@ -521,7 +521,7 @@ const StoryDetail: React.FC = () => {
         )}
 
         {/* Comments Section */}
-        <div className="bg-white dark:bg-black rounded-xl shadow-lg p-6 md:p-8 border border-black/20 dark:border-white/20">
+        <div className="bg-neutral-50 dark:bg-black rounded-xl shadow-lg p-6 md:p-8 border border-black/20 dark:border-white/20">
           <h2 className="text-2xl font-bold mb-6 text-black dark:text-white">
             Comments
           </h2>
