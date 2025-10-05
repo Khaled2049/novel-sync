@@ -23,7 +23,6 @@ interface TipTapEditorProps {
   initialContent: string;
   onContentChange: (content: string) => void;
   onSave: (content: string) => void;
-  onSelectionChange: (selectedText: string) => void;
   saveStatus: string;
 }
 
@@ -31,7 +30,6 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
   initialContent,
   onContentChange,
   onSave,
-  onSelectionChange,
   saveStatus,
 }) => {
   const aiGeneratorRef = useRef<AITextGenerator | null>(null);
@@ -135,15 +133,15 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
       onContentChange(content);
       debouncedSave(content);
     },
-    onSelectionUpdate: ({ editor }) => {
-      const { from, to } = editor.state.selection;
-      if (from !== to) {
-        const selectedText = editor.state.doc.textBetween(from, to);
-        onSelectionChange(selectedText);
-      } else {
-        onSelectionChange("");
-      }
-    },
+    // onSelectionUpdate: ({ editor }) => {
+    //   const { from, to } = editor.state.selection;
+    //   if (from !== to) {
+    //     const selectedText = editor.state.doc.textBetween(from, to);
+    //     onSelectionChange(selectedText);
+    //   } else {
+    //     onSelectionChange("");
+    //   }
+    // },
   });
 
   // Update editor content when initialContent changes

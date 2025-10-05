@@ -192,11 +192,6 @@ export function SimpleEditor() {
     }
   };
 
-  // Handle selection changes in editor
-  const handleSelectionChange = (text: string) => {
-    setSelectedText(text);
-  };
-
   const handleChapterDelete = async (chapterId: string) => {
     if (!currentStory) return;
 
@@ -291,7 +286,6 @@ export function SimpleEditor() {
                     initialContent={currentChapter.content}
                     onContentChange={handleContentChange}
                     onSave={handleSave}
-                    onSelectionChange={handleSelectionChange}
                     saveStatus={saveStatus}
                   />
                 </div>
