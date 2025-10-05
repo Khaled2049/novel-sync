@@ -23,106 +23,79 @@ export const SidebarPanel: React.FC<SidebarPanelProps> = ({
   onTabChange = () => {},
 }) => {
   return (
-    <div className="bg-white dark:bg-black rounded-lg shadow-md w-full flex flex-col transition-colors duration-200">
+    <div className="h-full flex flex-col">
       {/* Tab Navigation */}
-      <div className="flex border-b border-black/20 dark:border-white/20 rounded-t-lg">
+      <div className="flex border-b border-black/10 dark:border-white/10">
         <button
-          className={`flex-1 py-2 px-4 flex items-center justify-center space-x-2 text-black/70 dark:text-white/70 hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-200 ${
+          className={`flex-1 py-3 px-4 flex items-center justify-center space-x-2 text-sm transition-colors ${
             activeTab === "chapters"
               ? "border-b-2 border-dark-green dark:border-light-green text-black dark:text-white font-medium"
-              : ""
+              : "text-black/50 dark:text-white/50 hover:text-black/70 dark:hover:text-white/70"
           }`}
           onClick={() => onTabChange("chapters")}
         >
-          <Book className="w-4 h-4 text-dark-green dark:text-light-green" />
+          <Book className="w-4 h-4" />
           <span>Chapters</span>
         </button>
         <button
-          className={`flex-1 py-2 px-4 flex items-center justify-center space-x-2 text-black/70 dark:text-white/70 hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-200 ${
+          className={`flex-1 py-3 px-4 flex items-center justify-center space-x-2 text-sm transition-colors ${
             activeTab === "ai"
               ? "border-b-2 border-dark-green dark:border-light-green text-black dark:text-white font-medium"
-              : ""
+              : "text-black/50 dark:text-white/50 hover:text-black/70 dark:hover:text-white/70"
           }`}
           onClick={() => onTabChange("ai")}
         >
-          <Sparkles className="w-4 h-4 text-dark-green dark:text-light-green" />
+          <Sparkles className="w-4 h-4" />
           <span>AI Tools</span>
         </button>
       </div>
 
-      {/* Content based on active tab */}
-      <div className="p-6 overflow-y-auto flex-1 text-black dark:text-white">
+      {/* Content */}
+      <div className="flex-1 overflow-y-auto p-6">
         {activeTab === "chapters" ? (
-          // Chapters Tab
-          <>
-            <h2 className="text-2xl font-bold mb-4 text-black dark:text-white">
-              Editing: {chapterTitle || "Untitled Chapter"}
-            </h2>
-
+          <div className="space-y-2">
             {chapters.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-10">
-                <Book className="w-12 h-12 text-black/50 dark:text-white/50 mb-4" />
-                <p className="italic text-black/50 dark:text-white/50 text-center">
-                  No chapters added yet. Start your journey!
+              <div className="text-center py-12">
+                <Book className="w-10 h-10 text-black/30 dark:text-white/30 mx-auto mb-3" />
+                <p className="text-sm text-black/50 dark:text-white/50">
+                  No chapters yet
                 </p>
               </div>
             ) : (
-              <ul className="space-y-2">
-                {chapters.map((chapter) => (
-                  <li
-                    key={chapter.id}
-                    className={`rounded-md shadow transition-all hover:shadow-md hover:bg-black/5 dark:hover:bg-white/5 ${
-                      currentChapterId === chapter.id
-                        ? "border-l-4 border-dark-green dark:border-light-green"
-                        : "border-l-4 border-transparent"
-                    }`}
-                  >
-                    <button
-                      className="flex items-center w-full p-3 text-left"
-                      onClick={() => onChapterSelect(chapter)}
-                    >
-                      <div className="flex items-center space-x-3">
-                        <Book
-                          className={`w-5 h-5 text-dark-green dark:text-light-green`}
-                        />
-                        <span
-                          className={`font-medium ${
-                            currentChapterId === chapter.id
-                              ? "text-black dark:text-white"
-                              : "text-black/70 dark:text-white/70"
-                          }`}
-                        >
-                          {chapter.title || "Untitled Chapter"}
-                        </span>
-                      </div>
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              chapters.map((chapter) => (
+                <button
+                  key={chapter.id}
+                  onClick={() => onChapterSelect(chapter)}
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-all ${
+                    currentChapterId === chapter.id
+                      ? "bg-dark-green/10 dark:bg-light-green/10 text-black dark:text-white"
+                      : "text-black/70 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/5"
+                  }`}
+                >
+                  <div className="flex items-center space-x-3">
+                    <Book className="w-4 h-4 flex-shrink-0 text-dark-green dark:text-light-green" />
+                    <span className="text-sm truncate">
+                      {chapterTitle || "Untitled"}
+                    </span>
+                  </div>
+                </button>
+              ))
             )}
-          </>
+          </div>
         ) : (
-          // AI Tools Tab
-          <>
-            <h2 className="text-2xl font-bold mb-4 text-black dark:text-white">
-              AI Writing Assistant
-            </h2>
-
-            {selectedText ? (
-              <AITools text={selectedText} />
-            ) : (
-              <div className="flex flex-col items-center justify-center py-10 text-center">
-                <Sparkles className="w-12 h-12 text-black/50 dark:text-white/50 mb-4" />
-                <p className="text-black/70 dark:text-white/70 mb-2">
-                  Select text in the editor to use AI tools
-                </p>
-                <p className="text-black/70 dark:text-white/70 text-sm">
-                  Or press <span className="font-bold">TAB</span> to continue
-                  your writing with AI assistance
-                </p>
-              </div>
-            )}
-          </>
+          <div className="text-center py-12">
+            <Sparkles className="w-10 h-10 text-black/30 dark:text-white/30 mx-auto mb-3" />
+            <p className="text-sm text-black/50 dark:text-white/50 mb-2">
+              {selectedText ? "AI tools ready" : "Select text to use AI tools"}
+            </p>
+            <p className="text-xs text-black/40 dark:text-white/40">
+              Press{" "}
+              <kbd className="px-2 py-1 bg-black/5 dark:bg-white/5 rounded">
+                Tab
+              </kbd>{" "}
+              to continue with AI
+            </p>
+          </div>
         )}
       </div>
     </div>

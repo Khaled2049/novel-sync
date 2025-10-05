@@ -1,6 +1,6 @@
 import "./style.css";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Loader } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader } from "lucide-react";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
@@ -29,6 +29,8 @@ export function SimpleEditor() {
   const [storyLoading, setStoryLoading] = useState(true);
   const [selectedText, setSelectedText] = useState("");
   const [activeTab, setActiveTab] = useState<"chapters" | "ai">("chapters");
+  const [leftSidebarOpen, setLeftSidebarOpen] = useState(true);
+  const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
 
   // Refs for debouncing
   const storyTitleRef = useRef(storyTitle);
@@ -197,16 +199,48 @@ export function SimpleEditor() {
   };
 
   return (
-    <div className="flex p-4 mt-4 justify-center overflow-auto bg-white dark:bg-black transition-colors duration-200">
+    <div className="h-screen w-full bg-neutral-50 dark:bg-neutral-950 flex overflow-hidden transition-colors duration-200">
       {storyLoading ? (
         <div className="flex items-center justify-center w-full h-full text-dark-green dark:text-light-green">
           <Loader className="w-12 h-12 animate-spin" />
         </div>
       ) : (
-        <div className="flex flex-col lg:flex-row h-screen w-full gap-2">
-          {/* Main Content Area */}
-          <div className="lg:w-2/3 flex flex-col space-y-4">
-            <div className="px-4 rounded-lg">
+        <>
+          {/* Left Sidebar - Chapters/AI Tools */}
+          <div
+            className={`relative bg-neutral-50 dark:bg-black border-r border-black/10 dark:border-white/10 transition-all duration-300 ease-in-out ${
+              leftSidebarOpen ? "w-80" : "w-0"
+            } overflow-hidden`}
+          >
+            <div className="w-80 h-full">
+              <SidebarPanel
+                chapters={chapters}
+                currentChapterId={currentChapter?.id || ""}
+                chapterTitle={chapterTitle}
+                selectedText={selectedText}
+                onChapterSelect={handleChapterSelect}
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+              />
+            </div>
+          </div>
+
+          {/* Left Sidebar Toggle Button */}
+          <button
+            onClick={() => setLeftSidebarOpen(!leftSidebarOpen)}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-neutral-50 dark:bg-black border border-black/10 dark:border-white/10 rounded-r-lg p-2 shadow-lg hover:bg-black/5 dark:hover:bg-neutral-50/5 transition-all duration-200"
+            style={{ left: leftSidebarOpen ? "320px" : "0px" }}
+          >
+            {leftSidebarOpen ? (
+              <ChevronLeft className="w-4 h-4 text-black dark:text-white" />
+            ) : (
+              <ChevronRight className="w-4 h-4 text-black dark:text-white" />
+            )}
+          </button>
+
+          {/* Main Editor Area */}
+          <div className="flex-1 overflow-auto">
+            <div className="max-w-4xl mx-auto px-8 py-12 ">
               {/* Story Metadata Component */}
               <StoryMetadata
                 storyTitle={storyTitle}
@@ -220,37 +254,86 @@ export function SimpleEditor() {
 
               {/* TipTap Editor Component */}
               {currentChapter && (
-                <TipTapEditor
-                  initialContent={currentChapter.content}
-                  onContentChange={handleContentChange}
-                  onSave={handleSave}
-                  onSelectionChange={handleSelectionChange}
-                />
+                <div className="bg-neutral-50 dark:bg-transparent">
+                  <TipTapEditor
+                    initialContent={currentChapter.content}
+                    onContentChange={handleContentChange}
+                    onSave={handleSave}
+                    onSelectionChange={handleSelectionChange}
+                  />
+                </div>
               )}
 
               {/* Save Controls Component */}
               <SaveControls
                 isPublished={currentStory?.isPublished || false}
-                // saveStatus={saveStatus}
                 onPublish={handlePublish}
                 onNewChapter={handleNewChapter}
               />
             </div>
           </div>
 
-          {/* Sidebar Panel Component */}
-          <div className="lg:w-1/3">
-            <SidebarPanel
-              chapters={chapters}
-              currentChapterId={currentChapter?.id || ""}
-              chapterTitle={chapterTitle}
-              selectedText={selectedText}
-              onChapterSelect={handleChapterSelect}
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-            />
+          {/* Right Sidebar Toggle Button */}
+          <button
+            onClick={() => setRightSidebarOpen(!rightSidebarOpen)}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-neutral-50 dark:bg-black border border-black/10 dark:border-white/10 rounded-l-lg p-2 shadow-lg hover:bg-black/5 dark:hover:bg-neutral-50/5 transition-all duration-200"
+            style={{ right: rightSidebarOpen ? "320px" : "0px" }}
+          >
+            {rightSidebarOpen ? (
+              <ChevronRight className="w-4 h-4 text-black dark:text-white" />
+            ) : (
+              <ChevronLeft className="w-4 h-4 text-black dark:text-white" />
+            )}
+          </button>
+
+          {/* Right Sidebar - Writing Stats */}
+          <div
+            className={`relative bg-neutral-50 dark:bg-black border-l border-black/10 dark:border-white/10 transition-all duration-300 ease-in-out ${
+              rightSidebarOpen ? "w-80" : "w-0"
+            } overflow-hidden`}
+          >
+            <div className="w-80 h-full p-6">
+              <h3 className="text-lg font-semibold mb-4 text-black dark:text-white">
+                Writing Stats
+              </h3>
+              <div className="space-y-4 text-sm text-black/70 dark:text-white/70">
+                <div className="flex justify-between">
+                  <span>Words:</span>
+                  <span className="font-medium text-black dark:text-white">
+                    {currentChapter?.content
+                      ? currentChapter.content.split(/\s+/).filter(Boolean)
+                          .length
+                      : 0}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Characters:</span>
+                  <span className="font-medium text-black dark:text-white">
+                    {currentChapter?.content?.length || 0}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Reading time:</span>
+                  <span className="font-medium text-black dark:text-white">
+                    {currentChapter?.content
+                      ? Math.ceil(
+                          currentChapter.content.split(/\s+/).filter(Boolean)
+                            .length / 200
+                        )
+                      : 0}{" "}
+                    min
+                  </span>
+                </div>
+                <div className="flex justify-between pt-4 border-t border-black/10 dark:border-white/10">
+                  <span>Chapters:</span>
+                  <span className="font-medium text-black dark:text-white">
+                    {chapters.length}
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
