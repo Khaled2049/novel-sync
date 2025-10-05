@@ -111,7 +111,7 @@ const Navbar = () => {
               </button>
               {isDropdownOpen && (
                 <div
-                  className="absolute right-0 mt-2 w-48 bg-white dark:bg-black 
+                  className="absolute right-0 mt-2 w-48 bg-neutral-50 dark:bg-black 
                 text-black dark:text-white rounded-md shadow-lg 
                 z-50 overflow-hidden border border-black/20 dark:border-white/20"
                 >
@@ -126,19 +126,19 @@ const Navbar = () => {
                   <hr className="border-black/20 dark:border-white/20" />
                   <Link
                     to="/profile"
-                    className="block px-4 py-2 hover:bg-black/10 dark:hover:bg-white/10"
+                    className="block px-4 py-2 hover:bg-black/10 dark:hover:bg-neutral-50/10"
                   >
                     View Profile
                   </Link>
                   <Link
                     to="/user-stories"
-                    className="block px-4 py-2 hover:bg-black/10 dark:hover:bg-white/10"
+                    className="block px-4 py-2 hover:bg-black/10 dark:hover:bg-neutral-50/10"
                   >
                     My Stories
                   </Link>
                   <button
                     onClick={handleSignOut}
-                    className="block w-full text-left px-4 py-2 text-red-500 hover:bg-black/10 dark:hover:bg-white/10"
+                    className="block w-full text-left px-4 py-2 text-red-500 hover:bg-black/10 dark:hover:bg-neutral-50/10"
                   >
                     Sign Out
                   </button>

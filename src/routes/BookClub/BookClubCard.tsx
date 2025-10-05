@@ -28,7 +28,7 @@ const BookClubCard = ({
   onLeave,
 }: BookClubCardProps) => {
   return (
-    <div className="h-56 rounded-lg shadow-md overflow-hidden mb-4 border border-black/20 dark:border-white/20 transition-all duration-300 hover:shadow-lg hover:shadow-black/20 dark:hover:shadow-white/20 bg-white dark:bg-black">
+    <div className="h-56 rounded-lg shadow-md overflow-hidden mb-4 border border-black/20 dark:border-white/20 transition-all duration-300 hover:shadow-lg hover:shadow-black/20 dark:hover:shadow-white/20 bg-neutral-50 dark:bg-black">
       <div className="p-4 h-full flex flex-col justify-between">
         <div>
           <Link
@@ -89,7 +89,7 @@ const BookClubCard = ({
             <div className="ml-4 flex space-x-2 flex-grow">
               <button
                 onClick={onEdit}
-                className="w-full py-2 px-3 bg-white dark:bg-black text-dark-green dark:text-light-green border border-dark-green dark:border-light-green rounded-full flex items-center justify-center hover:bg-dark-green dark:hover:bg-light-green hover:text-white dark:hover:text-black transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
+                className="w-full py-2 px-3 bg-neutral-50 dark:bg-black text-dark-green dark:text-light-green border border-dark-green dark:border-light-green rounded-full flex items-center justify-center hover:bg-dark-green dark:hover:bg-light-green hover:text-white dark:hover:text-black transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
               >
                 <Edit size={16} />
               </button>

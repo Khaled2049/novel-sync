@@ -53,7 +53,7 @@ const Dashboard = () => {
   }
 
   const StatCard: React.FC<StatCardProps> = ({ icon, title, value, trend }) => (
-    <div className="p-4 rounded-lg shadow-md bg-white dark:bg-black border border-black/20 dark:border-white/20 transition-colors duration-200">
+    <div className="p-4 rounded-lg shadow-md bg-neutral-50 dark:bg-black border border-black/20 dark:border-white/20 transition-colors duration-200">
       <div className="flex items-center justify-between">
         <div className="flex items-center text-black dark:text-white">
           {icon}
@@ -76,7 +76,7 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="p-6 bg-white dark:bg-black min-h-screen transition-colors duration-200">
+    <div className="p-6 bg-neutral-50 dark:bg-black min-h-screen transition-colors duration-200">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <StatCard
           icon={
@@ -119,7 +119,7 @@ const Dashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="p-4 rounded-lg shadow-md bg-white dark:bg-black border border-black/20 dark:border-white/20">
+        <div className="p-4 rounded-lg shadow-md bg-neutral-50 dark:bg-black border border-black/20 dark:border-white/20">
           <h2 className="text-xl font-semibold mb-4 text-black dark:text-white">
             Monthly Sales
           </h2>
@@ -143,7 +143,7 @@ const Dashboard = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className="p-4 rounded-lg shadow-md bg-white dark:bg-black border border-black/20 dark:border-white/20">
+        <div className="p-4 rounded-lg shadow-md bg-neutral-50 dark:bg-black border border-black/20 dark:border-white/20">
           <h2 className="text-xl font-semibold mb-4 text-black dark:text-white">
             Genre Distribution
           </h2>
@@ -175,7 +175,7 @@ const Dashboard = () => {
       </div>
 
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div className="p-4 rounded-lg shadow-md bg-white dark:bg-black border border-black/20 dark:border-white/20">
+        <div className="p-4 rounded-lg shadow-md bg-neutral-50 dark:bg-black border border-black/20 dark:border-white/20">
           <h2 className="text-xl font-semibold mb-4 text-black dark:text-white">
             Recent Feedback
           </h2>
@@ -204,7 +204,7 @@ const Dashboard = () => {
           </ul>
         </div>
 
-        <div className="p-4 rounded-lg shadow-md bg-white dark:bg-black border border-black/20 dark:border-white/20">
+        <div className="p-4 rounded-lg shadow-md bg-neutral-50 dark:bg-black border border-black/20 dark:border-white/20">
           <h2 className="text-xl font-semibold mb-4 text-black dark:text-white">
             Writing Progress
           </h2>
@@ -213,7 +213,7 @@ const Dashboard = () => {
               <span>Current Novel</span>
               <span className="font-semibold">65% Complete</span>
             </div>
-            <div className="w-full bg-black/10 dark:bg-white/10 rounded-full h-2.5">
+            <div className="w-full bg-black/10 dark:bg-neutral-50/10 rounded-full h-2.5">
               <div
                 className="bg-dark-green dark:bg-light-green h-2.5 rounded-full"
                 style={{ width: "65%" }}
@@ -225,7 +225,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="p-4 rounded-lg shadow-md bg-white dark:bg-black border border-black/20 dark:border-white/20">
+        <div className="p-4 rounded-lg shadow-md bg-neutral-50 dark:bg-black border border-black/20 dark:border-white/20">
           <h2 className="text-xl font-semibold mb-4 text-black dark:text-white">
             Quick Actions
           </h2>
@@ -234,7 +234,7 @@ const Dashboard = () => {
               <Feather size={18} className="mr-2" />
               Continue Writing
             </button>
-            <button className="w-full bg-black/10 dark:bg-white/10 text-black dark:text-white py-2 px-4 rounded hover:bg-black/20 dark:hover:bg-white/20 transition-colors duration-200 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black">
+            <button className="w-full bg-black/10 dark:bg-neutral-50/10 text-black dark:text-white py-2 px-4 rounded hover:bg-black/20 dark:hover:bg-neutral-50/20 transition-colors duration-200 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black">
               <TrendingUp size={18} className="mr-2" />
               View Analytics
             </button>

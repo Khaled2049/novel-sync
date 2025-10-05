@@ -72,7 +72,7 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="min-h-screen p-24 bg-white dark:bg-black text-black dark:text-white transition-colors duration-200">
+    <div className="min-h-screen p-24 bg-neutral-50 dark:bg-black text-black dark:text-white transition-colors duration-200">
       {/* Profile Section */}
       <div className="max-w-xl mx-auto">
         <div className="mb-6">
@@ -82,7 +82,7 @@ const UserProfile = () => {
         </div>
 
         {/* About Section */}
-        <Card className="mb-6 border border-black/20 dark:border-white/20 bg-white dark:bg-black shadow">
+        <Card className="mb-6 border border-black/20 dark:border-white/20 bg-neutral-50 dark:bg-black shadow">
           <CardHeader>
             <CardTitle className="flex justify-between items-center text-black dark:text-white">
               <span>About</span>
@@ -100,7 +100,7 @@ const UserProfile = () => {
                 <Textarea
                   value={editedText}
                   onChange={(e) => setEditedText(e.target.value)}
-                  className="w-full bg-white dark:bg-black border border-black/20 dark:border-white/20 text-black dark:text-white focus:ring-dark-green dark:focus:ring-light-green"
+                  className="w-full bg-neutral-50 dark:bg-black border border-black/20 dark:border-white/20 text-black dark:text-white focus:ring-dark-green dark:focus:ring-light-green"
                   rows={4}
                 />
                 <Button
@@ -117,7 +117,7 @@ const UserProfile = () => {
         </Card>
 
         {/* Stats Section */}
-        <Card className="mb-6 border border-black/20 dark:border-white/20 bg-white dark:bg-black shadow">
+        <Card className="mb-6 border border-black/20 dark:border-white/20 bg-neutral-50 dark:bg-black shadow">
           <CardHeader>
             <CardTitle className="flex justify-between items-center text-black dark:text-white">
               <span>Stats</span>
@@ -146,7 +146,7 @@ const UserProfile = () => {
         </Card>
 
         {/* Message Wall Section */}
-        <div className="shadow p-4 rounded-lg mb-6 border border-black/20 dark:border-white/20 bg-white dark:bg-black">
+        <div className="shadow p-4 rounded-lg mb-6 border border-black/20 dark:border-white/20 bg-neutral-50 dark:bg-black">
           <h2 className="text-lg font-bold mb-4 text-black dark:text-white">
             Message Wall
           </h2>
@@ -154,12 +154,12 @@ const UserProfile = () => {
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Write something..."
-            className="w-full mb-4 bg-white dark:bg-black border border-black/20 dark:border-white/20 text-black dark:text-white focus:ring-dark-green dark:focus:ring-light-green"
+            className="w-full mb-4 bg-neutral-50 dark:bg-black border border-black/20 dark:border-white/20 text-black dark:text-white focus:ring-dark-green dark:focus:ring-light-green"
             rows={3}
           />
           <button
             onClick={handlePostMessage}
-            className="bg-dark-green dark:bg-light-green text-white py-2 px-4 rounded transition-colors duration-200 hover:bg-light-green dark:hover:bg-dark-green disabled:bg-black/20 dark:disabled:bg-white/20 disabled:text-black/50 dark:disabled:text-white/50"
+            className="bg-dark-green dark:bg-light-green text-white py-2 px-4 rounded transition-colors duration-200 hover:bg-light-green dark:hover:bg-dark-green disabled:bg-black/20 dark:disabled:bg-neutral-50/20 disabled:text-black/50 dark:disabled:text-white/50"
             disabled={true} // Disable the button for now
           >
             Post
@@ -171,7 +171,7 @@ const UserProfile = () => {
               messages.map((message) => (
                 <div
                   key={String(message.id)}
-                  className="p-4 rounded-lg shadow border border-black/20 dark:border-white/20 bg-white dark:bg-black"
+                  className="p-4 rounded-lg shadow border border-black/20 dark:border-white/20 bg-neutral-50 dark:bg-black"
                 >
                   <p className="text-black/70 dark:text-white/70">
                     {message.text}

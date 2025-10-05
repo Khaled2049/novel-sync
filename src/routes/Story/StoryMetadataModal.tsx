@@ -90,7 +90,7 @@ const StoryMetadataModal: React.FC<StoryMetadataModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] max-h-[80vh] flex flex-col bg-white dark:bg-black text-black dark:text-white border border-black/20 dark:border-white/20 transition-colors duration-200">
+      <DialogContent className="sm:max-w-[425px] max-h-[80vh] flex flex-col bg-neutral-50 dark:bg-black text-black dark:text-white border border-black/20 dark:border-white/20 transition-colors duration-200">
         <DialogHeader>
           <DialogTitle className="text-black dark:text-white">
             Create New Story
@@ -107,7 +107,7 @@ const StoryMetadataModal: React.FC<StoryMetadataModalProps> = ({
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
-                className="bg-white dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green"
+                className="bg-neutral-50 dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green"
               />
             </div>
             <div className="space-y-2">
@@ -121,7 +121,7 @@ const StoryMetadataModal: React.FC<StoryMetadataModalProps> = ({
                 id="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="bg-white dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green"
+                className="bg-neutral-50 dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green"
               />
             </div>
             <div className="space-y-2">
@@ -129,25 +129,25 @@ const StoryMetadataModal: React.FC<StoryMetadataModalProps> = ({
                 Category
               </Label>
               <Select value={category} onValueChange={setCategory}>
-                <SelectTrigger className="bg-white dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green">
+                <SelectTrigger className="bg-neutral-50 dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green">
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-black border-black/20 dark:border-white/20">
+                <SelectContent className="bg-neutral-50 dark:bg-black border-black/20 dark:border-white/20">
                   <SelectItem
                     value="fiction"
-                    className="text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10"
+                    className="text-black dark:text-white hover:bg-black/10 dark:hover:bg-neutral-50/10"
                   >
                     Fiction
                   </SelectItem>
                   <SelectItem
                     value="non-fiction"
-                    className="text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10"
+                    className="text-black dark:text-white hover:bg-black/10 dark:hover:bg-neutral-50/10"
                   >
                     Non-Fiction
                   </SelectItem>
                   <SelectItem
                     value="poetry"
-                    className="text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10"
+                    className="text-black dark:text-white hover:bg-black/10 dark:hover:bg-neutral-50/10"
                   >
                     Poetry
                   </SelectItem>
@@ -162,7 +162,7 @@ const StoryMetadataModal: React.FC<StoryMetadataModalProps> = ({
                 id="tags"
                 value={tags}
                 onChange={(e) => setTags(e.target.value)}
-                className="bg-white dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green"
+                className="bg-neutral-50 dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green"
               />
             </div>
             <div className="space-y-2">
@@ -176,7 +176,7 @@ const StoryMetadataModal: React.FC<StoryMetadataModalProps> = ({
                 id="targetAudience"
                 value={targetAudience}
                 onChange={(e) => setTargetAudience(e.target.value)}
-                className="bg-white dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green"
+                className="bg-neutral-50 dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green"
               />
             </div>
             <div className="space-y-2">
@@ -187,18 +187,18 @@ const StoryMetadataModal: React.FC<StoryMetadataModalProps> = ({
                 id="language"
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
-                className="bg-white dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green"
+                className="bg-neutral-50 dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green"
               />
             </div>
             <div className="space-y-2">
               <Select value={copyright} onValueChange={setCopyright}>
-                <SelectTrigger className="bg-white dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green">
+                <SelectTrigger className="bg-neutral-50 dark:bg-black text-black dark:text-white border-black/20 dark:border-white/20 focus:ring-dark-green dark:focus:ring-light-green">
                   <SelectValue placeholder="Copyright" />
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-black border-black/20 dark:border-white/20">
+                <SelectContent className="bg-neutral-50 dark:bg-black border-black/20 dark:border-white/20">
                   <SelectItem
                     value="CC0"
-                    className="text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10"
+                    className="text-black dark:text-white hover:bg-black/10 dark:hover:bg-neutral-50/10"
                   >
                     Creative Commons Zero
                   </SelectItem>

@@ -6,7 +6,7 @@ interface ClubsProps {
 
 const Clubs = ({ bookClubs }: ClubsProps) => {
   return (
-    <div className="w-full lg:w-1/4 p-4 overflow-y-auto bg-white dark:bg-black transition-colors duration-200">
+    <div className="w-full lg:w-1/4 p-4 overflow-y-auto bg-neutral-50 dark:bg-black transition-colors duration-200">
       <h2 className="text-2xl font-serif font-bold mb-4 text-black dark:text-white">
         Book Clubs
       </h2>
@@ -19,7 +19,7 @@ const Clubs = ({ bookClubs }: ClubsProps) => {
           >
             <li
               key={club.id}
-              className="mb-4 p-3 rounded-lg border border-black/20 dark:border-white/20 hover:bg-black/10 dark:hover:bg-white/10"
+              className="mb-4 p-3 rounded-lg border border-black/20 dark:border-white/20 hover:bg-black/10 dark:hover:bg-neutral-50/10"
             >
               <div className="flex justify-between items-center">
                 <span className="font-serif font-semibold text-black dark:text-white">

@@ -114,7 +114,7 @@ const BookClubs = () => {
   }
 
   return (
-    <div className="min-h-screen py-24 bg-white dark:bg-black">
+    <div className="min-h-screen py-24 bg-neutral-50 dark:bg-black">
       {!showCreateForm && !showUpdateForm ? (
         <>
           <div className="max-w-7xl mx-auto">
@@ -151,7 +151,7 @@ const BookClubs = () => {
           </div>
         </>
       ) : showCreateForm && user ? (
-        <div className="max-w-2xl mx-auto p-6 rounded-lg shadow-lg border border-black/20 dark:border-white/20 bg-white dark:bg-black">
+        <div className="max-w-2xl mx-auto p-6 rounded-lg shadow-lg border border-black/20 dark:border-white/20 bg-neutral-50 dark:bg-black">
           <CreateBookClub
             user={user}
             onCreate={handleCreateClub}
@@ -161,7 +161,7 @@ const BookClubs = () => {
       ) : (
         showUpdateForm &&
         selectedClub && (
-          <div className="max-w-2xl mx-auto p-6 rounded-lg shadow-lg border border-black/20 dark:border-white/20 bg-white dark:bg-black">
+          <div className="max-w-2xl mx-auto p-6 rounded-lg shadow-lg border border-black/20 dark:border-white/20 bg-neutral-50 dark:bg-black">
             <UpdateBookClub
               club={selectedClub}
               onUpdate={handleUpdateClub}

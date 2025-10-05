@@ -27,7 +27,7 @@ const BookRecommendation = () => {
   };
 
   return (
-    <div className="p-4 max-w-lg mx-auto space-y-4 rounded-lg shadow-lg border border-black/20 dark:border-white/20 overflow-hidden bg-white dark:bg-black transition-colors duration-200">
+    <div className="p-4 max-w-lg mx-auto space-y-4 rounded-lg shadow-lg border border-black/20 dark:border-white/20 overflow-hidden bg-neutral-50 dark:bg-black transition-colors duration-200">
       <h2 className="text-xl font-serif text-black dark:text-white text-center">
         Get Book Recommendations
       </h2>
@@ -43,7 +43,7 @@ const BookRecommendation = () => {
             value={book}
             onChange={(e) => handleBookChange(index, e.target.value)}
             placeholder={`Book ${index + 1}`}
-            className="w-full px-3 py-2 text-sm border border-black/20 dark:border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green bg-white dark:bg-black text-black dark:text-white"
+            className="w-full px-3 py-2 text-sm border border-black/20 dark:border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green bg-neutral-50 dark:bg-black text-black dark:text-white"
           />
         ))}
       </div>
@@ -57,7 +57,7 @@ const BookRecommendation = () => {
           value={vibe}
           onChange={(e) => setVibe(e.target.value)}
           placeholder="e.g., adventurous, romantic, thrilling"
-          className="w-full px-3 py-2 text-sm border border-black/20 dark:border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green bg-white dark:bg-black text-black dark:text-white"
+          className="w-full px-3 py-2 text-sm border border-black/20 dark:border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green bg-neutral-50 dark:bg-black text-black dark:text-white"
         />
       </div>
 
@@ -87,7 +87,7 @@ const BookRecommendation = () => {
             ))}
           </ul>
           <button
-            className="w-full bg-black/10 dark:bg-white/10 text-black dark:text-white py-2 rounded-md font-medium text-sm hover:bg-black/20 dark:hover:bg-white/20 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
+            className="w-full bg-black/10 dark:bg-neutral-50/10 text-black dark:text-white py-2 rounded-md font-medium text-sm hover:bg-black/20 dark:hover:bg-neutral-50/20 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
             onClick={() => {
               setSubmitted(false);
               setRecommendations([]);

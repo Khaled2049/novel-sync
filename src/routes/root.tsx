@@ -113,7 +113,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white overflow-hidden">
+    <div className="min-h-screen bg-neutral-50 dark:bg-black text-black dark:text-white overflow-hidden">
       {/* Hero Section */}
       <section className="relative min-h-screen flex flex-col items-center justify-center text-center">
         <div className="relative z-10 text-center px-6 max-w-6xl mx-auto mt-20">
