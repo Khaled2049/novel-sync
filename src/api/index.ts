@@ -1,32 +1,49 @@
 import axios from "axios";
+import { auth } from "../config/firebase";
+
+// Get Firebase project ID and region from environment
+const projectId = import.meta.env.VITE_FIREBASE_PROJECT_ID || "your-project-id";
+const region = import.meta.env.VITE_FIREBASE_FUNCTIONS_REGION || "us-central1";
+
+// Determine base URL based on environment
+const isDevelopment = import.meta.env.MODE === "development";
+const baseURL = isDevelopment
+  ? `http://localhost:5001/${projectId}/${region}`
+  : `https://${region}-${projectId}.cloudfunctions.net`;
 
 // Create an instance of axios
 const axiosInstance = axios.create({
-  baseURL: "http://127.0.0.1:3000",
+  baseURL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Optional: Add interceptors to handle request and response
+// Add interceptor to include Firebase ID token in requests
 axiosInstance.interceptors.request.use(
-  (config) => {
-    // Do something before the request is sent
+  async (config) => {
+    // Get the current user and their ID token
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      try {
+        const idToken = await currentUser.getIdToken();
+        config.headers.Authorization = `Bearer ${idToken}`;
+      } catch (error) {
+        console.error("Error getting ID token:", error);
+      }
+    }
     return config;
   },
   (error) => {
-    // Do something with the request error
     return Promise.reject(error);
   }
 );
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    // Any status code that lie within the range of 2xx cause this function to trigger
     return response;
   },
   (error) => {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
     return Promise.reject(error);
   }
 );
