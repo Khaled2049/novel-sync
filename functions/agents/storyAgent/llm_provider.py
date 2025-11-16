@@ -1,7 +1,9 @@
 """LLM provider abstraction for supporting multiple AI backends."""
 import os
+import json
+import re
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import Optional, Dict, Any, List
 import httpx
 
 
@@ -18,6 +20,26 @@ class LLMProvider(ABC):
 
         Returns:
             Generated text content
+        """
+        pass
+
+    @abstractmethod
+    async def generate_structured_content(
+        self,
+        system_prompt: str,
+        user_prompt: str,
+        response_schema: Dict[str, Any],
+    ) -> List[str]:
+        """
+        Generate structured content with a JSON schema constraint.
+
+        Args:
+            system_prompt: System-level instructions for the AI
+            user_prompt: User-level prompt with the actual task
+            response_schema: JSON schema defining the expected response structure
+
+        Returns:
+            List of strings (parsed from the structured JSON response)
         """
         pass
 
@@ -39,6 +61,42 @@ class VertexAIProvider(LLMProvider):
         """Generate content using Vertex AI."""
         response = self.model.generate_content(prompt)
         return response.text
+
+    async def generate_structured_content(
+        self,
+        system_prompt: str,
+        user_prompt: str,
+        response_schema: Dict[str, Any],
+    ) -> List[str]:
+        """Generate structured content using Vertex AI with JSON schema."""
+        from vertexai.generative_models import GenerationConfig
+        
+        # Combine system and user prompts
+        full_prompt = f"{system_prompt}\n\n{user_prompt}"
+        
+        # Use generate_content with response_schema parameter
+        generation_config = GenerationConfig(
+            response_schema=response_schema,
+            response_mime_type="application/json",
+        )
+        
+        response = self.model.generate_content(
+            full_prompt,
+            generation_config=generation_config,
+        )
+        
+        # Parse JSON response
+        try:
+            json_data = json.loads(response.text)
+            # Extract the array from the response
+            if isinstance(json_data, list):
+                return json_data
+            elif isinstance(json_data, dict) and "items" in json_data:
+                return json_data["items"]
+            else:
+                raise ValueError(f"Unexpected JSON structure: {json_data}")
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Failed to parse JSON response: {e}. Response: {response.text}")
 
 
 class OllamaProvider(LLMProvider):
@@ -72,6 +130,65 @@ class OllamaProvider(LLMProvider):
             response.raise_for_status()
             result = response.json()
             return result.get("response", "")
+        except httpx.RequestError as e:
+            raise RuntimeError(f"Failed to connect to Ollama at {self.base_url}: {e}")
+        except httpx.HTTPStatusError as e:
+            raise RuntimeError(f"Ollama API error: {e.response.status_code} - {e.response.text}")
+
+    async def generate_structured_content(
+        self,
+        system_prompt: str,
+        user_prompt: str,
+        response_schema: Dict[str, Any],
+    ) -> List[str]:
+        """Generate structured content using Ollama with JSON parsing."""
+        # Since Ollama doesn't natively support JSON schema, enhance the prompt
+        # to explicitly request JSON format
+        schema_description = json.dumps(response_schema, indent=2)
+        enhanced_prompt = f"""{system_prompt}
+
+{user_prompt}
+
+IMPORTANT: You MUST respond with ONLY a valid JSON array that matches this schema:
+{schema_description}
+
+Do not include any text before or after the JSON array. Return ONLY the JSON array."""
+
+        try:
+            response = httpx.post(
+                self.api_url,
+                json={
+                    "model": self.model_name,
+                    "prompt": enhanced_prompt,
+                    "stream": False,
+                },
+                timeout=300.0,  # 5 minutes timeout
+            )
+            response.raise_for_status()
+            result = response.json()
+            response_text = result.get("response", "").strip()
+            
+            # Try to extract JSON from the response (may have extra text)
+            # Look for JSON array pattern
+            json_match = re.search(r'\[.*\]', response_text, re.DOTALL)
+            if json_match:
+                response_text = json_match.group(0)
+            
+            # Parse JSON response
+            try:
+                json_data = json.loads(response_text)
+                # Extract the array from the response
+                if isinstance(json_data, list):
+                    return json_data
+                elif isinstance(json_data, dict) and "items" in json_data:
+                    return json_data["items"]
+                else:
+                    raise ValueError(f"Unexpected JSON structure: {json_data}")
+            except json.JSONDecodeError as e:
+                raise ValueError(
+                    f"Failed to parse JSON response from Ollama: {e}. "
+                    f"Response text: {response_text[:200]}..."
+                )
         except httpx.RequestError as e:
             raise RuntimeError(f"Failed to connect to Ollama at {self.base_url}: {e}")
         except httpx.HTTPStatusError as e:
@@ -119,6 +236,29 @@ class MockProvider(LLMProvider):
 Prompt received: {prompt[:100]}...
 
 [Mock content would be generated here in a real scenario. This allows you to test the API flow without incurring costs or requiring an AI model.]"""
+
+    async def generate_structured_content(
+        self,
+        system_prompt: str,
+        user_prompt: str,
+        response_schema: Dict[str, Any],
+    ) -> List[str]:
+        """Generate mock structured content for testing."""
+        # Return mock suggestions based on context
+        # Check if the prompt mentions next lines or continuation
+        if "next line" in user_prompt.lower() or "continuation" in user_prompt.lower() or "[INSERTION_POINT]" in user_prompt:
+            return [
+                "The morning light filtered through the curtains, casting long shadows across the room.",
+                "She paused, considering her next words carefully before speaking.",
+                "A sense of unease settled over him as he realized what was about to happen.",
+            ]
+        else:
+            # Generic mock suggestions
+            return [
+                "Mock suggestion 1 for structured content testing.",
+                "Mock suggestion 2 for structured content testing.",
+                "Mock suggestion 3 for structured content testing.",
+            ]
 
 
 def get_llm_provider(project_id: Optional[str] = None, location: str = "us-central1") -> LLMProvider:

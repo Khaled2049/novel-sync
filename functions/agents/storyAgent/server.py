@@ -70,6 +70,7 @@ async def execute_agent(request: AgentRequest) -> AgentResponse:
     - brainstormIdeas: Generate brainstorming ideas
     - brainstormCharacter: Generate character ideas
     - brainstormPlot: Generate plot ideas
+    - generateNextLines: Generate next line suggestions
     """
     try:
         result = await agent.execute_agent(request.action, request.parameters)

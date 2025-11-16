@@ -1,6 +1,6 @@
 # Basic setup
 Easy setup is with three terminals.
-1. First terminal: G:\Development\2025\novel-sync-functions>python -m agents.storyAgent.server
+1. First terminal: G:\Development\2025\novel-sync-functions>python -m agents.storyAgent.server (activate env novelsync\Scripts\activate.bat)
 2. Second Terminal: npm run emulator
 3. Third Terminal: npm run export-prod this loads the data
 

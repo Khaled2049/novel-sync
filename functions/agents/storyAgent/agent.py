@@ -12,6 +12,7 @@ try:
         BrainstormingTool,
         CharacterBrainstormingTool,
         PlotBrainstormingTool,
+        NextLineGenerationTool,
     )
 except ImportError:
     # Add parent directory to path for direct execution
@@ -25,6 +26,7 @@ except ImportError:
         BrainstormingTool,
         CharacterBrainstormingTool,
         PlotBrainstormingTool,
+        NextLineGenerationTool,
     )
 
 
@@ -55,7 +57,30 @@ class StoryAgent:
         self.brainstorm_tool = BrainstormingTool(self.project_id, self.location)
         self.character_tool = CharacterBrainstormingTool(self.project_id, self.location)
         self.plot_tool = PlotBrainstormingTool(self.project_id, self.location)
+        self.next_line_tool = NextLineGenerationTool(self.project_id, self.location)
 
+    async def generate_next_lines(
+        self,
+        story_id: str,
+        content: str,
+        cursorPosition: int,
+        chapter_id: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """
+        Generate 3 next line suggestions based on chapter content and cursor position.
+
+        Args:
+            story_id: Firestore story document ID
+            content: Current content of the chapter being edited
+            cursorPosition: Character index where the new line should be inserted
+            chapter_id: Optional chapter document ID for better context and validation
+
+        Returns:
+            Dictionary containing the suggestions array.
+        """
+        return await self.next_line_tool.execute(story_id, content, cursorPosition, chapter_id)
+
+        
     async def generate_story(
         self,
         story_id: str,
@@ -198,6 +223,13 @@ class StoryAgent:
             return await self.brainstorm_plot(
                 parameters.get("storyId"),
                 parameters.get("plotType", "conflict"),
+            )
+        elif action == "generateNextLines":
+            return await self.generate_next_lines(
+                parameters.get("storyId"),
+                parameters.get("content"),
+                parameters.get("cursorPosition"),
+                parameters.get("chapterId"),  # Optional
             )
         else:
             raise ValueError(f"Unknown action: {action}")
