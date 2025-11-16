@@ -289,6 +289,8 @@ export function SimpleEditor() {
                     onContentChange={handleContentChange}
                     onSave={handleSave}
                     saveStatus={saveStatus}
+                    storyId={currentStory?.id || ""}
+                    chapterId={currentChapter?.id || ""}
                   />
                 </div>
               )}
