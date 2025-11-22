@@ -4,14 +4,11 @@ import Footer from "./components/Footer";
 
 export const NavbarWrapper = () => {
   return (
-    // This outer div can manage the overall page layout
-    <div className="relative min-h-screen">
+    <div className="h-screen flex flex-col overflow-hidden">
       <Navbar />
-
-      <main>
+      <main className="flex-1 overflow-hidden">
         <Outlet />
       </main>
-
       <Footer />
     </div>
   );

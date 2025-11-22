@@ -305,7 +305,7 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
         </div>
       </BubbleMenu>
 
-      <div className="py-8 transition-colors duration-200">
+      <div className=" transition-colors duration-200">
         <div className="min-h-[28rem] w-full border-b border-black/10 dark:border-white/10 pb-8">
           <EditorContent
             onClick={() => editor.commands.focus()}

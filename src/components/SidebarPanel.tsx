@@ -62,10 +62,10 @@ export const SidebarPanel: React.FC<SidebarPanelProps> = ({
                   onClick={() => onChapterSelect(chapter)}
                   className="flex-1 text-left px-4 py-3"
                 >
-                  <div className="flex items-center space-x-3">
-                    <Book className="w-4 h-4 flex-shrink-0 text-dark-green dark:text-light-green" />
+                  <div className="flex items-start space-x-3">
+                    <Book className="w-4 h-4 flex-shrink-0 mt-0.5 text-dark-green dark:text-light-green" />
                     <span
-                      className={`text-sm truncate ${
+                      className={`text-sm break-words line-clamp-2 ${
                         currentChapterId === chapter.id
                           ? "text-black dark:text-white"
                           : "text-black/70 dark:text-white/70"

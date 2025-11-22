@@ -230,7 +230,7 @@ export function SimpleEditor() {
   };
 
   return (
-    <div className="h-screen w-full bg-neutral-50 dark:bg-neutral-950 flex overflow-hidden transition-colors duration-200">
+    <div className="relative w-full h-[calc(100vh-4rem)] bg-neutral-50 dark:bg-neutral-950 flex overflow-hidden transition-colors duration-200 pt-16">
       {storyLoading ? (
         <div className="flex items-center justify-center w-full h-full text-dark-green dark:text-light-green">
           <Loader className="w-12 h-12 animate-spin" />
@@ -269,38 +269,47 @@ export function SimpleEditor() {
           </button>
 
           {/* Main Editor Area */}
-          <div className="flex-1 overflow-auto">
-            <div className="max-w-4xl mx-auto px-8 py-12 ">
-              {/* Story Metadata Component */}
-              <StoryMetadata
-                storyTitle={storyTitle}
-                storyDescription={storyDescription}
-                chapterTitle={chapterTitle}
-                onStoryTitleChange={setStoryTitle}
-                onStoryDescriptionChange={setStoryDescription}
-                onChapterTitleChange={setChapterTitle}
-                onMetadataChange={handleMetadataChange}
-              />
+          <div className="flex-1 flex flex-col overflow-hidden">
+            <div className="flex-1 flex flex-col overflow-hidden">
+              <div className="max-w-4xl mx-auto w-full px-8 flex-shrink-0">
+                {/* Story Metadata Component */}
+                <StoryMetadata
+                  storyTitle={storyTitle}
+                  storyDescription={storyDescription}
+                  chapterTitle={chapterTitle}
+                  onStoryTitleChange={setStoryTitle}
+                  onStoryDescriptionChange={setStoryDescription}
+                  onChapterTitleChange={setChapterTitle}
+                  onMetadataChange={handleMetadataChange}
+                />
+              </div>
 
+              {/* Scrollable Editor Area - ONLY this scrolls */}
               {currentChapter && (
-                <div className="bg-neutral-50 dark:bg-transparent">
-                  <TipTapEditor
-                    initialContent={currentChapter.content}
-                    onContentChange={handleContentChange}
-                    onSave={handleSave}
-                    saveStatus={saveStatus}
-                    storyId={currentStory?.id || ""}
-                    chapterId={currentChapter?.id || ""}
-                  />
+                <div className="flex-1 overflow-y-auto">
+                  <div className="max-w-4xl mx-auto w-full px-8">
+                    <div className="bg-neutral-50 dark:bg-transparent">
+                      <TipTapEditor
+                        initialContent={currentChapter.content}
+                        onContentChange={handleContentChange}
+                        onSave={handleSave}
+                        saveStatus={saveStatus}
+                        storyId={currentStory?.id || ""}
+                        chapterId={currentChapter?.id || ""}
+                      />
+                    </div>
+                  </div>
                 </div>
               )}
 
-              {/* Save Controls Component */}
-              <SaveControls
-                isPublished={currentStory?.isPublished || false}
-                onPublish={handlePublish}
-                onNewChapter={handleNewChapter}
-              />
+              {/* Save Controls Component - Fixed at bottom */}
+              <div className="max-w-4xl mx-auto w-full px-8 pb-12 pt-4 flex-shrink-0">
+                <SaveControls
+                  isPublished={currentStory?.isPublished || false}
+                  onPublish={handlePublish}
+                  onNewChapter={handleNewChapter}
+                />
+              </div>
             </div>
           </div>
 

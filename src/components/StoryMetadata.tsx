@@ -66,7 +66,7 @@ export const StoryMetadata: React.FC<StoryMetadataProps> = ({
         </div>
       </div>
 
-      <div className="relative">
+      {/* <div className="relative">
         <textarea
           value={storyDescription}
           onChange={(e) => handleInputChange(e, onStoryDescriptionChange)}
@@ -78,7 +78,7 @@ export const StoryMetadata: React.FC<StoryMetadataProps> = ({
         <div className="absolute right-0 -bottom-5 text-xs text-black/50 dark:text-white/50">
           {storyDescription.length}/200
         </div>
-      </div>
+      </div> */}
 
       <div className="relative">
         <input
