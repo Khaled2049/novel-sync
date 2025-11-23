@@ -1,6 +1,7 @@
 /** Service for communicating with the Python agent. */
 import * as logger from "firebase-functions/logger";
 import axios, { AxiosError } from "axios";
+import { GoogleAuth } from "google-auth-library";
 
 export interface AgentRequest {
   action: string;
@@ -18,8 +19,35 @@ export interface AgentResponse {
  * In production, this should point to the deployed Cloud Run service.
  * For local development, it can point to a local server.
  */
-const AGENT_SERVICE_URL =
+const RAW_SERVICE_URL =
   process.env.AGENT_SERVICE_URL || "http://localhost:8000";
+const AGENT_SERVICE_URL = RAW_SERVICE_URL.replace(/\/$/, "");
+
+const isLocalDevelopment = process.env.FUNCTIONS_EMULATOR === "true";
+
+// Initialize Auth only if not local
+const auth = isLocalDevelopment ? null : new GoogleAuth();
+
+/**
+ * Get an identity token for Cloud Run authentication.
+ */
+async function getIdentityToken(): Promise<string | null> {
+  if (isLocalDevelopment || AGENT_SERVICE_URL.includes("localhost")) {
+    return null;
+  }
+
+  try {
+    if (!auth) return null;
+
+    // IMPORTANT: The audience must be the exact base URL of the Cloud Run service
+    const client = await auth.getIdTokenClient(AGENT_SERVICE_URL);
+    const headers = await client.getRequestHeaders();
+    return headers.Authorization?.split(" ")[1] || null;
+  } catch (error) {
+    logger.error("Error getting identity token", error);
+    return null;
+  }
+}
 
 /**
  * Call the Python agent service.
@@ -28,26 +56,28 @@ export async function callAgent(
   action: string,
   parameters: Record<string, unknown>
 ): Promise<AgentResponse> {
-  const request: AgentRequest = {
-    action,
-    parameters,
-  };
+  const request: AgentRequest = { action, parameters };
 
   try {
-    logger.info(`Calling agent service: ${action}`, { parameters });
+    logger.info(`Calling agent service: ${action}`);
+
+    const identityToken = await getIdentityToken();
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+
+    if (identityToken) {
+      headers.Authorization = `Bearer ${identityToken}`;
+    }
 
     const response = await axios.post(
       `${AGENT_SERVICE_URL}/agent/execute`,
       request,
       {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        timeout: 300000, // 5 minutes timeout
+        headers,
+        timeout: 300000,
       }
     );
-
-    logger.info(`Agent service response received for ${action}`);
 
     return {
       success: true,
@@ -56,22 +86,23 @@ export async function callAgent(
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError;
-      logger.error(`Agent service error: ${action}`, {
-        status: axiosError.response?.status,
-        data: axiosError.response?.data,
-      });
+      const errorMessage = axiosError.response?.data
+        ? JSON.stringify(axiosError.response.data)
+        : axiosError.message;
+
+      logger.error(`Agent service error [${action}]: ${errorMessage}`);
+
       return {
         success: false,
-        error: axiosError.response?.data
-          ? String(axiosError.response.data)
-          : axiosError.message,
+        error: errorMessage,
       };
     }
 
+    const genericError = error instanceof Error ? error.message : String(error);
     logger.error(`Error calling agent service: ${action}`, error);
     return {
       success: false,
-      error: error instanceof Error ? error.message : String(error),
+      error: genericError,
     };
   }
 }
@@ -85,29 +116,30 @@ export async function callAgentWithRetry(
   maxRetries = 3,
   retryDelay = 1000
 ): Promise<AgentResponse> {
-  let lastError: Error | null = null;
-
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
-    try {
-      const result = await callAgent(action, parameters);
-      if (result.success) {
-        return result;
-      }
-      lastError = new Error(result.error || "Unknown error");
-    } catch (error) {
-      lastError = error instanceof Error ? error : new Error(String(error));
-      if (attempt < maxRetries) {
-        logger.info(
-          `Retry attempt ${attempt}/${maxRetries} for ${action} after ${retryDelay}ms`
-        );
-        await new Promise((resolve) => setTimeout(resolve, retryDelay));
-        retryDelay *= 2; // Exponential backoff
-      }
+    const result = await callAgent(action, parameters);
+
+    // If successful, return immediately
+    if (result.success) {
+      return result;
     }
+
+    // If we are on the last attempt, return the error
+    if (attempt === maxRetries) {
+      return result;
+    }
+
+    // LOGIC FIX: Wait and retry if it failed (and we have attempts left)
+    logger.warn(
+      `Agent call failed (${action}). Retrying ${attempt}/${maxRetries} in ${retryDelay}ms. Error: ${result.error}`
+    );
+
+    await new Promise((resolve) => setTimeout(resolve, retryDelay));
+    retryDelay *= 2; // Exponential backoff
   }
 
   return {
     success: false,
-    error: lastError?.message || "Max retries exceeded",
+    error: "Max retries exceeded",
   };
 }

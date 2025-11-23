@@ -1,15 +1,17 @@
 # Story Agent Service
 
-Python-based AI agent service for generating stories, chapters, and brainstorming ideas using Google's Gemini model via Vertex AI.
+Python-based AI agent service for generating stories, chapters, and brainstorming ideas using Google's Gemini model via **Google AI Studio API**.
 
 ## Setup
 
 ### Prerequisites
 
 - Python 3.9+
-- Google Cloud Project with Vertex AI API enabled
+- Google Cloud Project (for Firestore access)
+- Google AI Studio API Key - Get from [Google AI Studio](https://makersuite.google.com/app/apikey)
 - Firestore database access
-- Service account with appropriate permissions
+
+**Note**: Vertex AI is **not required**. The service uses Google AI Studio REST API directly.
 
 ### Installation
 
@@ -20,8 +22,9 @@ pip install -r requirements.txt
 
 2. Set environment variables:
 ```bash
-export GOOGLE_CLOUD_PROJECT="your-project-id"
-export VERTEX_AI_LOCATION="us-central1"  # Optional, defaults to us-central1
+export GOOGLE_CLOUD_PROJECT="your-project-id"  # Required for Firestore
+export GOOGLE_AI_STUDIO_API_KEY="your-api-key"  # Required for AI generation
+export GOOGLE_AI_STUDIO_MODEL="gemini-2.0-flash-exp"  # Optional, defaults to gemini-2.0-flash-exp
 ```
 
 ### Running the Service
@@ -42,7 +45,7 @@ gcloud run deploy story-agent \
   --source . \
   --platform managed \
   --region us-central1 \
-  --set-env-vars GOOGLE_CLOUD_PROJECT=your-project-id
+  --set-env-vars GOOGLE_CLOUD_PROJECT=your-project-id,GOOGLE_AI_STUDIO_API_KEY=your-api-key,GOOGLE_AI_STUDIO_MODEL=gemini-2.0-flash-exp
 ```
 
 ## API Endpoints

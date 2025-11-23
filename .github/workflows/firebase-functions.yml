@@ -1,0 +1,49 @@
+name: Deploy Firebase Functions
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - "functions/functions/**"
+      - ".github/workflows/firebase-functions.yml"
+  workflow_dispatch:
+
+jobs:
+  deploy_functions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "yarn"
+          cache-dependency-path: functions/functions/yarn.lock
+
+      - name: Install dependencies
+        working-directory: functions/functions
+        run: yarn install --frozen-lockfile
+
+      - name: Run linter
+        working-directory: functions/functions
+        run: yarn lint
+        continue-on-error: true
+
+      - name: Build functions
+        working-directory: functions/functions
+        run: yarn build
+
+      - name: Setup Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Authenticate to Firebase
+        run: |
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_NOVELSYNC_F82EC }}' > $HOME/firebase-service-account.json
+          export GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase-service-account.json
+
+      - name: Deploy to Firebase Functions
+        run: firebase deploy --only functions --project novelsync-f82ec --force --no-predeploy

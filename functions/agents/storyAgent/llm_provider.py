@@ -44,23 +44,53 @@ class LLMProvider(ABC):
         pass
 
 
-class VertexAIProvider(LLMProvider):
-    """Vertex AI (Gemini) provider."""
+class GoogleAIStudioProvider(LLMProvider):
+    """Google AI Studio (Gemini) provider using REST API with API key."""
 
-    def __init__(self, project_id: str, location: str = "us-central1", model_name: str = "gemini-1.5-pro"):
-        """Initialize Vertex AI provider."""
-        from google.cloud import aiplatform
-        from vertexai.generative_models import GenerativeModel
+    def __init__(self, api_key: str, model_name: str = "gemini-2.0-flash-exp"):
+        """
+        Initialize Google AI Studio provider.
 
-        self.project_id = project_id
-        self.location = location
-        aiplatform.init(project=project_id, location=location)
-        self.model = GenerativeModel(model_name)
+        Args:
+            api_key: Google AI Studio API key
+            model_name: Model name to use (default: gemini-2.0-flash-exp for free tier)
+                        Use gemini-2.0-flash-exp for free tier, gemini-1.5-flash for paid
+        """
+        self.api_key = api_key
+        self.model_name = model_name
+        self.base_url = "https://generativelanguage.googleapis.com/v1beta"
 
     def generate_content(self, prompt: str) -> str:
-        """Generate content using Vertex AI."""
-        response = self.model.generate_content(prompt)
-        return response.text
+        """Generate content using Google AI Studio API."""
+        url = f"{self.base_url}/models/{self.model_name}:generateContent"
+        
+        try:
+            response = httpx.post(
+                url,
+                json={
+                    "contents": [{
+                        "parts": [{"text": prompt}]
+                    }]
+                },
+                params={"key": self.api_key},
+                timeout=300.0,
+            )
+            response.raise_for_status()
+            result = response.json()
+            
+            # Extract text from response
+            if "candidates" in result and len(result["candidates"]) > 0:
+                candidate = result["candidates"][0]
+                if "content" in candidate and "parts" in candidate["content"]:
+                    parts = candidate["content"]["parts"]
+                    if len(parts) > 0 and "text" in parts[0]:
+                        return parts[0]["text"]
+            
+            raise ValueError(f"Unexpected response structure: {result}")
+        except httpx.RequestError as e:
+            raise RuntimeError(f"Failed to connect to Google AI Studio API: {e}")
+        except httpx.HTTPStatusError as e:
+            raise RuntimeError(f"Google AI Studio API error: {e.response.status_code} - {e.response.text}")
 
     async def generate_structured_content(
         self,
@@ -68,35 +98,66 @@ class VertexAIProvider(LLMProvider):
         user_prompt: str,
         response_schema: Dict[str, Any],
     ) -> List[str]:
-        """Generate structured content using Vertex AI with JSON schema."""
-        from vertexai.generative_models import GenerationConfig
+        """Generate structured content using Google AI Studio API with JSON schema."""
+        url = f"{self.base_url}/models/{self.model_name}:generateContent"
         
         # Combine system and user prompts
-        full_prompt = f"{system_prompt}\n\n{user_prompt}"
+        full_prompt = f"{system_prompt}\n\n{user_prompt}\n\nIMPORTANT: Respond with ONLY a valid JSON array that matches this schema:\n{json.dumps(response_schema, indent=2)}\n\nDo not include any text before or after the JSON array. Return ONLY the JSON array."
         
-        # Use generate_content with response_schema parameter
-        generation_config = GenerationConfig(
-            response_schema=response_schema,
-            response_mime_type="application/json",
-        )
-        
-        response = self.model.generate_content(
-            full_prompt,
-            generation_config=generation_config,
-        )
-        
-        # Parse JSON response
         try:
-            json_data = json.loads(response.text)
-            # Extract the array from the response
-            if isinstance(json_data, list):
-                return json_data
-            elif isinstance(json_data, dict) and "items" in json_data:
-                return json_data["items"]
-            else:
-                raise ValueError(f"Unexpected JSON structure: {json_data}")
-        except json.JSONDecodeError as e:
-            raise ValueError(f"Failed to parse JSON response: {e}. Response: {response.text}")
+            response = httpx.post(
+                url,
+                json={
+                    "contents": [{
+                        "parts": [{"text": full_prompt}]
+                    }],
+                    "generationConfig": {
+                        "responseMimeType": "application/json",
+                        "responseSchema": {
+                            "type": "array",
+                            "items": response_schema
+                        }
+                    }
+                },
+                params={"key": self.api_key},
+                timeout=300.0,
+            )
+            response.raise_for_status()
+            result = response.json()
+            
+            # Extract text from response
+            if "candidates" in result and len(result["candidates"]) > 0:
+                candidate = result["candidates"][0]
+                if "content" in candidate and "parts" in candidate["content"]:
+                    parts = candidate["content"]["parts"]
+                    if len(parts) > 0 and "text" in parts[0]:
+                        response_text = parts[0]["text"].strip()
+                        
+                        # Parse JSON response
+                        try:
+                            json_data = json.loads(response_text)
+                            if isinstance(json_data, list):
+                                return json_data
+                            elif isinstance(json_data, dict) and "items" in json_data:
+                                return json_data["items"]
+                            else:
+                                raise ValueError(f"Unexpected JSON structure: {json_data}")
+                        except json.JSONDecodeError as e:
+                            # Try to extract JSON array from response
+                            json_match = re.search(r'\[.*\]', response_text, re.DOTALL)
+                            if json_match:
+                                json_data = json.loads(json_match.group(0))
+                                if isinstance(json_data, list):
+                                    return json_data
+                            raise ValueError(f"Failed to parse JSON response: {e}. Response: {response_text[:200]}...")
+            
+            raise ValueError(f"Unexpected response structure: {result}")
+        except httpx.RequestError as e:
+            raise RuntimeError(f"Failed to connect to Google AI Studio API: {e}")
+        except httpx.HTTPStatusError as e:
+            raise RuntimeError(f"Google AI Studio API error: {e.response.status_code} - {e.response.text}")
+
+
 
 
 class OllamaProvider(LLMProvider):
@@ -266,20 +327,23 @@ def get_llm_provider(project_id: Optional[str] = None, location: str = "us-centr
     Factory function to get the appropriate LLM provider based on environment variables.
 
     Environment variables:
-    - USE_OLLAMA: If set to "true", use Ollama instead of Vertex AI
+    - GOOGLE_AI_STUDIO_API_KEY: If set, use Google AI Studio API (REST API with API key) - DEFAULT in production
+    - USE_OLLAMA: If set to "true", use Ollama for local development
     - OLLAMA_BASE_URL: Ollama API base URL (default: http://localhost:11434)
-    - OLLAMA_MODEL: Model name to use (default: llama3.2)
-    - USE_MOCK: If set to "true", use mock provider (no AI calls)
+    - OLLAMA_MODEL: Model name to use (default: phi4-mini)
+    - USE_MOCK: If set to "true", use mock provider (no AI calls, for testing)
+    - GOOGLE_AI_STUDIO_MODEL: Model name for Google AI Studio (default: gemini-2.0-flash-exp for free tier)
 
     Args:
-        project_id: GCP project ID (required for Vertex AI)
-        location: GCP location (required for Vertex AI)
+        project_id: GCP project ID (required for Firestore access, not used by LLM provider)
+        location: GCP location (not used, kept for backward compatibility)
 
     Returns:
         LLMProvider instance
     """
     use_mock = os.getenv("USE_MOCK", "").lower() == "true"
     use_ollama = os.getenv("USE_OLLAMA", "").lower() == "true"
+    google_ai_studio_api_key = os.getenv("GOOGLE_AI_STUDIO_API_KEY")
 
     if use_mock:
         print("Using Mock LLM Provider for testing.")
@@ -291,15 +355,15 @@ def get_llm_provider(project_id: Optional[str] = None, location: str = "us-centr
         model_name = os.getenv("OLLAMA_MODEL", "phi4-mini")
         return OllamaProvider(base_url=base_url, model_name=model_name)
     
-    # Default to Vertex AI
-    if not project_id:
-        project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
-    if not project_id:
-        raise ValueError(
-            "GOOGLE_CLOUD_PROJECT must be set for Vertex AI, "
-            "or set USE_OLLAMA=true or USE_MOCK=true for local testing"
-        )
+    # Prefer Google AI Studio API if API key is provided
+    if google_ai_studio_api_key:
+        print("Using Google AI Studio API Provider.")
+        model_name = os.getenv("GOOGLE_AI_STUDIO_MODEL", "gemini-2.0-flash-exp")
+        return GoogleAIStudioProvider(api_key=google_ai_studio_api_key, model_name=model_name)
     
-    model_name = os.getenv("VERTEX_AI_MODEL", "gemini-1.5-pro")
-    return VertexAIProvider(project_id=project_id, location=location, model_name=model_name)
+    # Default to ollama
+    print("Using Ollama Provider.")
+    base_url = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+    model_name = os.getenv("OLLAMA_MODEL", "phi4-mini")
+    return OllamaProvider(base_url=base_url, model_name=model_name)
 

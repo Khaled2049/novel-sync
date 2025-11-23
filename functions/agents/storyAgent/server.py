@@ -38,7 +38,7 @@ app.add_middleware(
 
 # Initialize agent
 PROJECT_ID = os.getenv("GOOGLE_CLOUD_PROJECT")
-LOCATION = os.getenv("VERTEX_AI_LOCATION", "us-central1")
+LOCATION = os.getenv("VERTEX_AI_LOCATION", "us-central1")  # Not used (legacy parameter, kept for compatibility)
 
 if not PROJECT_ID:
     raise ValueError("GOOGLE_CLOUD_PROJECT environment variable must be set")

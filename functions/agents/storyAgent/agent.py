@@ -42,8 +42,8 @@ class StoryAgent:
         Initialize the story agent.
 
         Args:
-            project_id: GCP project ID (defaults to environment variable)
-            location: GCP location for Vertex AI
+            project_id: GCP project ID (defaults to environment variable, required for Firestore)
+            location: GCP location (not used, kept for backward compatibility)
         """
         self.project_id = project_id or os.getenv("GOOGLE_CLOUD_PROJECT")
         if not self.project_id:

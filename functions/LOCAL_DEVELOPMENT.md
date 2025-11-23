@@ -7,8 +7,7 @@ This guide explains how to run the entire application locally using Firebase emu
 1. **Node.js 22+** and npm
 2. **Python 3.9+** and pip
 3. **Firebase CLI**: `npm install -g firebase-tools`
-4. **Google Cloud SDK** (for authentication with Vertex AI)
-5. **Firebase project** with Vertex AI API enabled
+4. **Google Cloud SDK** (optional, for Firestore authentication if not using emulator)
 
 ## Setup Steps
 
@@ -33,30 +32,25 @@ pip install -r requirements.txt
 Create a `.env` file in `agents/storyAgent/`:
 ```bash
 GOOGLE_CLOUD_PROJECT=your-project-id
-VERTEX_AI_LOCATION=us-central1
+GOOGLE_AI_STUDIO_API_KEY=your-api-key  # Required for AI generation
+GOOGLE_AI_STUDIO_MODEL=gemini-2.0-flash-exp  # Optional, defaults to gemini-2.0-flash-exp
 FIRESTORE_EMULATOR_HOST=localhost:8080  # For local Firestore emulator
 ```
 
 Or set environment variables:
 ```bash
 export GOOGLE_CLOUD_PROJECT=your-project-id
-export VERTEX_AI_LOCATION=us-central1
+export GOOGLE_AI_STUDIO_API_KEY=your-api-key
+export GOOGLE_AI_STUDIO_MODEL=gemini-2.0-flash-exp
 export FIRESTORE_EMULATOR_HOST=localhost:8080
 ```
+
+**Note**: Vertex AI is not required. The service uses Google AI Studio API directly.
 
 #### For Firebase Functions
 
 The agent service URL is automatically set to `http://localhost:8000` when running locally (see `functions/src/agentService.ts`).
 
-### 3. Authenticate with Google Cloud
-
-The Python agent needs to authenticate with Google Cloud to use Vertex AI:
-
-```bash
-gcloud auth application-default login
-```
-
-This allows the agent to access Vertex AI (Gemini) and Firestore.
 
 ## Running Locally
 
@@ -173,14 +167,14 @@ For local testing, you can:
 
 The Python agent supports multiple AI backends for local testing:
 
-#### Option 1: Vertex AI (Gemini) - Production Mode
+#### Option 1: Google AI Studio API - Production Mode (Default)
 
-**Requires:** A real Google Cloud project with Vertex AI enabled
-- A valid GCP project
-- Vertex AI API enabled
-- Proper authentication (`gcloud auth application-default login`)
+**Requires:** Google AI Studio API key
+- Get your API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
+- Set `GOOGLE_AI_STUDIO_API_KEY` environment variable
+- Uses `gemini-2.0-flash-exp` by default (free tier friendly)
 
-**Note:** This will incur costs for each AI API call.
+**Note:** This uses the same API as production. Free tier available for `gemini-2.0-flash-exp` model.
 
 #### Option 2: Ollama - Free Local Testing
 
@@ -251,7 +245,7 @@ This returns predefined mock responses and requires no setup.
 ### Authentication Errors
 
 1. For Firebase Auth: Use the emulator UI to create test users
-2. For Vertex AI: Run `gcloud auth application-default login` (only needed if using Vertex AI)
+2. For Google AI Studio: Make sure `GOOGLE_AI_STUDIO_API_KEY` is set correctly
 3. For Firestore: The emulator doesn't require authentication
 
 ### Ollama Connection Errors
