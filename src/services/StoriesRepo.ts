@@ -128,7 +128,6 @@ class StoriesRepo {
       const userRef = doc(firestore, "users", userId);
       const userSnap = await getDoc(userRef);
       if (userSnap.exists()) {
-        console.log("User info:", userSnap.data());
         return userSnap.data().username;
       }
     } catch (error) {

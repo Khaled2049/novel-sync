@@ -1,4 +1,5 @@
 // Story.tsx
+import { AIUsageProgressBar } from "@/components/AIUsageProgressBar";
 import { Outlet, NavLink, useLocation } from "react-router-dom";
 
 const Story = () => {
@@ -34,6 +35,7 @@ const Story = () => {
       <main className="flex-1 overflow-y-auto">
         <Outlet />
       </main>
+      <AIUsageProgressBar />
     </div>
   );
 };

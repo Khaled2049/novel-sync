@@ -2,11 +2,22 @@ import { onRequest } from "firebase-functions/https";
 import { callAgentWithRetry } from "./agentService";
 import { requireStoryOwnership } from "./authService";
 import { logger } from "firebase-functions";
+import { checkAndIncrementAiUsage } from "./aiUsageService";
 
 export const generateNextLines = onRequest(
   { cors: true },
   requireStoryOwnership(async (request, response, userId, storyId) => {
     try {
+      // Check and increment AI usage
+      const usageCheck = await checkAndIncrementAiUsage(userId);
+      if (!usageCheck.allowed) {
+        response.status(429).json({
+          error: "Daily AI usage limit reached. Please try again tomorrow.",
+          details: `You have used ${usageCheck.currentUsage} out of 10 daily AI uses.`,
+        });
+        return;
+      }
+
       const { content, cursorPosition, chapterId } = request.body;
 
       // Call agent synchronously

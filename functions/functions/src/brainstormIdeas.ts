@@ -3,6 +3,7 @@ import { onRequest } from "firebase-functions/https";
 import * as logger from "firebase-functions/logger";
 import { requireStoryOwnership } from "./authService";
 import { callAgentWithRetry } from "./agentService";
+import { checkAndIncrementAiUsage } from "./aiUsageService";
 
 /**
  * POST /brainstormIdeas - Generate brainstorming ideas (synchronous).
@@ -11,6 +12,16 @@ export const brainstormIdeas = onRequest(
   { cors: true },
   requireStoryOwnership(async (request, response, userId, storyId) => {
     try {
+      // Check and increment AI usage
+      const usageCheck = await checkAndIncrementAiUsage(userId);
+      if (!usageCheck.allowed) {
+        response.status(429).json({
+          error: "Daily AI usage limit reached. Please try again tomorrow.",
+          details: `You have used ${usageCheck.currentUsage} out of 10 daily AI uses.`,
+        });
+        return;
+      }
+
       const { type, prompt, count } = request.body;
 
       if (!type || typeof type !== "string") {

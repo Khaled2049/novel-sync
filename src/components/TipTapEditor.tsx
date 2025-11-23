@@ -26,6 +26,7 @@ import EditorHeader from "@/components/EditorHeader";
 import { slashCommandSuggestion } from "./SlashCommandExtension";
 import { SuggestionMenu } from "./SuggestionMenu";
 import { generateNextLines } from "@/api/brainstormApi";
+import { useAiUsage } from "@/contexts/AiUsageContext";
 
 const limit = 50000;
 
@@ -51,7 +52,7 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestionMenu, setShowSuggestionMenu] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
-
+  const { incrementAiUsage } = useAiUsage();
   // Initialize the AI generator
   const aiGenerator = new AITextGenerator(0);
 
@@ -69,6 +70,8 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
           cursorPosition,
           chapterId,
         });
+
+        await incrementAiUsage();
 
         let suggestionsArray: string[] = [];
 

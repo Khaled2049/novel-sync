@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const [scrollY, setScrollY] = useState(0);
-  const [activeSection, setActiveSection] = useState(0);
+  const [_activeSection, setActiveSection] = useState(0);
   const sectionsRef = useRef<HTMLElement[]>([]);
   const navigate = useNavigate();
 
