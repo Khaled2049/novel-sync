@@ -60,7 +60,7 @@ async function exportData() {
       console.log(`Exported story: ${storyId}`);
     }
 
-    console.log(`\n✅ Data exported from production`);
+    console.log("\n✅ Data exported from production");
     console.log(`Total stories exported: ${storiesSnapshot.size}`);
 
     // Now import to EMULATOR

@@ -21,13 +21,23 @@ module.exports = {
     "/lib/**/*", // Ignore built files.
     "/generated/**/*", // Ignore generated files.
   ],
-  plugins: [
-    "@typescript-eslint",
-    "import",
-  ],
+  plugins: ["@typescript-eslint", "import"],
   rules: {
-    "quotes": ["error", "double"],
+    quotes: ["error", "double"],
     "import/no-unresolved": 0,
-    "indent": ["error", 2],
+    indent: ["error", 2],
+    // Disable linebreak-style to allow both LF and CRLF (Windows compatibility)
+    "linebreak-style": "off",
+    // Allow spaces in object destructuring (Prettier-friendly)
+    "object-curly-spacing": ["error", "always"],
+    // Relax JSDoc requirements
+    "require-jsdoc": "off",
+    "valid-jsdoc": "off",
+    // Relax max-len (Prettier handles line length)
+    "max-len": ["error", { code: 120, ignoreUrls: true, ignoreStrings: true }],
+    // Allow operator-linebreak flexibility (Prettier handles this)
+    "operator-linebreak": "off",
+    // Allow any type (warnings only, not errors)
+    "@typescript-eslint/no-explicit-any": "warn",
   },
 };
