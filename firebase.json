@@ -57,10 +57,7 @@
         "LOCAL_DEVELOPMENT.md",
         "API_DOCUMENTATION.md"
       ],
-      "predeploy": [
-        "yarn --cwd \"$RESOURCE_DIR\" run lint",
-        "yarn --cwd \"$RESOURCE_DIR\" run build"
-      ]
+      "predeploy": ["yarn --cwd \"$RESOURCE_DIR\" run build"]
     }
   ]
 }

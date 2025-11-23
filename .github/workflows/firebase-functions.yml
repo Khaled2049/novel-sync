@@ -46,4 +46,4 @@ jobs:
           export GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase-service-account.json
 
       - name: Deploy to Firebase Functions
-        run: firebase deploy --only functions --project novelsync-f82ec --force --no-predeploy
+        run: firebase deploy --only functions --project novelsync-f82ec
