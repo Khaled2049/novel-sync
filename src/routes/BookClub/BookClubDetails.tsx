@@ -48,7 +48,7 @@ const BookClubDetails: React.FC = () => {
   }
 
   return (
-    <div className="mx-auto py-24 flex flex-col bg-neutral-50 dark:bg-black transition-colors duration-200">
+    <div className="mx-auto flex flex-col bg-neutral-50 dark:bg-black transition-colors duration-200">
       {/* Main Content */}
       <div className="justify-center">
         {/* Club Header */}

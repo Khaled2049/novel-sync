@@ -276,7 +276,7 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
   }
 
   return (
-    <div className="flex flex-col mb-4">
+    <div className="flex h-full flex-col mb-4">
       <BubbleMenu
         editor={editor}
         tippyOptions={{ duration: 150 }}
@@ -305,14 +305,12 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
         </div>
       </BubbleMenu>
 
-      <div className=" transition-colors duration-200">
-        <div className="min-h-[28rem] w-full border-b border-black/10 dark:border-white/10 pb-8">
-          <EditorContent
-            onClick={() => editor.commands.focus()}
-            className="w-full focus:outline-none selection:bg-light-green/20 dark:selection:bg-dark-green/20 text-black dark:text-white prose prose-lg max-w-none dark:prose-invert"
-            editor={editor}
-          />
-        </div>
+      <div className="flex-1 transition-colors duration-200 min-h-[500px]">
+        <EditorContent
+          onClick={() => editor.commands.focus()}
+          className="w-full h-full focus:outline-none selection:bg-light-green/20 dark:selection:bg-dark-green/20 text-black dark:text-white prose prose-lg max-w-none dark:prose-invert"
+          editor={editor}
+        />
       </div>
 
       {/* Loading indicator for generation */}
@@ -349,8 +347,8 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
         >
           {saveStatus}
         </span>
-        <EditorHeader editor={editor} />
       </div>
+      <EditorHeader editor={editor} />
     </div>
   );
 };

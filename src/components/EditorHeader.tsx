@@ -85,9 +85,7 @@ const EditorHeader: React.FC<EditorHeaderProps> = ({ editor }) => {
       {/* Bold Button */}
       <button
         className={`p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300 ${
-          editor.isActive("bold")
-            ? "bg-gray-300 dark:bg-gray-700" // Active state (now a softer dark gray)
-            : ""
+          editor.isActive("bold") ? "bg-gray-300 dark:bg-gray-700" : ""
         }`}
         onClick={toggleBold}
       >

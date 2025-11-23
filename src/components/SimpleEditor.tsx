@@ -230,13 +230,14 @@ export function SimpleEditor() {
   };
 
   return (
-    <div className="relative w-full h-[calc(100vh-4rem)] bg-neutral-50 dark:bg-neutral-950 flex overflow-hidden transition-colors duration-200 pt-16">
+    <div className="relative w-full h-full bg-neutral-50 dark:bg-neutral-950 flex overflow-hidden transition-colors duration-200">
       {storyLoading ? (
         <div className="flex items-center justify-center w-full h-full text-dark-green dark:text-light-green">
           <Loader className="w-12 h-12 animate-spin" />
         </div>
       ) : (
         <>
+          {/* Left Sidebar */}
           <div
             className={`relative bg-neutral-50 dark:bg-black border-r border-black/10 dark:border-white/10 transition-all duration-300 ease-in-out ${
               leftSidebarOpen ? "w-80" : "w-0"
@@ -268,11 +269,10 @@ export function SimpleEditor() {
             )}
           </button>
 
-          {/* Main Editor Area */}
+          {/* Main Editor Area - CENTER */}
           <div className="flex-1 flex flex-col overflow-hidden">
             <div className="flex-1 flex flex-col overflow-hidden">
-              <div className="max-w-4xl mx-auto w-full px-8 flex-shrink-0">
-                {/* Story Metadata Component */}
+              <div className="max-w-4xl mx-auto w-full px-8 flex-shrink-0 py-4">
                 <StoryMetadata
                   storyTitle={storyTitle}
                   storyDescription={storyDescription}
@@ -284,7 +284,7 @@ export function SimpleEditor() {
                 />
               </div>
 
-              {/* Scrollable Editor Area - ONLY this scrolls */}
+              {/* Scrollable Editor Area - THIS IS THE ONLY SCROLLABLE PART */}
               {currentChapter && (
                 <div className="flex-1 overflow-y-auto">
                   <div className="max-w-4xl mx-auto w-full px-8">
@@ -302,8 +302,8 @@ export function SimpleEditor() {
                 </div>
               )}
 
-              {/* Save Controls Component - Fixed at bottom */}
-              <div className="max-w-4xl mx-auto w-full px-8 pb-12 pt-4 flex-shrink-0">
+              {/* Save Controls Component - STAYS FIXED AT BOTTOM */}
+              <div className="max-w-4xl mx-auto w-full px-8 pb-4 pt-4 flex-shrink-0">
                 <SaveControls
                   isPublished={currentStory?.isPublished || false}
                   onPublish={handlePublish}
