@@ -1,9 +1,10 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-import { getFunctions } from "firebase/functions";
+import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
+import { connectAuthEmulator } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -22,8 +23,36 @@ export const firestore = getFirestore(app);
 export const storage = getStorage(app);
 export const functions = getFunctions(app);
 
-// if (import.meta.env.MODE === "development") {
-//   console.log("Using Firebase Emulators");
-//   connectFirestoreEmulator(firestore, "localhost", 8080);
-//   connectFunctionsEmulator(functions, "localhost", 5001);
-// }
+// Connect to emulators in development mode
+if (import.meta.env.MODE === "development") {
+  // Use a flag to prevent double connection (e.g., during hot reload)
+  const emulatorsConnected = (window as any).__FIREBASE_EMULATORS_CONNECTED__;
+
+  if (!emulatorsConnected) {
+    try {
+      console.log("🔧 Connecting to Firebase Emulators...");
+
+      // Connect Firestore emulator (configured in firebase.json)
+      connectFirestoreEmulator(firestore, "localhost", 8080);
+
+      // Connect Functions emulator (configured in firebase.json)
+      connectFunctionsEmulator(functions, "localhost", 5001);
+
+      // Optional: Connect Auth emulator (uncomment if you add it to firebase.json)
+      // import { connectAuthEmulator } from "firebase/auth";
+      connectAuthEmulator(auth, "http://localhost:9099", {
+        disableWarnings: true,
+      });
+
+      // Optional: Connect Storage emulator (uncomment if you add it to firebase.json)
+      // import { connectStorageEmulator } from "firebase/storage";
+      // connectStorageEmulator(storage, "localhost", 9199);
+
+      (window as any).__FIREBASE_EMULATORS_CONNECTED__ = true;
+      console.log("✅ Firebase Emulators connected successfully");
+    } catch (error) {
+      console.warn("⚠️ Failed to connect to Firebase Emulators:", error);
+      console.warn("Make sure emulators are running: firebase emulators:start");
+    }
+  }
+}

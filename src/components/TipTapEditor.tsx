@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useEditor, EditorContent, BubbleMenu } from "@tiptap/react";
 import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
@@ -14,8 +20,13 @@ import Placeholder from "@tiptap/extension-placeholder";
 import BulletList from "@tiptap/extension-bullet-list";
 import ListItem from "@tiptap/extension-list-item";
 import { Extension } from "@tiptap/core";
+import Suggestion from "@tiptap/suggestion";
 import { AITextGenerator } from "@/components/AITextGenerator";
 import EditorHeader from "@/components/EditorHeader";
+import { slashCommandSuggestion } from "./SlashCommandExtension";
+import { SuggestionMenu } from "./SuggestionMenu";
+import { generateNextLines } from "@/api/brainstormApi";
+import { useAiUsage } from "@/contexts/AiUsageContext";
 
 const limit = 50000;
 
@@ -24,6 +35,8 @@ interface TipTapEditorProps {
   onContentChange: (content: string) => void;
   onSave: (content: string) => void;
   saveStatus: string;
+  storyId: string;
+  chapterId?: string;
 }
 
 export const TipTapEditor: React.FC<TipTapEditorProps> = ({
@@ -31,12 +44,56 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
   onContentChange,
   onSave,
   saveStatus,
+  storyId,
+  chapterId,
 }) => {
   const aiGeneratorRef = useRef<AITextGenerator | null>(null);
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [showSuggestionMenu, setShowSuggestionMenu] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const { incrementAiUsage } = useAiUsage();
   // Initialize the AI generator
   const aiGenerator = new AITextGenerator(0);
+
+  // Function to call your backend API
+  const fetchNextLineSuggestions = useCallback(
+    async (editorInstance: any) => {
+      setIsGenerating(true);
+      try {
+        const content = editorInstance.getHTML();
+        const cursorPosition = editorInstance.state.selection.from;
+
+        const response = await generateNextLines({
+          storyId,
+          content,
+          cursorPosition,
+          chapterId,
+        });
+
+        await incrementAiUsage();
+
+        let suggestionsArray: string[] = [];
+
+        if (response.data && Array.isArray(response.data.suggestions)) {
+          suggestionsArray = response.data.suggestions;
+        }
+        if (suggestionsArray.length === 0) {
+          alert("No suggestions were generated. Please try again.");
+          return;
+        }
+
+        setSuggestions(suggestionsArray);
+        setShowSuggestionMenu(true);
+      } catch (error) {
+        console.error("Error fetching suggestions:", error);
+        alert("Failed to generate suggestions. Please try again.");
+      } finally {
+        setIsGenerating(false);
+      }
+    },
+    [storyId, chapterId]
+  );
 
   // Create Tab key extension for AI generation
   const LiteralTab = Extension.create({
@@ -95,6 +152,25 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
     },
   });
 
+  // Create Slash Command Extension - memoized to prevent recreation
+  const SlashCommandsExtension = useMemo(() => {
+    return Extension.create({
+      name: "slashCommands",
+
+      addProseMirrorPlugins() {
+        const editorInstance = this.editor;
+        return [
+          Suggestion({
+            editor: editorInstance,
+            ...slashCommandSuggestion(async () => {
+              await fetchNextLineSuggestions(editorInstance);
+            }),
+          }),
+        ];
+      },
+    });
+  }, [fetchNextLineSuggestions]);
+
   // Initialize the editor
   const editor = useEditor({
     extensions: [
@@ -107,6 +183,7 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
       Italic,
       Image,
       LiteralTab,
+      SlashCommandsExtension,
       CharacterCount.configure({
         limit,
       }),
@@ -118,7 +195,8 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
         },
       }),
       Placeholder.configure({
-        placeholder: "Write something already ya silly goose…",
+        placeholder:
+          "Write something already ya silly goose… or type / for commands",
       }),
       BulletList.configure({
         HTMLAttributes: {
@@ -133,15 +211,6 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
       onContentChange(content);
       debouncedSave(content);
     },
-    // onSelectionUpdate: ({ editor }) => {
-    //   const { from, to } = editor.state.selection;
-    //   if (from !== to) {
-    //     const selectedText = editor.state.doc.textBetween(from, to);
-    //     onSelectionChange(selectedText);
-    //   } else {
-    //     onSelectionChange("");
-    //   }
-    // },
   });
 
   // Update editor content when initialContent changes
@@ -210,7 +279,7 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
   }
 
   return (
-    <div className="flex flex-col mb-4">
+    <div className="flex h-full flex-col mb-4">
       <BubbleMenu
         editor={editor}
         tippyOptions={{ duration: 150 }}
@@ -239,15 +308,39 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
         </div>
       </BubbleMenu>
 
-      <div className="py-8 transition-colors duration-200">
-        <div className="min-h-[28rem] w-full border-b border-black/10 dark:border-white/10 pb-8">
-          <EditorContent
-            onClick={() => editor.commands.focus()}
-            className="w-full focus:outline-none selection:bg-light-green/20 dark:selection:bg-dark-green/20 text-black dark:text-white prose prose-lg max-w-none dark:prose-invert"
-            editor={editor}
-          />
-        </div>
+      <div className="flex-1 transition-colors duration-200 min-h-[500px]">
+        <EditorContent
+          onClick={() => editor.commands.focus()}
+          className="w-full h-full focus:outline-none selection:bg-light-green/20 dark:selection:bg-dark-green/20 text-black dark:text-white prose prose-lg max-w-none dark:prose-invert"
+          editor={editor}
+        />
       </div>
+
+      {/* Loading indicator for generation */}
+      {isGenerating && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xl">
+            <div className="flex items-center gap-3">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-dark-green"></div>
+              <span className="text-gray-900 dark:text-white">
+                Generating suggestions...
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Suggestion Menu */}
+      {showSuggestionMenu && suggestions.length > 0 && (
+        <SuggestionMenu
+          suggestions={suggestions}
+          editor={editor}
+          onClose={() => {
+            setShowSuggestionMenu(false);
+            setSuggestions([]);
+          }}
+        />
+      )}
 
       <div className="flex flex-col items-center my-3 space-y-1">
         <span
@@ -257,8 +350,8 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
         >
           {saveStatus}
         </span>
-        <EditorHeader editor={editor} />
       </div>
+      <EditorHeader editor={editor} />
     </div>
   );
 };

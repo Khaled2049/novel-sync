@@ -1,5 +1,10 @@
 name: Deploy to Firebase Hosting on PR
 on: pull_request
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   checks: write
   contents: read
@@ -20,11 +25,19 @@ jobs:
       VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "yarn"
+
       - run: yarn install --frozen-lockfile
       - run: yarn build
+
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_NOVELSYNC_F82EC }}
           projectId: novelsync-f82ec
-          channelId: preview # This sets up a unique preview channel for each PR
+          expires: 7d

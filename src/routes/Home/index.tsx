@@ -91,7 +91,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen py-24  dark:bg-black">
+    <div className="flex flex-col lg:flex-row min-h-screen  dark:bg-black">
       {usersLoading ? (
         <Loader
           className="m-auto text-dark-green dark:text-light-green"

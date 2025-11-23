@@ -7,7 +7,11 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start:agent": "cd functions && python -m agents.storyAgent.server",
+    "start:emulator": "npm run emulator --prefix functions/functions",
+    "start:export": "npm run export-prod --prefix functions/functions",
+    "start:vite": "yarn dev"
   },
   "dependencies": {
     "@google-cloud/vertexai": "^1.4.1",
@@ -32,6 +36,7 @@
     "@tiptap/pm": "^2.5.6",
     "@tiptap/react": "^2.5.6",
     "@tiptap/starter-kit": "^2.5.6",
+    "@tiptap/suggestion": "^3.10.7",
     "aos": "^2.3.4",
     "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
@@ -66,6 +71,7 @@
     "@typescript-eslint/parser": "^7.15.0",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.19",
+    "concurrently": "^9.2.1",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",

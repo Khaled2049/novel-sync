@@ -12,6 +12,8 @@ import { SidebarPanel } from "@/components/SidebarPanel";
 import { StoryMetadata } from "@/components/StoryMetadata";
 import { SaveControls } from "@/components/SaveControls";
 import { TipTapEditor } from "@/components/TipTapEditor";
+import { BrainstormIdeas } from "@/components/BrainstormIdeas";
+import { WritingStats } from "@/components/WritingStats";
 
 export function SimpleEditor() {
   const navigate = useNavigate();
@@ -228,13 +230,14 @@ export function SimpleEditor() {
   };
 
   return (
-    <div className="h-screen w-full bg-neutral-50 dark:bg-neutral-950 flex overflow-hidden transition-colors duration-200">
+    <div className="relative w-full h-full bg-neutral-50 dark:bg-neutral-950 flex overflow-hidden transition-colors duration-200">
       {storyLoading ? (
         <div className="flex items-center justify-center w-full h-full text-dark-green dark:text-light-green">
           <Loader className="w-12 h-12 animate-spin" />
         </div>
       ) : (
         <>
+          {/* Left Sidebar */}
           <div
             className={`relative bg-neutral-50 dark:bg-black border-r border-black/10 dark:border-white/10 transition-all duration-300 ease-in-out ${
               leftSidebarOpen ? "w-80" : "w-0"
@@ -266,37 +269,45 @@ export function SimpleEditor() {
             )}
           </button>
 
-          {/* Main Editor Area */}
-          <div className="flex-1 overflow-auto">
-            <div className="max-w-4xl mx-auto px-8 py-12 ">
-              {/* Story Metadata Component */}
-              <StoryMetadata
-                storyTitle={storyTitle}
-                storyDescription={storyDescription}
-                chapterTitle={chapterTitle}
-                onStoryTitleChange={setStoryTitle}
-                onStoryDescriptionChange={setStoryDescription}
-                onChapterTitleChange={setChapterTitle}
-                onMetadataChange={handleMetadataChange}
-              />
+          {/* Main Editor Area - CENTER */}
+          <div className="flex-1 flex flex-col overflow-hidden">
+            <div className="flex-1 flex flex-col overflow-hidden">
+              <div className="max-w-4xl mx-auto w-full px-8 flex-shrink-0 py-4">
+                <StoryMetadata
+                  storyTitle={storyTitle}
+                  chapterTitle={chapterTitle}
+                  onStoryTitleChange={setStoryTitle}
+                  onChapterTitleChange={setChapterTitle}
+                  onMetadataChange={handleMetadataChange}
+                />
+              </div>
 
+              {/* Scrollable Editor Area - THIS IS THE ONLY SCROLLABLE PART */}
               {currentChapter && (
-                <div className="bg-neutral-50 dark:bg-transparent">
-                  <TipTapEditor
-                    initialContent={currentChapter.content}
-                    onContentChange={handleContentChange}
-                    onSave={handleSave}
-                    saveStatus={saveStatus}
-                  />
+                <div className="flex-1 overflow-y-auto">
+                  <div className="max-w-4xl mx-auto w-full px-8">
+                    <div className="bg-neutral-50 dark:bg-transparent">
+                      <TipTapEditor
+                        initialContent={currentChapter.content}
+                        onContentChange={handleContentChange}
+                        onSave={handleSave}
+                        saveStatus={saveStatus}
+                        storyId={currentStory?.id || ""}
+                        chapterId={currentChapter?.id || ""}
+                      />
+                    </div>
+                  </div>
                 </div>
               )}
 
-              {/* Save Controls Component */}
-              <SaveControls
-                isPublished={currentStory?.isPublished || false}
-                onPublish={handlePublish}
-                onNewChapter={handleNewChapter}
-              />
+              {/* Save Controls Component - STAYS FIXED AT BOTTOM */}
+              <div className="max-w-4xl mx-auto w-full px-8 pb-4 pt-4 flex-shrink-0">
+                <SaveControls
+                  isPublished={currentStory?.isPublished || false}
+                  onPublish={handlePublish}
+                  onNewChapter={handleNewChapter}
+                />
+              </div>
             </div>
           </div>
 
@@ -319,45 +330,13 @@ export function SimpleEditor() {
               rightSidebarOpen ? "w-80" : "w-0"
             } overflow-hidden`}
           >
-            <div className="w-80 h-full p-6">
-              <h3 className="text-lg font-semibold mb-4 text-black dark:text-white">
-                Writing Stats
-              </h3>
-              <div className="space-y-4 text-sm text-black/70 dark:text-white/70">
-                <div className="flex justify-between">
-                  <span>Words:</span>
-                  <span className="font-medium text-black dark:text-white">
-                    {currentChapter?.content
-                      ? currentChapter.content.split(/\s+/).filter(Boolean)
-                          .length
-                      : 0}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Characters:</span>
-                  <span className="font-medium text-black dark:text-white">
-                    {currentChapter?.content?.length || 0}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Reading time:</span>
-                  <span className="font-medium text-black dark:text-white">
-                    {currentChapter?.content
-                      ? Math.ceil(
-                          currentChapter.content.split(/\s+/).filter(Boolean)
-                            .length / 200
-                        )
-                      : 0}{" "}
-                    min
-                  </span>
-                </div>
-                <div className="flex justify-between pt-4 border-t border-black/10 dark:border-white/10">
-                  <span>Chapters:</span>
-                  <span className="font-medium text-black dark:text-white">
-                    {chapters.length}
-                  </span>
-                </div>
-              </div>
+            <div className="w-80 h-full p-6 overflow-y-auto">
+              <WritingStats
+                currentChapter={currentChapter}
+                chaptersCount={chapters.length}
+              />
+
+              <BrainstormIdeas storyId={currentStory?.id || null} />
             </div>
           </div>
         </>

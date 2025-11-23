@@ -37,6 +37,7 @@ import Leaderboards from "./components/explore/Leaderboards";
 import WritingResources from "./components/explore/WritingResources";
 import Announcements from "./components/explore/Announcements";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { AiUsageProvider } from "./contexts/AiUsageContext";
 
 const router = createBrowserRouter([
   {
@@ -159,7 +160,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <ThemeProvider>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <AiUsageProvider>
+        <RouterProvider router={router} />
+      </AiUsageProvider>
     </AuthProvider>
   </ThemeProvider>
 );

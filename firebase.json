@@ -1,11 +1,7 @@
 {
   "hosting": {
     "public": "dist",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",
@@ -36,18 +32,34 @@
   },
   "functions": [
     {
-      "source": "functions",
+      "source": "functions/functions",
       "codebase": "default",
       "ignore": [
         "node_modules",
         ".git",
         "firebase-debug.log",
         "firebase-debug.*.log",
-        "*.local"
+        "*.local",
+        "novelsync/**",
+        "__pycache__/**",
+        "*.py",
+        "*.pyc",
+        "requirements.txt",
+        "Dockerfile",
+        "cloudbuild.yaml",
+        ".dockerignore",
+        ".gcloudignore",
+        "start-local.*",
+        "run-agent.py",
+        "*.md",
+        "!functions/**/*.md",
+        "readme.md",
+        "LOCAL_DEVELOPMENT.md",
+        "API_DOCUMENTATION.md"
       ],
       "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR\" run lint",
-        "npm --prefix \"$RESOURCE_DIR\" run build"
+        "yarn --cwd \"$RESOURCE_DIR\" run lint",
+        "yarn --cwd \"$RESOURCE_DIR\" run build"
       ]
     }
   ]

@@ -1,17 +1,25 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { AITextGenerator } from "./AITextGenerator";
 import { Copy } from "lucide-react";
+import { useAiUsage } from "@/contexts/AiUsageContext";
 
 interface AIToolsProps {
   text: string;
 }
 
 const AITools = ({ text }: AIToolsProps) => {
+  const { canUseAI, incrementAiUsage } = useAiUsage();
   const [showToneDropdown, setShowToneDropdown] = useState(false);
   const [showDialogueDropdown, setShowDialogueDropdown] = useState(false);
   const [showThemeDropdown, setShowThemeDropdown] = useState(false);
   const [generatedText, setGeneratedText] = useState("");
-  const aiGenerator = new AITextGenerator(0);
+  const [error, setError] = useState("");
+
+  const aiGenerator = useMemo(() => {
+    const gen = new AITextGenerator(0);
+    gen.setIncrementUsageCallback(incrementAiUsage);
+    return gen;
+  }, [incrementAiUsage]);
 
   const DropdownButton = ({
     label,
@@ -64,18 +72,48 @@ const AITools = ({ text }: AIToolsProps) => {
   const themeOptions = ["Love", "Betrayal", "Redemption", "Growth", "Loss"];
 
   const handleToneSelection = async (option: string) => {
-    const res = await aiGenerator.adjustToneAndStyle(text, option);
-    setGeneratedText(res);
+    if (!canUseAI()) {
+      setError("Daily AI usage limit reached. Please try again tomorrow.");
+      return;
+    }
+    setError("");
+    try {
+      const res = await aiGenerator.adjustToneAndStyle(text, option);
+      setGeneratedText(res);
+    } catch (error) {
+      setError("Failed to generate text. Please try again.");
+      console.error("Error:", error);
+    }
   };
 
   const handlEnhanceDialogue = async (character: string) => {
-    const res = await aiGenerator.enhanceCharacterDialogue(text, character);
-    setGeneratedText(res);
+    if (!canUseAI()) {
+      setError("Daily AI usage limit reached. Please try again tomorrow.");
+      return;
+    }
+    setError("");
+    try {
+      const res = await aiGenerator.enhanceCharacterDialogue(text, character);
+      setGeneratedText(res);
+    } catch (error) {
+      setError("Failed to generate text. Please try again.");
+      console.error("Error:", error);
+    }
   };
 
   const handleThemeSelection = async (option: string) => {
-    const res = await aiGenerator.exploreTheme(text, option);
-    setGeneratedText(res);
+    if (!canUseAI()) {
+      setError("Daily AI usage limit reached. Please try again tomorrow.");
+      return;
+    }
+    setError("");
+    try {
+      const res = await aiGenerator.exploreTheme(text, option);
+      setGeneratedText(res);
+    } catch (error) {
+      setError("Failed to generate text. Please try again.");
+      console.error("Error:", error);
+    }
   };
 
   const copyGeneratedText = () => {
@@ -93,7 +131,7 @@ const AITools = ({ text }: AIToolsProps) => {
           showDropdown={showToneDropdown}
           setShowDropdown={setShowToneDropdown}
           onSelect={(option) => handleToneSelection(option)}
-          bgColor=""
+          bgColor={canUseAI() ? "" : "opacity-50"}
         />
         <DropdownButton
           label="Dialogue"
@@ -101,7 +139,7 @@ const AITools = ({ text }: AIToolsProps) => {
           showDropdown={showDialogueDropdown}
           setShowDropdown={setShowDialogueDropdown}
           onSelect={(option) => handlEnhanceDialogue(option)}
-          bgColor=""
+          bgColor={canUseAI() ? "" : "opacity-50"}
         />
         <DropdownButton
           label="Theme"
@@ -109,9 +147,14 @@ const AITools = ({ text }: AIToolsProps) => {
           showDropdown={showThemeDropdown}
           setShowDropdown={setShowThemeDropdown}
           onSelect={(option) => handleThemeSelection(option)}
-          bgColor=""
+          bgColor={canUseAI() ? "" : "opacity-50"}
         />
       </div>
+      {error && (
+        <div className="mt-3 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
+          <p className="text-xs text-red-600 dark:text-red-400">{error}</p>
+        </div>
+      )}
       {generatedText && (
         <div className="mt-4">
           <h2 className="text-lg font-semibold mb-2">Generated Text</h2>

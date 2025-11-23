@@ -54,7 +54,8 @@ const Navbar = () => {
   }, [isDropdownOpen]);
 
   return (
-    <nav className="backdrop-blur-sm p-4 text-white fixed w-full top-0 z-50 /50 dark:bg-black/50 transition-colors duration-300">
+    // CHANGED: Removed 'fixed top-0'. Added solid background and bottom border.
+    <nav className="w-full p-4 z-50 bg-neutral-50 dark:bg-black border-b border-black/10 dark:border-white/10 transition-colors duration-300">
       <div className="container mx-auto flex justify-between items-center">
         {/* Left Section - Logo */}
         <div className="flex items-center">
@@ -170,7 +171,7 @@ const Navbar = () => {
       <div
         className={`lg:hidden ${
           isMobileMenuOpen ? "max-h-screen" : "max-h-0"
-        } overflow-hidden transition-[max-height] duration-500 ease-in-out  dark:bg-black`}
+        } overflow-hidden transition-[max-height] duration-500 ease-in-out dark:bg-black`}
       >
         <div className="mt-4 flex flex-col space-y-4">
           <Link

@@ -10,6 +10,7 @@ export class AITextGenerator {
   private chat: ChatSession;
   private history: { role: string; parts: { text: string }[] }[];
   public id: number;
+  private incrementUsageCallback: (() => Promise<void>) | null = null;
 
   constructor(id: number) {
     this.genAI = new GoogleGenerativeAI(import.meta.env.VITE_API_KEY);
@@ -37,10 +38,26 @@ export class AITextGenerator {
     });
   }
 
+  setIncrementUsageCallback(callback: () => Promise<void>) {
+    this.incrementUsageCallback = callback;
+  }
+
+  private incrementUsage() {
+    if (this.incrementUsageCallback) {
+      // Call increment - AuthContext uses startTransition internally
+      this.incrementUsageCallback().catch((error) => {
+        console.error("Error incrementing AI usage:", error);
+      });
+    }
+  }
+
   private async generateContent(prompt: string): Promise<string> {
     try {
       const result = await this.model.generateContent(prompt);
-      return result.response.text().trim();
+      const text = result.response.text().trim();
+      // Increment usage after successful generation - defer to avoid re-render issues
+      this.incrementUsage();
+      return text;
     } catch (error) {
       console.error("Error:", error);
       throw new Error("Error generating content");
@@ -54,6 +71,8 @@ export class AITextGenerator {
       const result = await this.model.generateContent(prompt);
       const generatedText = result.response.text().trim();
       this.history.push({ role: "model", parts: [{ text: generatedText }] });
+      // Increment usage after successful generation - defer to avoid re-render issues
+      this.incrementUsage();
       return generatedText;
     } catch (error: any) {
       console.error("Error:", error);
@@ -118,6 +137,8 @@ export class AITextGenerator {
       const singleSentence =
         sentences[0] + (generatedText.match(/[.!?]+/) || ["."])[0];
       this.history.push({ role: "model", parts: [{ text: singleSentence }] });
+      // Increment usage after successful generation - defer to avoid re-render issues
+      this.incrementUsage();
       return " " + singleSentence;
     } catch (error) {
       console.error("Error:", error);
@@ -138,6 +159,8 @@ export class AITextGenerator {
           .slice(0, 2)
           .join(". ") + ".";
       this.history.push({ role: "model", parts: [{ text: " " + sentences }] });
+      // Increment usage after successful generation - defer to avoid re-render issues
+      this.incrementUsage();
       return sentences;
     } catch (error) {
       console.error("Error:", error);
@@ -159,6 +182,8 @@ export class AITextGenerator {
       if (suggestions.length < 5) {
         throw new Error("Not enough suggestions generated");
       }
+      // Increment usage after successful generation - defer to avoid re-render issues
+      this.incrementUsage();
       return suggestions.slice(0, 5);
     } catch (error) {
       console.error("Error generating suggestions:", error);
@@ -192,6 +217,8 @@ export class AITextGenerator {
         throw new Error("Unexpected format in recommendations");
       }
 
+      // Increment usage after successful generation - defer to avoid re-render issues
+      this.incrementUsage();
       return recommendations;
     } catch (error) {
       console.error("Error generating recommendation:", error);

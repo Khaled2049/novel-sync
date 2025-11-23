@@ -1,13 +1,12 @@
 import { SimpleEditor } from "../../components/SimpleEditor";
 
-const CreateDocument = () => {
+const CreateStory = () => {
   return (
-    <>
-      <div className="px-4 bg-neutral-50 dark:bg-black transition-colors duration-200 min-h-screen">
-        <SimpleEditor />
-      </div>
-    </>
+    // h-full fills the available space defined by NavbarWrapper (Screen - Padding)
+    <div className="h-full bg-neutral-50 dark:bg-black transition-colors duration-200">
+      <SimpleEditor />
+    </div>
   );
 };
 
-export default CreateDocument;
+export default CreateStory;

@@ -1,18 +1,10 @@
 import { useAuthContext } from "../../contexts/AuthContext";
-import { FaArrowRight, FaEye, FaThumbsUp } from "react-icons/fa";
+import { FaArrowRight, FaEye, FaThumbsUp, FaBook } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { storiesRepo } from "../../services/StoriesRepo";
 import StoryMetadataModal from "./StoryMetadataModal";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { StoryMetadata } from "@/types/IStory";
-import BookRecommendation from "@/components/BookRecommendation";
 
 const AllStories: React.FC = () => {
   const { user } = useAuthContext();
@@ -20,7 +12,7 @@ const AllStories: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [stories, setStories] = useState<StoryMetadata[]>([]);
-  const storiesPerPage = 9;
+  const storiesPerPage = 12;
   const indexOfLastNovel = currentPage * storiesPerPage;
   const indexOfFirstNovel = indexOfLastNovel - storiesPerPage;
   const currentStories = stories.slice(indexOfFirstNovel, indexOfLastNovel);
@@ -41,8 +33,6 @@ const AllStories: React.FC = () => {
       setIsModalOpen(true);
     } else {
       console.error("User not authenticated");
-      // Handle the case where the user is not authenticated
-      // Maybe show a login prompt or redirect to login page
     }
   };
 
@@ -60,144 +50,136 @@ const AllStories: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen relative  dark:bg-black text-black dark:text-white transition-colors duration-300">
-      <div className="container mx-auto px-4">
+    <div className="min-h-screen dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+      <div className="container mx-auto px-4 py-6 max-w-7xl">
+        {/* Header */}
         {user ? (
-          <div className="max-w-4xl mx-auto sm:p-6  dark:bg-black rounded-lg shadow-lg dark:shadow-white/20 mb-8 transition-colors duration-300">
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-serif text-dark-green dark:text-light-green mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              {/* Welcome Message */}
-              <span>
-                {user.displayName
-                  ? `Welcome back, ${user.displayName}!`
-                  : "Welcome Back!"}
-              </span>
-
-              {/* Button */}
-              <button
-                onClick={handleNewStory}
-                className="bg-dark-green dark:bg-light-green text-white px-3 sm:px-4 py-2 rounded-full font-sans text-sm sm:text-base hover:bg-light-green dark:hover:bg-dark-green transition-colors duration-200 flex items-center justify-center w-full sm:w-auto"
-              >
-                Start a New Story
-                <FaArrowRight className="ml-2" />
-              </button>
+          <div className="mb-6 flex items-center justify-between">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+              {user.displayName
+                ? `Welcome back, ${user.displayName}!`
+                : "Welcome Back!"}
             </h1>
+            <button
+              onClick={handleNewStory}
+              className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 flex items-center gap-2"
+            >
+              <FaBook className="text-sm" />
+              New Story
+            </button>
 
             {/* Story Metadata Modal */}
-            {user && (
-              <StoryMetadataModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                userId={user.uid}
-              />
-            )}
+            <StoryMetadataModal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              userId={user.uid}
+            />
           </div>
         ) : (
-          <div className="max-w-4xl mx-auto p-4 sm:p-6  dark:bg-black rounded-lg shadow-lg dark:shadow-white/20 mb-8 transition-colors duration-300">
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-serif text-dark-green dark:text-light-green mb-4 flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-between gap-4 text-center sm:text-left">
-              <span>Welcome to NovelSync!</span>
-              <Link
-                to="/sign-in"
-                className="bg-dark-green dark:bg-light-green text-white px-3 sm:px-4 py-2 rounded-full font-sans text-sm sm:text-base hover:bg-light-green dark:hover:bg-dark-green transition-colors duration-200 flex items-center justify-center"
-              >
-                Sign In
-                <FaArrowRight className="ml-2" />
-              </Link>
-            </h1>
+          <div className="mb-6 text-center">
+            <h1 className="text-2xl font-bold mb-4">Welcome to NovelSync!</h1>
+            <Link
+              to="/sign-in"
+              className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200"
+            >
+              Sign In
+              <FaArrowRight />
+            </Link>
           </div>
         )}
 
-        <div className="flex flex-wrap mx-4">
-          <div className="w-full lg:w-1/4 px-4 border-t-2 lg:border-t-0 lg:border-r-2 border-black/20 dark:border-white/20 space-y-4 order-2 lg:order-1 pt-5 transition-colors duration-300">
-            <BookRecommendation />
-          </div>
+        <div className="flex gap-6">
+          {/* Main Content */}
+          <div className="flex-1">
+            <h2 className="text-xl font-bold mb-4">Stories</h2>
 
-          <div className="w-full lg:w-3/4 px-4 lg:order-1">
-            <h2 className="text-2xl font-serif text-black dark:text-white mb-6">
-              Stories
-            </h2>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {/* Story Grid - WebNovel Style */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
               {currentStories.map((story) => (
-                <Card
+                <div
                   key={story.id}
                   onClick={() => handleStoryClick(story)}
-                  className="hover:shadow-lg dark:hover:shadow-white/20 transition-shadow duration-200 cursor-pointer  dark:bg-black text-black dark:text-white border border-black/20 dark:border-white/20"
+                  className="group cursor-pointer"
                 >
-                  <CardHeader>
-                    <CardTitle className="font-serif text-lg sm:text-xl text-dark-green dark:text-light-green text-left">
-                      {story.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="flex flex-col sm:flex-row items-start">
-                    {/* Story Cover Thumbnail */}
+                  {/* Cover Image */}
+                  <div className="relative aspect-[2/3] rounded-lg overflow-hidden mb-2 bg-gray-200 dark:bg-gray-800">
                     {story.coverImageUrl ? (
                       <img
                         src={story.coverImageUrl}
-                        alt={`${story.title} cover`}
-                        className="w-20 sm:w-24 h-28 sm:h-32 object-cover rounded-md mb-4 sm:mb-0 sm:mr-4 border border-black/20 dark:border-white/20"
+                        alt={story.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
-                    ) : null}
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <FaBook className="text-4xl text-gray-400" />
+                      </div>
+                    )}
+                    {/* Overlay on hover */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-colors duration-300 flex flex-col justify-between p-3 opacity-0 group-hover:opacity-100">
+                      <div className="text-white text-xs space-y-2">
+                        <p className="line-clamp-4 leading-relaxed">
+                          {story.description}
+                        </p>
+                        {story.tags && story.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-1">
+                            {story.tags.slice(0, 3).map((tag, index) => (
+                              <span
+                                key={index}
+                                className="bg-orange-500/80 text-white text-xs px-1.5 py-0.5 rounded"
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <div className="text-white text-xs flex items-center justify-between">
+                        <span className="flex items-center gap-1">
+                          <FaEye />{" "}
+                          {story.views >= 1000
+                            ? `${(story.views / 1000).toFixed(1)}K`
+                            : story.views}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <FaThumbsUp /> {story.likes}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
 
-                    <div>
-                      <h3 className="text-base sm:text-lg text-black dark:text-white mb-2">
-                        Description
-                      </h3>
-                      <p className="text-black/70 dark:text-white/70 mb-1">
-                        {story.description}
-                      </p>
-                      <p className="text-black/70 dark:text-white/70 mb-1">
-                        By {story.author}
-                      </p>
-                      <p className="text-black/50 dark:text-white/50 text-xs sm:text-sm mb-4">
-                        Last Updated:{" "}
-                        {new Date(story.updatedAt).toLocaleDateString()}
-                      </p>
-                      {story.tags && (
-                        <div className="flex flex-wrap gap-2 mt-2">
-                          {story.tags.map((tag, index) => (
-                            <span
-                              key={index}
-                              className="bg-light-green/10 dark:bg-dark-green/10 text-dark-green dark:text-light-green text-xs px-2 py-1 rounded-full"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </CardContent>
-                  <CardFooter className="flex items-center gap-2 text-black/70 dark:text-white/70 text-lg">
-                    <div className="flex items-center">
-                      <FaEye className="mr-1 text-dark-green dark:text-light-green" />{" "}
-                      {story.views}
-                    </div>
-                    <div className="flex items-center">
-                      <FaThumbsUp className="mr-1 text-dark-green dark:text-light-green" />{" "}
-                      {story.likes}
-                    </div>
-                  </CardFooter>
-                </Card>
+                  {/* Story Info */}
+                  <div className="space-y-1">
+                    <h3 className="font-medium text-sm line-clamp-2 group-hover:text-orange-500 dark:group-hover:text-orange-400 transition-colors">
+                      {story.title}
+                    </h3>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      {story.author}
+                    </p>
+                  </div>
+                </div>
               ))}
             </div>
 
             {/* Pagination */}
-            <div className="flex justify-center my-8">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (pageNumber) => (
-                  <button
-                    key={pageNumber}
-                    onClick={() => handlePageChange(pageNumber)}
-                    className={`mx-1 px-3 py-1 rounded transition-colors duration-200 ${
-                      currentPage === pageNumber
-                        ? "bg-dark-green dark:bg-light-green text-white"
-                        : "text-dark-green dark:text-light-green hover:bg-light-green/10 dark:hover:bg-dark-green/10"
-                    }`}
-                  >
-                    {pageNumber}
-                  </button>
-                )
-              )}
-            </div>
+            {totalPages > 1 && (
+              <div className="flex justify-center gap-2 mt-8">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                  (pageNumber) => (
+                    <button
+                      key={pageNumber}
+                      onClick={() => handlePageChange(pageNumber)}
+                      className={`w-8 h-8 rounded-lg transition-colors duration-200 ${
+                        currentPage === pageNumber
+                          ? "bg-orange-500 text-white"
+                          : "text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800"
+                      }`}
+                    >
+                      {pageNumber}
+                    </button>
+                  )
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

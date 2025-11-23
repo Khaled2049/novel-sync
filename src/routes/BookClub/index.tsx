@@ -114,7 +114,7 @@ const BookClubs = () => {
   }
 
   return (
-    <div className="min-h-screen py-24 bg-neutral-50 dark:bg-black">
+    <div className="min-h-screen bg-neutral-50 dark:bg-black p-4">
       {!showCreateForm && !showUpdateForm ? (
         <>
           <div className="max-w-7xl mx-auto">

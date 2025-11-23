@@ -41,7 +41,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          setUser({
+          const newUser = {
             ...firebaseUser,
             ...userData,
             createdAt: userData.createdAt,
@@ -55,7 +55,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             bio: userData.bio,
             occupation: userData.occupation,
             location: userData.location,
-          });
+            aiUsage: userData.aiUsage || 0,
+            lastAiUsageDate:
+              userData.lastAiUsageDate ||
+              new Date().toISOString().split("T")[0],
+          };
+          setUser(newUser);
         } else {
           const newUser: IUser = {
             ...firebaseUser,
@@ -70,8 +75,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             bio: "Write an about me section here...",
             occupation: "Occupation",
             location: "Location",
+            aiUsage: 0,
+            lastAiUsageDate: new Date().toISOString().split("T")[0],
           };
-          // Here you would typically save this new user to Firestore
           setUser(newUser);
         }
       } else {
@@ -83,7 +89,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return () => unsubscribe();
   }, []);
 
-  // fetches last 5 logedin users
   const fetchUsersOrderedByLastLogin = async (
     userLimit: number
   ): Promise<IUser[]> => {
@@ -91,8 +96,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const usersCollection = collection(firestore, "users");
       const usersQuery = query(
         usersCollection,
-        orderBy("lastLogin", "desc"), // Order by lastLogin descending
-        limit(userLimit) // Limit the number of returned users
+        orderBy("lastLogin", "desc"),
+        limit(userLimit)
       );
       const usersSnapshot = await getDocs(usersQuery);
 
@@ -100,7 +105,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         const data = doc.data();
         return {
           ...data,
-          uid: doc.id, // Assuming you want to use Firestore's document ID as the user's UID
+          uid: doc.id,
         } as IUser;
       });
 
@@ -120,7 +125,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const userDocRef = doc(firestore, "users", uid);
 
       await updateDoc(userDocRef, {
-        followers: arrayUnion(user.uid), // Add the current user's UID to the followers array
+        followers: arrayUnion(user.uid),
       });
 
       await updateDoc(doc(firestore, "users", user.uid), {
@@ -141,7 +146,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const userDocRef = doc(firestore, "users", uid);
 
       await updateDoc(userDocRef, {
-        followers: arrayRemove(user.uid), // Remove the current user's UID from the followers array
+        followers: arrayRemove(user.uid),
       });
 
       await updateDoc(doc(firestore, "users", user.uid), {
@@ -161,7 +166,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       const userDocRef = doc(firestore, "users", uid);
 
-      // update only bio field
       await updateDoc(userDocRef, {
         bio: bio,
       });

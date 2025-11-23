@@ -32,6 +32,8 @@ export const useFirebaseAuth = () => {
       savedPosts: [],
       lastLogin: new Date().toISOString(),
       isAnonymous: userData.isAnonymous || false,
+      aiUsage: 0,
+      lastAiUsageDate: new Date().toISOString().split("T")[0],
     };
 
     await setDoc(doc(firestore, "users", userId), dbUser);
