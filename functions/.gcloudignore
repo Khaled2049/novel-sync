@@ -35,8 +35,6 @@ yarn-error.log*
 package-lock.json
 yarn.lock
 
-# TypeScript build outputs (will be built in Cloud Build)
-functions/functions/lib/
 functions/functions/*.js.map
 
 # IDE
