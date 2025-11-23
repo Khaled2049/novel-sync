@@ -48,7 +48,6 @@
         "Dockerfile",
         "cloudbuild.yaml",
         ".dockerignore",
-        ".gcloudignore",
         "start-local.*",
         "run-agent.py",
         "*.md",

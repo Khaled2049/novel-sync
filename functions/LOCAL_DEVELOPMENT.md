@@ -15,7 +15,7 @@ This guide explains how to run the entire application locally using Firebase emu
 
 #### Firebase Functions
 ```bash
-cd functions
+cd functions/functions
 npm install
 ```
 
@@ -58,7 +58,7 @@ The agent service URL is automatically set to `http://localhost:8000` when runni
 
 #### Terminal 1: Start Firebase Emulators
 ```bash
-cd functions
+cd functions/functions
 npm run emulator
 ```
 
@@ -83,7 +83,7 @@ Create a script to start everything:
 **Windows (start-local.bat):**
 ```batch
 @echo off
-start "Firebase Emulators" cmd /k "cd functions && npm run emulator"
+start "Firebase Emulators" cmd /k "cd functions/functions && npm run emulator"
 timeout /t 5
 start "Python Agent" cmd /k "cd agents/storyAgent && python -m agents.storyAgent.server"
 ```
@@ -92,7 +92,7 @@ start "Python Agent" cmd /k "cd agents/storyAgent && python -m agents.storyAgent
 ```bash
 #!/bin/bash
 # Start Firebase emulators in background
-cd functions && npm run emulator &
+cd functions/functions && npm run emulator &
 sleep 5
 # Start Python agent
 cd agents/storyAgent && python -m agents.storyAgent.server
@@ -265,10 +265,10 @@ If ports are already in use:
 
 ## Development Workflow
 
-1. **Start emulators**: `cd functions && npm run emulator`
+1. **Start emulators**: `cd functions/functions && npm run emulator`
 2. **Start agent**: `cd agents/storyAgent && python -m agents.storyAgent.server`
 3. **Make changes** to TypeScript or Python code
-4. **Rebuild TypeScript**: `cd functions && npm run build` (or use `npm run build:watch`)
+4. **Rebuild TypeScript**: `cd functions/functions && npm run build` (or use `npm run build:watch`)
 5. **Restart agent** if Python code changes
 6. **Test** using the emulator UI or API calls
 
