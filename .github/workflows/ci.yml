@@ -22,20 +22,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
-          cache-dependency-path: functions/functions/package-lock.json
+          cache: "yarn"
+          cache-dependency-path: functions/functions/yarn.lock
 
       - name: Install dependencies
         working-directory: functions/functions
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       - name: Run linter
         working-directory: functions/functions
-        run: npm run lint
+        run: yarn lint
 
       - name: Build functions
         working-directory: functions/functions
-        run: npm run build
+        run: yarn build
 
   lint_python:
     name: Lint Python Agents
