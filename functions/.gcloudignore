@@ -10,7 +10,19 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+# Python lib directories (virtual environments) - but NOT functions/functions/lib/ for Node.js
+agents/**/lib/
+agents/**/Lib/
+novelsync/lib/
+novelsync/Lib/
+venv/lib/
+venv/Lib/
+ENV/lib/
+ENV/Lib/
+env/lib/
+env/Lib/
+.venv/lib/
+.venv/Lib/
 lib64/
 parts/
 sdist/
