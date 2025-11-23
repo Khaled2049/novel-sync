@@ -30,7 +30,7 @@ const HomePage = () => {
 
       // Determine active section
       const sections = sectionsRef.current;
-      const current = sections.findIndex((section, index) => {
+      const current = sections.findIndex((section, _index) => {
         if (!section) return false;
         const rect = section.getBoundingClientRect();
         return (

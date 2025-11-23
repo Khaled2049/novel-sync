@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { storiesRepo } from "../../services/StoriesRepo";
 import StoryMetadataModal from "./StoryMetadataModal";
 import { StoryMetadata } from "@/types/IStory";
-import BookRecommendation from "@/components/BookRecommendation";
 
 const AllStories: React.FC = () => {
   const { user } = useAuthContext();

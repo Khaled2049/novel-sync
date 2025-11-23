@@ -2,20 +2,20 @@ import React, { useRef, useEffect, ChangeEvent } from "react";
 
 interface StoryMetadataProps {
   storyTitle: string;
-  storyDescription: string;
+
   chapterTitle: string;
   onStoryTitleChange: (title: string) => void;
-  onStoryDescriptionChange: (description: string) => void;
+
   onChapterTitleChange: (title: string) => void;
   onMetadataChange: () => void;
 }
 
 export const StoryMetadata: React.FC<StoryMetadataProps> = ({
   storyTitle,
-  storyDescription,
+
   chapterTitle,
   onStoryTitleChange,
-  onStoryDescriptionChange,
+
   onChapterTitleChange,
   onMetadataChange,
 }) => {

@@ -116,11 +116,9 @@ export const slashCommandSuggestion = (
   render: () => {
     let component: ReactRenderer<any>;
     let popup: TippyInstance[];
-    let currentProps: SuggestionProps | null = null;
 
     return {
       onStart: (props: SuggestionProps) => {
-        currentProps = props;
         component = new ReactRenderer(SlashCommandMenu, {
           props: {
             items: props.items,
@@ -155,7 +153,6 @@ export const slashCommandSuggestion = (
       },
 
       onUpdate(props: SuggestionProps) {
-        currentProps = props;
         component.updateProps({
           items: props.items,
           command: (item: SlashCommand) => {
@@ -215,7 +212,6 @@ export const slashCommandSuggestion = (
         if (component) {
           component.destroy();
         }
-        currentProps = null;
       },
     };
   },

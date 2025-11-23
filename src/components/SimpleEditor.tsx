@@ -275,10 +275,8 @@ export function SimpleEditor() {
               <div className="max-w-4xl mx-auto w-full px-8 flex-shrink-0 py-4">
                 <StoryMetadata
                   storyTitle={storyTitle}
-                  storyDescription={storyDescription}
                   chapterTitle={chapterTitle}
                   onStoryTitleChange={setStoryTitle}
-                  onStoryDescriptionChange={setStoryDescription}
                   onChapterTitleChange={setChapterTitle}
                   onMetadataChange={handleMetadataChange}
                 />
