@@ -30,4 +30,5 @@ const allowedOrigins = isDevelopment
 
 export const corsOptions = {
   cors: allowedOrigins,
+  invoker: "public",
 };
