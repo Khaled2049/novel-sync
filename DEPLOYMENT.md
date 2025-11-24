@@ -24,9 +24,8 @@ The project consists of three main components:
 
 ### Google Cloud Secrets
 - `GCP_SA_KEY` - Google Cloud Service Account JSON with the following permissions:
-  - Cloud Run Admin
-  - Service Account User
-  - Storage Admin (for container registry)
+  - **For Firebase Functions**: Firebase Functions Admin (or Cloud Functions Admin)
+  - **For Cloud Run**: Cloud Run Admin, Service Account User, Storage Admin (for container registry)
   - Artifact Registry Admin (if using Artifact Registry)
 
 ### API Keys
@@ -69,11 +68,14 @@ firebase projects:list
 2. Navigate to **IAM & Admin** → **Service Accounts**
 3. Create a new service account or use existing
 4. Grant the following roles:
-   - Cloud Run Admin
-   - Service Account User
-   - Storage Admin
+   - **Firebase Functions Admin** (or **Cloud Functions Admin**) - Required for Firebase Functions deployment
+   - **Cloud Run Admin** - Required for Cloud Run deployment
+   - **Service Account User** - Required for Cloud Run
+   - **Storage Admin** - Required for container registry
 5. Create a JSON key and download it
 6. Add the entire JSON content as `GCP_SA_KEY` secret
+
+**Note**: The same service account can be used for both Firebase Functions and Cloud Run deployments if it has all required roles.
 
 ## Workflow Files
 
@@ -114,18 +116,25 @@ Deploys Firebase Functions when changes are pushed to `main` or `develop` branch
 
 **Triggers:**
 - Push to `main` or `develop` branches
-- Changes in `functions/functions/**` directory
+- Changes in `functions/**` directory
 - Changes to `.github/workflows/firebase-functions.yml`
+- Changes to `firebase.json`
 - Manual workflow dispatch
 
 **Steps:**
-1. Setup Node.js 22 with Yarn cache
-2. Install dependencies using `yarn install --frozen-lockfile`
+1. Setup Node.js 22 with npm cache
+2. Install dependencies using `npm ci`
 3. Run linter (continues on error)
-4. Build functions using `yarn build`
-5. Setup Firebase CLI
-6. Authenticate using Firebase service account
-7. Deploy to Firebase Functions with `--force --no-predeploy` flags
+4. Build functions using `npm run build`
+5. Verify build output exists
+6. Setup Firebase CLI
+7. Setup Google Cloud SDK
+8. Authenticate using Google Cloud service account (`GCP_SA_KEY`)
+9. Deploy to Firebase Functions with `--non-interactive` flag
+
+**Authentication:**
+- Uses `google-github-actions/auth@v2` with `GCP_SA_KEY` secret
+- Service account needs Firebase Functions Admin role
 
 ### `.github/workflows/cloud-run-agents.yml`
 Builds and deploys Python agents to Cloud Run.
@@ -183,13 +192,13 @@ Runs linting and code quality checks on pull requests and pushes.
 
 1. **Push to main branch**
    - Frontend: Automatically deployed via `firebase-hosting-merge.yml` (live channel)
-   - Functions: Deployed via `firebase-functions.yml` (if `functions/functions/**` changes)
-   - Agents: Deployed via `cloud-run-agents.yml` (if `functions/agents/**` or `functions/Dockerfile` changes)
+   - Functions: Deployed via `firebase-functions.yml` (if `functions/**` changes)
+   - Agents: Deployed via `cloud-run-agents.yml` (if `python/agents/**` or `python/Dockerfile` changes)
    - CI: Linting and tests run via `ci.yml`
 
 2. **Push to develop branch**
-   - Functions: Deployed via `firebase-functions.yml` (if `functions/functions/**` changes)
-   - Agents: Deployed via `cloud-run-agents.yml` (if `functions/agents/**` or `functions/Dockerfile` changes)
+   - Functions: Deployed via `firebase-functions.yml` (if `functions/**` changes)
+   - Agents: Deployed via `cloud-run-agents.yml` (if `python/agents/**` or `python/Dockerfile` changes)
    - CI: Linting and tests run via `ci.yml`
 
 3. **Pull Request**
@@ -262,9 +271,11 @@ curl $SERVICE_URL/health
 ## Troubleshooting
 
 ### Firebase Functions Deployment Fails
-- Check Firebase service account secret is correct
-- Verify Firebase project ID matches `.firebaserc`
+- Verify `GCP_SA_KEY` secret is valid JSON
+- Check service account has Firebase Functions Admin (or Cloud Functions Admin) role
+- Verify Firebase project ID matches (`novelsync-f82ec`)
 - Check function build logs in GitHub Actions
+- Ensure `id-token: write` permission is set in workflow (required for `google-github-actions/auth@v2`)
 
 ### Cloud Run Deployment Fails
 - Verify `GCP_SA_KEY` secret is valid JSON

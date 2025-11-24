@@ -1,111 +1,29 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-# Python lib directories (virtual environments) - but NOT functions/functions/lib/ for Node.js
-agents/**/lib/
-agents/**/Lib/
-novelsync/lib/
-novelsync/Lib/
-venv/lib/
-venv/Lib/
-ENV/lib/
-ENV/Lib/
-env/lib/
-env/Lib/
-.venv/lib/
-.venv/Lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
+# functions/functions/.gcloudignore
 
-# Virtual environments
-novelsync/
-venv/
-ENV/
-env/
-.venv/
-
-# Node.js
+# Ignore dependencies (Cloud Build will install them fresh)
 node_modules/
+
+# Ignore logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-package-lock.json
-yarn.lock
 
-functions/functions/*.js.map
-
-# IDE
+# Ignore editor files
 .vscode/
 .idea/
 *.swp
 *.swo
-*~
 
-# OS
-.DS_Store
-Thumbs.db
+# Ignore source maps (optional, saves space)
+*.js.map
 
-# Logs
-*.log
-firebase-debug.log
-firestore-debug.log
-ui-debug.log
-pubsub-debug.log
-database-debug.log
+# IMPORTANT: Explicitly allow the 'lib' folder
+# This ensures your compiled 'index.js' is uploaded
+!lib/
+!lib/index.js
 
-# Environment files
-.env
-.env.local
-*.local
-
-# Git
-.git/
-.gitignore
-.gitattributes
-
-# Documentation (not needed for build)
-*.md
-!requirements.txt
-!README.md
-
-# Test files
-test_*.py
-*_test.py
-tests/
-.pytest_cache/
-.coverage
-htmlcov/
-
-# Local development scripts
-start-local.bat
-start-local.sh
-run-agent.py
-
-# Firebase
-.firebase/
-firebase-debug.log
-firestore-debug.log
-
-# Cloud Build
-.gcloudignore
-
-# Other
-*.zip
-*.tar.gz
-*.rar
-
+# Ignore the source TS files (optional, but good practice to keep upload small)
+# src/
+# *.ts
+# !*.d.ts

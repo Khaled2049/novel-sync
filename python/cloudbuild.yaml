@@ -13,7 +13,7 @@ steps:
         "gcr.io/$PROJECT_ID/story-agent:latest",
         ".",
       ]
-    dir: "functions"
+    dir: "python"
 
   # Push the container image to Container Registry
   - name: "gcr.io/cloud-builders/docker"

@@ -32,22 +32,27 @@ This document summarizes the CI/CD setup for NovelSync using GitHub Actions.
 #### `.github/workflows/firebase-functions.yml`
 - **Purpose**: Deploys Firebase Functions automatically
 - **Triggers**: 
-  - Push to `main`/`develop` when `functions/functions/**` changes
+  - Push to `main`/`develop` when `functions/**` changes
   - Changes to `.github/workflows/firebase-functions.yml`
+  - Changes to `firebase.json`
   - Manual workflow dispatch
 - **Steps**:
-  1. Setup Node.js 22 with Yarn cache (`cache-dependency-path: functions/functions/yarn.lock`)
-  2. Install dependencies using `yarn install --frozen-lockfile`
+  1. Setup Node.js 22 with npm cache (`cache-dependency-path: functions/package-lock.json`)
+  2. Install dependencies using `npm ci`
   3. Run linter (continues on error with `continue-on-error: true`)
-  4. Build TypeScript functions using `yarn build`
-  5. Setup Firebase CLI globally
-  6. Authenticate to Firebase using service account JSON
-  7. Deploy to Firebase Functions with `--force --no-predeploy` flags
+  4. Build TypeScript functions using `npm run build`
+  5. Verify build output exists (`lib/index.js`)
+  6. Setup Firebase CLI globally
+  7. Setup Google Cloud SDK using `google-github-actions/setup-gcloud@v2`
+  8. Authenticate to Google Cloud using `google-github-actions/auth@v2` with `GCP_SA_KEY`
+  9. Deploy to Firebase Functions with `--non-interactive` flag
+- **Authentication**: Uses `google-github-actions/auth@v2` with `GCP_SA_KEY` secret (not FIREBASE_TOKEN)
+- **Permissions**: Requires `contents: read` and `id-token: write` (for Workload Identity Federation)
 
 #### `.github/workflows/cloud-run-agents.yml`
 - **Purpose**: Builds and deploys Python agents to Cloud Run
 - **Triggers**: 
-  - Push to `main`/`develop` when `functions/agents/**` or `functions/Dockerfile` changes
+  - Push to `main`/`develop` when `python/agents/**` or `python/Dockerfile` changes
   - Changes to `.github/workflows/cloud-run-agents.yml`
   - Manual workflow dispatch
 - **Steps**:
@@ -117,7 +122,11 @@ Make sure these secrets are set in your GitHub repository:
 
 2. **GCP_SA_KEY**
    - Google Cloud service account JSON
-   - Needs permissions: Cloud Run Admin, Service Account User, Storage Admin
+   - Needs permissions: 
+     - Firebase Functions Admin (or Cloud Functions Admin) - for Firebase Functions deployment
+     - Cloud Run Admin - for Cloud Run deployment
+     - Service Account User - for Cloud Run
+     - Storage Admin - for container registry
 
 3. **GOOGLE_AI_STUDIO_API_KEY**
    - Google AI Studio API key
@@ -157,7 +166,7 @@ Make sure these secrets are set in your GitHub repository:
 ## Package Managers
 
 Note that different workflows use different package managers:
-- **Firebase Functions deployment** (`firebase-functions.yml`): Uses **Yarn** (`yarn install`, `yarn build`, `yarn lint`)
+- **Firebase Functions deployment** (`firebase-functions.yml`): Uses **npm** (`npm ci`, `npm run build`, `npm run lint`)
 - **Firebase Functions CI** (`ci.yml`): Uses **npm** (`npm ci`, `npm run lint`, `npm run build`)
 - **Frontend workflows**: Use **Yarn** (`yarn install`, `yarn build`)
 
@@ -178,12 +187,13 @@ GitHub Actions triggered
 │  Workflow               │   Workflow              │   Workflow              │
 │                         │                         │                         │
 │  1. Setup Node.js 22    │   1. Setup Python 3.11 │   1. Lint Functions     │
-│  2. Install (yarn)      │   2. Auth to GCP       │   2. Lint Python        │
+│  2. Install (npm ci)    │   2. Auth to GCP       │   2. Lint Python        │
 │  3. Lint (continue)     │   3. Setup Cloud SDK    │   3. Build Functions    │
-│  4. Build (yarn)        │   4. Configure Docker   │                         │
-│  5. Deploy Firebase     │   5. Build & Push Image │                         │
-│                         │   6. Deploy Cloud Run   │                         │
-│                         │   7. Display URL        │                         │
+│  4. Build (npm)         │   4. Configure Docker   │                         │
+│  5. Verify build        │   5. Build & Push Image │                         │
+│  6. Setup Firebase CLI  │   6. Deploy Cloud Run   │                         │
+│  7. Auth to GCP         │   7. Display URL        │                         │
+│  8. Deploy Firebase     │                         │                         │
 └─────────────────────────┴─────────────────────────┴─────────────────────────┘
 ```
 
@@ -216,8 +226,10 @@ The Python agents automatically select the AI provider based on environment vari
 - Ensure service accounts have required permissions
 
 ### Functions not deploying
-- Check Firebase service account secret format
-- Verify project ID matches `.firebaserc`
+- Verify `GCP_SA_KEY` secret is valid JSON
+- Check service account has Firebase Functions Admin (or Cloud Functions Admin) role
+- Verify project ID matches (`novelsync-f82ec`)
+- Ensure `id-token: write` permission is set in workflow
 - Review Firebase Functions logs
 
 ### Agents not deploying

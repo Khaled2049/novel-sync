@@ -32,8 +32,12 @@
   },
   "functions": [
     {
-      "source": "functions/functions",
+      "source": "functions",
       "codebase": "default",
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" ci",
+        "npm --prefix \"$RESOURCE_DIR\" run build"
+      ],
       "ignore": [
         "node_modules",
         ".git",
@@ -51,7 +55,6 @@
         "start-local.*",
         "run-agent.py",
         "*.md",
-        "!functions/**/*.md",
         "readme.md",
         "LOCAL_DEVELOPMENT.md",
         "API_DOCUMENTATION.md"

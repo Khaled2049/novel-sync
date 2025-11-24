@@ -6,8 +6,9 @@ on:
       - main
       - develop
     paths:
-      - "functions/functions/**"
+      - "functions/**"
       - ".github/workflows/firebase-functions.yml"
+      - "firebase.json"
   workflow_dispatch:
 
 jobs:
@@ -24,24 +25,24 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "yarn"
-          cache-dependency-path: functions/functions/yarn.lock
+          cache: "npm"
+          cache-dependency-path: functions/package-lock.json
 
       - name: Install dependencies
-        working-directory: functions/functions
-        run: yarn install --frozen-lockfile
+        working-directory: functions
+        run: npm ci
 
       - name: Run linter
-        working-directory: functions/functions
-        run: yarn lint
+        working-directory: functions
+        run: npm run lint
         continue-on-error: true
 
       - name: Build functions
-        working-directory: functions/functions
-        run: yarn build
+        working-directory: functions
+        run: npm run build
 
       - name: Verify build output
-        working-directory: functions/functions
+        working-directory: functions
         run: |
           if [ ! -f "lib/index.js" ]; then
             echo "Error: lib/index.js not found after build"
@@ -61,4 +62,4 @@ jobs:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
       - name: Deploy to Firebase Functions
-        run: firebase deploy --only functions --project novelsync-f82ec
+        run: firebase deploy --only functions --project novelsync-f82ec --non-interactive

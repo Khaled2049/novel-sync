@@ -90,9 +90,9 @@ Comprehensive documentation is available for different aspects of the project:
 - **[CI/CD Setup Summary](./CI_CD_SETUP.md)** - Overview of GitHub Actions workflows and deployment process
 - **[Cloud Build Costs](./CLOUD_BUILD_COSTS.md)** - Cost analysis and optimization recommendations
 - **[API Documentation](./API_DOCUMENTATION.md)** - Complete API reference for all endpoints
-- **[Agent API](./functions/functions/AGENT_API.md)** - Documentation for AI agent endpoints
+- **[Agent API](./functions/AGENT_API.md)** - Documentation for AI agent endpoints
 - **[Workflows Documentation](./.github/workflows/README.md)** - GitHub Actions workflows guide
-- **[Local Development](./functions/LOCAL_DEVELOPMENT.md)** - Guide for local development setup
+- **[Local Development](./python/LOCAL_DEVELOPMENT.md)** - Guide for local development setup
 
 ## Tech Stack
 
@@ -147,13 +147,13 @@ Comprehensive documentation is available for different aspects of the project:
 
 3. **Install Firebase Functions dependencies**
    ```bash
-   cd functions/functions
+   cd functions
    yarn install
    ```
 
 4. **Install Python agent dependencies**
    ```bash
-   cd functions/agents/storyAgent
+   cd python/agents/storyAgent
    pip install -r requirements.txt
    ```
 
@@ -168,15 +168,15 @@ Comprehensive documentation is available for different aspects of the project:
    yarn dev
    
    # Firebase Functions (emulator)
-   cd functions/functions
+   cd functions
    npm run emulator
    
    # Python Agents
-   cd functions/agents/storyAgent
+   cd python/agents/storyAgent
    python -m agents.storyAgent.server
    ```
 
-For detailed setup instructions, see the [Deployment Guide](./DEPLOYMENT.md) and [Local Development Guide](./functions/LOCAL_DEVELOPMENT.md).
+For detailed setup instructions, see the [Deployment Guide](./DEPLOYMENT.md) and [Local Development Guide](./python/LOCAL_DEVELOPMENT.md).
 
 ## 🔐 Environment Variables
 
@@ -225,8 +225,8 @@ For complete API documentation, see [API_DOCUMENTATION.md](./API_DOCUMENTATION.m
 NovelSync uses automated CI/CD with GitHub Actions:
 
 - **Frontend**: Automatically deployed to Firebase Hosting on merge to `main`
-- **Firebase Functions**: Deployed when `functions/functions/**` changes
-- **Python Agents**: Deployed to Cloud Run when `functions/agents/**` changes
+- **Firebase Functions**: Deployed when `functions/**` changes
+- **Python Agents**: Deployed to Cloud Run when `python/agents/**` changes
 - **Preview Deployments**: Automatic preview URLs for pull requests
 
 See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.

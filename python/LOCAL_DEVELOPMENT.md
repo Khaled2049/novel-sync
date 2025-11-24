@@ -15,13 +15,13 @@ This guide explains how to run the entire application locally using Firebase emu
 
 #### Firebase Functions
 ```bash
-cd functions/functions
+cd functions
 npm install
 ```
 
 #### Python Agent
 ```bash
-cd agents/storyAgent
+cd python/agents/storyAgent
 pip install -r requirements.txt
 ```
 
@@ -29,7 +29,7 @@ pip install -r requirements.txt
 
 #### For Python Agent
 
-Create a `.env` file in `agents/storyAgent/`:
+Create a `.env` file in `python/agents/storyAgent/`:
 ```bash
 GOOGLE_CLOUD_PROJECT=your-project-id
 GOOGLE_AI_STUDIO_API_KEY=your-api-key  # Required for AI generation
@@ -58,7 +58,7 @@ The agent service URL is automatically set to `http://localhost:8000` when runni
 
 #### Terminal 1: Start Firebase Emulators
 ```bash
-cd functions/functions
+cd functions
 npm run emulator
 ```
 
@@ -70,7 +70,7 @@ This starts:
 
 #### Terminal 2: Start Python Agent Service
 ```bash
-cd agents/storyAgent
+cd python/agents/storyAgent
 python -m agents.storyAgent.server
 ```
 
@@ -83,19 +83,19 @@ Create a script to start everything:
 **Windows (start-local.bat):**
 ```batch
 @echo off
-start "Firebase Emulators" cmd /k "cd functions/functions && npm run emulator"
+start "Firebase Emulators" cmd /k "cd functions && npm run emulator"
 timeout /t 5
-start "Python Agent" cmd /k "cd agents/storyAgent && python -m agents.storyAgent.server"
+start "Python Agent" cmd /k "cd python/agents/storyAgent && python -m agents.storyAgent.server"
 ```
 
 **Linux/Mac (start-local.sh):**
 ```bash
 #!/bin/bash
 # Start Firebase emulators in background
-cd functions/functions && npm run emulator &
+cd functions && npm run emulator &
 sleep 5
 # Start Python agent
-cd agents/storyAgent && python -m agents.storyAgent.server
+cd python/agents/storyAgent && python -m agents.storyAgent.server
 ```
 
 ## Testing the Setup
@@ -265,10 +265,10 @@ If ports are already in use:
 
 ## Development Workflow
 
-1. **Start emulators**: `cd functions/functions && npm run emulator`
-2. **Start agent**: `cd agents/storyAgent && python -m agents.storyAgent.server`
+1. **Start emulators**: `cd functions && npm run emulator`
+2. **Start agent**: `cd python/agents/storyAgent && python -m agents.storyAgent.server`
 3. **Make changes** to TypeScript or Python code
-4. **Rebuild TypeScript**: `cd functions/functions && npm run build` (or use `npm run build:watch`)
+4. **Rebuild TypeScript**: `cd functions && npm run build` (or use `npm run build:watch`)
 5. **Restart agent** if Python code changes
 6. **Test** using the emulator UI or API calls
 
@@ -279,7 +279,7 @@ If ports are already in use:
 1. **Use Mock Mode** (fastest, no setup):
    ```bash
    export USE_MOCK=true
-   cd agents/storyAgent
+   cd python/agents/storyAgent
    python -m agents.storyAgent.server
    ```
 
@@ -325,5 +325,5 @@ Content-Type: application/json
 ## Next Steps
 
 - See `functions/AGENT_API.md` for API endpoint documentation
-- See `agents/storyAgent/README.md` for agent service documentation
+- See `python/agents/storyAgent/README.md` for agent service documentation
 

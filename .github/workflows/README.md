@@ -5,26 +5,39 @@ This directory contains CI/CD workflows for the NovelSync project.
 ## Workflows
 
 ### `firebase-functions.yml`
-Deploys Firebase Functions when changes are detected in the `functions/functions/` directory.
+Deploys Firebase Functions when changes are detected in the `functions/` directory.
 
 **When it runs:**
 - Push to `main` or `develop` branches
+- Changes in `functions/**` directory
+- Changes to `.github/workflows/firebase-functions.yml` or `firebase.json`
 - Manual trigger via workflow_dispatch
 
 **What it does:**
 1. Checks out code
-2. Sets up Node.js 22
-3. Installs dependencies
-4. Runs linter
-5. Builds functions
-6. Deploys to Firebase
+2. Sets up Node.js 22 with npm cache
+3. Installs dependencies using `npm ci`
+4. Runs linter (continues on error)
+5. Builds functions using `npm run build`
+6. Verifies build output exists
+7. Sets up Firebase CLI
+8. Sets up Google Cloud SDK
+9. Authenticates using `google-github-actions/auth@v2` with `GCP_SA_KEY`
+10. Deploys to Firebase Functions
+
+**Required Secrets:**
+- `GCP_SA_KEY` - Google Cloud service account JSON with Firebase Functions Admin role
+
+**Authentication:**
+- Uses `google-github-actions/auth@v2` with Google Cloud service account (not FIREBASE_TOKEN)
+- Requires `id-token: write` permission for Workload Identity Federation
 
 ### `cloud-run-agents.yml`
 Builds and deploys Python agents to Google Cloud Run.
 
 **When it runs:**
 - Push to `main` or `develop` branches
-- Changes in `functions/agents/` or `functions/Dockerfile`
+- Changes in `python/agents/` or `python/Dockerfile`
 - Manual trigger via workflow_dispatch
 
 **What it does:**
