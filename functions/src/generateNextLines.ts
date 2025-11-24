@@ -1,7 +1,7 @@
 import { onRequest } from "firebase-functions/v2/https";
 import { callAgentWithRetry } from "./agentService";
 import { requireStoryOwnership } from "./authService";
-import { logger } from "firebase-functions";
+import * as logger from "firebase-functions/logger";
 import { checkAndIncrementAiUsage } from "./aiUsageService";
 import { corsOptions } from "./corsConfig";
 
@@ -20,6 +20,21 @@ export const generateNextLines = onRequest(
       }
 
       const { content, cursorPosition, chapterId } = request.body;
+
+      // Validate required parameters
+      if (!content || typeof content !== "string") {
+        response.status(400).json({
+          error: "content is required and must be a string",
+        });
+        return;
+      }
+
+      if (cursorPosition === undefined || typeof cursorPosition !== "number") {
+        response.status(400).json({
+          error: "cursorPosition is required and must be a number",
+        });
+        return;
+      }
 
       // Call agent synchronously
       const agentResponse = await callAgentWithRetry("generateNextLines", {
