@@ -21,12 +21,13 @@ COPY agents/ /app/agents/
 # Set Python path
 ENV PYTHONPATH=/app
 
-# Expose port
-EXPOSE 8000
+# Expose port (Cloud Run will set PORT env var, default to 8000 for local)
+EXPOSE 8080
 
-# Health check
+# Health check (Cloud Run uses its own health checks, but this is useful for local testing)
+# Note: Cloud Run automatically sets PORT=8080, but we use env var for flexibility
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD python -c "import httpx; httpx.get('http://localhost:8000/health', timeout=5)" || exit 1
+  CMD python -c "import os, httpx; port=os.getenv('PORT', '8000'); httpx.get(f'http://localhost:{port}/health', timeout=5)" || exit 1
 
 # Run the server
 CMD ["python", "-m", "agents.storyAgent.server"]
