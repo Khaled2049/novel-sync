@@ -1,11 +1,12 @@
 /** Story generation endpoint (asynchronous). */
-import { onRequest } from "firebase-functions/https";
+import { onRequest } from "firebase-functions/v2/https";
 import * as admin from "firebase-admin";
 import { Timestamp } from "firebase-admin/firestore";
 import * as logger from "firebase-functions/logger";
 import { requireStoryOwnership } from "./authService";
 import { createJob, updateJobStatus } from "./jobService";
 import { callAgentWithRetry } from "./agentService";
+import { corsOptions } from "./corsConfig";
 
 const db = admin.firestore();
 
@@ -13,7 +14,7 @@ const db = admin.firestore();
  * POST /generateStory - Start asynchronous story generation.
  */
 export const generateStory = onRequest(
-  { cors: true },
+  corsOptions,
   requireStoryOwnership(async (request, response, userId, storyId) => {
     try {
       const { genre, tone, length } = request.body;

@@ -98,6 +98,20 @@ jobs:
             --max-instances 5 \
             --min-instances 0
 
+      - name: Grant Firebase Functions permission to invoke Cloud Run
+        run: |
+          # Get the default App Engine service account (used by Firebase Functions)
+          FIREBASE_SA="${PROJECT_ID}@appspot.gserviceaccount.com"
+
+          echo "Granting Cloud Run Invoker role to Firebase Functions service account: $FIREBASE_SA"
+
+          # Grant Cloud Run Invoker role to Firebase Functions service account
+          gcloud run services add-iam-policy-binding $SERVICE_NAME \
+            --region=$REGION \
+            --member="serviceAccount:${FIREBASE_SA}" \
+            --role="roles/run.invoker" \
+            --quiet
+
       - name: Get Cloud Run service URL
         id: get-url
         run: |

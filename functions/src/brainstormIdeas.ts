@@ -1,15 +1,16 @@
 /** Brainstorming endpoints (synchronous). */
-import { onRequest } from "firebase-functions/https";
+import { onRequest } from "firebase-functions/v2/https";
 import * as logger from "firebase-functions/logger";
 import { requireStoryOwnership } from "./authService";
 import { callAgentWithRetry } from "./agentService";
 import { checkAndIncrementAiUsage } from "./aiUsageService";
+import { corsOptions } from "./corsConfig";
 
 /**
  * POST /brainstormIdeas - Generate brainstorming ideas (synchronous).
  */
 export const brainstormIdeas = onRequest(
-  { cors: true },
+  corsOptions,
   requireStoryOwnership(async (request, response, userId, storyId) => {
     try {
       // Check and increment AI usage
@@ -73,7 +74,7 @@ export const brainstormIdeas = onRequest(
  * POST /brainstormCharacter - Generate character ideas (synchronous).
  */
 export const brainstormCharacter = onRequest(
-  { cors: true },
+  corsOptions,
   requireStoryOwnership(async (request, response, userId, storyId) => {
     try {
       const { role, archetype } = request.body;
@@ -108,7 +109,7 @@ export const brainstormCharacter = onRequest(
  * POST /brainstormPlot - Generate plot ideas (synchronous).
  */
 export const brainstormPlot = onRequest(
-  { cors: true },
+  corsOptions,
   requireStoryOwnership(async (request, response, userId, storyId) => {
     try {
       const { plotType } = request.body;

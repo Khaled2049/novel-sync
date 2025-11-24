@@ -1,11 +1,12 @@
-import { onRequest } from "firebase-functions/https";
+import { onRequest } from "firebase-functions/v2/https";
 import { callAgentWithRetry } from "./agentService";
 import { requireStoryOwnership } from "./authService";
 import { logger } from "firebase-functions";
 import { checkAndIncrementAiUsage } from "./aiUsageService";
+import { corsOptions } from "./corsConfig";
 
 export const generateNextLines = onRequest(
-  { cors: true },
+  corsOptions,
   requireStoryOwnership(async (request, response, userId, storyId) => {
     try {
       // Check and increment AI usage

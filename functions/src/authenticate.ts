@@ -1,7 +1,9 @@
-import { onRequest } from "firebase-functions/https";
+import { onRequest } from "firebase-functions/v2/https";
 import * as logger from "firebase-functions/logger";
+import { corsOptions } from "./corsConfig";
+
 export const authenticate = onRequest(
-  { cors: true },
+  corsOptions,
   async (request, response) => {
     try {
       const { email, password } = request.body;

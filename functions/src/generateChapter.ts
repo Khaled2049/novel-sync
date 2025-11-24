@@ -1,5 +1,5 @@
 /** Chapter generation endpoint (asynchronous). */
-import { onRequest } from "firebase-functions/https";
+import { onRequest } from "firebase-functions/v2/https";
 import * as admin from "firebase-admin";
 import { Timestamp } from "firebase-admin/firestore";
 import * as logger from "firebase-functions/logger";
@@ -7,6 +7,7 @@ import { requireStoryOwnership } from "./authService";
 import { createJob, updateJobStatus } from "./jobService";
 import { callAgentWithRetry } from "./agentService";
 import { getStoryContext } from "./contextService";
+import { corsOptions } from "./corsConfig";
 
 const db = admin.firestore();
 
@@ -14,7 +15,7 @@ const db = admin.firestore();
  * POST /generateChapter - Start asynchronous chapter generation.
  */
 export const generateChapter = onRequest(
-  { cors: true },
+  corsOptions,
   requireStoryOwnership(async (request, response, userId, storyId) => {
     try {
       const { chapterNumber } = request.body;

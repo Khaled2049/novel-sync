@@ -1,9 +1,10 @@
 /** Job status and management endpoints. */
-import { onRequest } from "firebase-functions/https";
+import { onRequest } from "firebase-functions/v2/https";
 import * as admin from "firebase-admin";
 import * as logger from "firebase-functions/logger";
 import { requireAuth, requireStoryOwnership } from "./authService";
 import { getJob, getStoryJobs } from "./jobService";
+import { corsOptions } from "./corsConfig";
 
 const db = admin.firestore();
 
@@ -11,7 +12,7 @@ const db = admin.firestore();
  * GET /jobStatus/:jobId - Check generation job status.
  */
 export const getJobStatus = onRequest(
-  { cors: true },
+  corsOptions,
   requireAuth(async (request, response, userId) => {
     try {
       const jobId = request.path.split("/").pop();
@@ -56,7 +57,7 @@ export const getJobStatus = onRequest(
  * GET /storyJobs/:storyId - Get all jobs for a story.
  */
 export const getStoryJobsEndpoint = onRequest(
-  { cors: true },
+  corsOptions,
   requireStoryOwnership(async (request, response, userId, storyId) => {
     try {
       const jobs = await getStoryJobs(db, storyId);

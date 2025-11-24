@@ -1,9 +1,10 @@
 /** Context management endpoints. */
-import { onRequest } from "firebase-functions/https";
+import { onRequest } from "firebase-functions/v2/https";
 import * as admin from "firebase-admin";
 import * as logger from "firebase-functions/logger";
 import { requireStoryOwnership } from "./authService";
 import { getStoryContext, updateContextElement } from "./contextService";
+import { corsOptions } from "./corsConfig";
 
 const db = admin.firestore();
 
@@ -11,7 +12,7 @@ const db = admin.firestore();
  * GET /getStoryContext - Retrieve all context for a story.
  */
 export const getStoryContextEndpoint = onRequest(
-  { cors: true },
+  corsOptions,
   requireStoryOwnership(async (request, response, userId, storyId) => {
     try {
       const context = await getStoryContext(db, storyId);
@@ -31,7 +32,7 @@ export const getStoryContextEndpoint = onRequest(
  * POST /updateContext - Update story context elements.
  */
 export const updateContext = onRequest(
-  { cors: true },
+  corsOptions,
   requireStoryOwnership(async (request, response, userId, storyId) => {
     try {
       const { type, elementId, data } = request.body;
