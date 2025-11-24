@@ -25,6 +25,19 @@ const AGENT_SERVICE_URL = RAW_SERVICE_URL.replace(/\/$/, "");
 
 const isLocalDevelopment = process.env.FUNCTIONS_EMULATOR === "true";
 
+// Log the service URL being used (for debugging)
+logger.info(`Agent service URL configured: ${AGENT_SERVICE_URL}`);
+logger.info(`Is local development: ${isLocalDevelopment}`);
+
+// Warn if using localhost in production
+if (!isLocalDevelopment && AGENT_SERVICE_URL.includes("localhost")) {
+  logger.error(
+    `⚠️ WARNING: AGENT_SERVICE_URL is set to localhost in production! ` +
+      `This will fail. Please set AGENT_SERVICE_URL environment variable ` +
+      `to your Cloud Run service URL (e.g., https://story-agent-xxxxx.run.app)`
+  );
+}
+
 // Initialize Auth only if not local
 const auth = isLocalDevelopment ? null : new GoogleAuth();
 
@@ -38,6 +51,7 @@ async function getIdentityToken(): Promise<string | null> {
 
   try {
     if (!auth) return null;
+    logger.info(`Getting identity token for ${AGENT_SERVICE_URL}`);
 
     // IMPORTANT: The audience must be the exact base URL of the Cloud Run service
     const client = await auth.getIdTokenClient(AGENT_SERVICE_URL);
@@ -90,7 +104,29 @@ export async function callAgent(
         ? JSON.stringify(axiosError.response.data)
         : axiosError.message;
 
+      // Check if it's a connection refused error (likely localhost in production)
+      if (
+        axiosError.code === "ECONNREFUSED" ||
+        errorMessage.includes("ECONNREFUSED")
+      ) {
+        const helpfulError =
+          `Connection refused to ${AGENT_SERVICE_URL}. ` +
+          `This usually means AGENT_SERVICE_URL environment variable is not set ` +
+          `or is set to localhost. Please set it to your Cloud Run service URL ` +
+          `(e.g., https://story-agent-xxxxx.run.app) in Firebase Console → ` +
+          `Functions → Configuration → Environment variables.`;
+
+        logger.error(`Agent service error [${action}]: ${helpfulError}`);
+        logger.error(`Attempted URL: ${AGENT_SERVICE_URL}`);
+
+        return {
+          success: false,
+          error: helpfulError,
+        };
+      }
+
       logger.error(`Agent service error [${action}]: ${errorMessage}`);
+      logger.error(`Attempted URL: ${AGENT_SERVICE_URL}`);
 
       return {
         success: false,
@@ -100,6 +136,7 @@ export async function callAgent(
 
     const genericError = error instanceof Error ? error.message : String(error);
     logger.error(`Error calling agent service: ${action}`, error);
+    logger.error(`Attempted URL: ${AGENT_SERVICE_URL}`);
     return {
       success: false,
       error: genericError,
