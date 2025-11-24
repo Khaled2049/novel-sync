@@ -98,12 +98,16 @@ class GoogleAIStudioProvider(LLMProvider):
         user_prompt: str,
         response_schema: Dict[str, Any],
     ) -> List[str]:
-        """Generate structured content using Google AI Studio API with JSON schema."""
+        """Generate structured content using Google AI Studio API."""
         url = f"{self.base_url}/models/{self.model_name}:generateContent"
         
-        # Combine system and user prompts
-        full_prompt = f"{system_prompt}\n\n{user_prompt}\n\nIMPORTANT: Respond with ONLY a valid JSON array that matches this schema:\n{json.dumps(response_schema, indent=2)}\n\nDo not include any text before or after the JSON array. Return ONLY the JSON array."
         
+        full_prompt = (
+            f"{system_prompt}\n\n"
+            f"{user_prompt}\n\n"
+            "IMPORTANT: Output ONLY the JSON array."
+        )
+
         try:
             response = httpx.post(
                 url,
@@ -112,11 +116,8 @@ class GoogleAIStudioProvider(LLMProvider):
                         "parts": [{"text": full_prompt}]
                     }],
                     "generationConfig": {
-                        "responseMimeType": "application/json",
-                        "responseSchema": {
-                            "type": "array",
-                            "items": response_schema
-                        }
+                        "responseMimeType": "application/json",                        
+                        "responseSchema": response_schema 
                     }
                 },
                 params={"key": self.api_key},
@@ -125,40 +126,48 @@ class GoogleAIStudioProvider(LLMProvider):
             response.raise_for_status()
             result = response.json()
             
-            # Extract text from response
-            if "candidates" in result and len(result["candidates"]) > 0:
-                candidate = result["candidates"][0]
-                if "content" in candidate and "parts" in candidate["content"]:
-                    parts = candidate["content"]["parts"]
-                    if len(parts) > 0 and "text" in parts[0]:
-                        response_text = parts[0]["text"].strip()
-                        
-                        # Parse JSON response
-                        try:
-                            json_data = json.loads(response_text)
-                            if isinstance(json_data, list):
-                                return json_data
-                            elif isinstance(json_data, dict) and "items" in json_data:
-                                return json_data["items"]
-                            else:
-                                raise ValueError(f"Unexpected JSON structure: {json_data}")
-                        except json.JSONDecodeError as e:
-                            # Try to extract JSON array from response
-                            json_match = re.search(r'\[.*\]', response_text, re.DOTALL)
-                            if json_match:
-                                json_data = json.loads(json_match.group(0))
-                                if isinstance(json_data, list):
-                                    return json_data
-                            raise ValueError(f"Failed to parse JSON response: {e}. Response: {response_text[:200]}...")
             
-            raise ValueError(f"Unexpected response structure: {result}")
-        except httpx.RequestError as e:
-            raise RuntimeError(f"Failed to connect to Google AI Studio API: {e}")
-        except httpx.HTTPStatusError as e:
-            raise RuntimeError(f"Google AI Studio API error: {e.response.status_code} - {e.response.text}")
+            print(f"[GOOGLE_AI_STUDIO_PROVIDER] Google AI Studio API response: {result}")
+            if "candidates" in result and result["candidates"]:
+                candidate = result["candidates"][0]
+                content_parts = candidate.get("content", {}).get("parts", [])
+                
+                if content_parts and "text" in content_parts[0]:
+                    response_text = content_parts[0]["text"].strip()
+                    
+                    # Clean up any Markdown code blocks (Gemini sometimes adds them despite settings)
+                    if response_text.startswith("```"):
+                        response_text = response_text.replace("```json", "").replace("```", "")
 
+                    try:
+                        json_data = json.loads(response_text)
+                        
+                        # Case A: It's a clean list ["a", "b"]
+                        if isinstance(json_data, list):
+                            return [str(item) for item in json_data]
+                            
+                        # Case B: It's a dict (sometimes Gemini wraps arrays in objects)
+                        # e.g. { "items": ["a", "b"] } or { "suggestions": ["a", "b"] }
+                        if isinstance(json_data, dict):
+                            # Look for the first list value found in the dict
+                            for key, value in json_data.items():
+                                if isinstance(value, list):
+                                    return [str(item) for item in value]
+                            
+                            # Fallback: maybe the dict itself is the item?
+                            return []
 
+                        return []
+                        
+                    except json.JSONDecodeError:
+                        print(f"[ERROR] Failed to decode JSON: {response_text}")
+                        return []
+            
+            return []
 
+        except Exception as e:
+            print(f"[ERROR] API Call failed: {e}")
+            return []
 
 class OllamaProvider(LLMProvider):
     """Ollama local LLM provider."""

@@ -223,12 +223,23 @@ Respond ONLY with the JSON array containing the {NUMBER_OF_SUGGESTIONS} generate
             
             logger.info("Calling LLM provider...")
             print("[NEXT_LINE_TOOL] Calling LLM provider...")
+
+            # log out the system_prompt, user_prompt, and response_schema
+            logger.info(f"System prompt: {system_prompt}")
+            print(f"[NEXT_LINE_TOOL] System prompt: {system_prompt}")
+            logger.info(f"User prompt: {user_prompt}")
+            print(f"[NEXT_LINE_TOOL] User prompt: {user_prompt}")
+            logger.info(f"Response schema: {response_schema}")
+            print(f"[NEXT_LINE_TOOL] Response schema: {response_schema}")
+
             try:
-                generated_suggestions: List[str] = await self.llm_provider.generate_structured_content(
+                generated_suggestions = await self.llm_provider.generate_structured_content(
                     system_prompt=system_prompt,
                     user_prompt=user_prompt,
                     response_schema=response_schema
                 )
+                logger.info(f"Generated suggestions: {generated_suggestions}")
+                print(f"[NEXT_LINE_TOOL] Generated suggestions: {generated_suggestions}")
                 suggestions_count = len(generated_suggestions) if isinstance(generated_suggestions, list) else 'non-list'
                 logger.info(f"LLM returned {suggestions_count} suggestions")
                 print(f"[NEXT_LINE_TOOL] LLM returned {suggestions_count} suggestions")
