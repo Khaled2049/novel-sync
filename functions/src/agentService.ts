@@ -25,10 +25,6 @@ const AGENT_SERVICE_URL = RAW_SERVICE_URL.replace(/\/$/, "");
 
 const isLocalDevelopment = process.env.FUNCTIONS_EMULATOR === "true";
 
-// Log the service URL being used (for debugging)
-logger.info(`Agent service URL configured: ${AGENT_SERVICE_URL}`);
-logger.info(`Is local development: ${isLocalDevelopment}`);
-
 // Warn if using localhost in production
 if (!isLocalDevelopment && AGENT_SERVICE_URL.includes("localhost")) {
   logger.error(
@@ -51,9 +47,6 @@ async function getIdentityToken(): Promise<string | null> {
 
   try {
     if (!auth) return null;
-    logger.info(`Getting identity token for ${AGENT_SERVICE_URL}`);
-
-    // IMPORTANT: The audience must be the exact base URL of the Cloud Run service
     const client = await auth.getIdTokenClient(AGENT_SERVICE_URL);
     const headers = await client.getRequestHeaders();
     return headers.Authorization?.split(" ")[1] || null;
@@ -73,9 +66,14 @@ export async function callAgent(
   const request: AgentRequest = { action, parameters };
 
   try {
-    logger.info(`Calling agent service: ${action}`);
+    logger.info(`Calling agent service: ${action}`, {
+      url: `${AGENT_SERVICE_URL}/agent/execute`,
+      parameters: Object.keys(parameters),
+    });
 
     const identityToken = await getIdentityToken();
+    logger.info(`Identity token obtained: ${identityToken ? "yes" : "no"}`);
+
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
     };
@@ -84,6 +82,13 @@ export async function callAgent(
       headers.Authorization = `Bearer ${identityToken}`;
     }
 
+    logger.info(`Making POST request to agent service...`, {
+      url: `${AGENT_SERVICE_URL}/agent/execute`,
+      action,
+      requestSize: JSON.stringify(request).length,
+    });
+
+    const startTime = Date.now();
     const response = await axios.post(
       `${AGENT_SERVICE_URL}/agent/execute`,
       request,
@@ -92,6 +97,14 @@ export async function callAgent(
         timeout: 300000,
       }
     );
+    const duration = Date.now() - startTime;
+
+    logger.info(`Agent service response received for ${action}`, {
+      status: response.status,
+      hasData: !!response.data,
+      durationMs: duration,
+      responseKeys: response.data ? Object.keys(response.data) : [],
+    });
 
     return {
       success: true,

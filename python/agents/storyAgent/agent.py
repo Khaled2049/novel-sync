@@ -225,12 +225,27 @@ class StoryAgent:
                 parameters.get("plotType", "conflict"),
             )
         elif action == "generateNextLines":
-            return await self.generate_next_lines(
+            import logging
+            logger = logging.getLogger(__name__)
+            story_id = parameters.get('storyId')
+            cursor_pos = parameters.get('cursorPosition')
+            has_chapter_id = bool(parameters.get('chapterId'))
+            content_length = len(parameters.get('content', ''))
+            
+            logger.info(f"generateNextLines called with storyId={story_id}, cursorPosition={cursor_pos}, content_length={content_length}, hasChapterId={has_chapter_id}")
+            print(f"[AGENT] generateNextLines called: storyId={story_id}, cursorPosition={cursor_pos}, content_length={content_length}, hasChapterId={has_chapter_id}")
+            
+            result = await self.generate_next_lines(
                 parameters.get("storyId"),
                 parameters.get("content"),
                 parameters.get("cursorPosition"),
                 parameters.get("chapterId"),  # Optional
             )
+            
+            result_info = f"result keys: {list(result.keys())}" if isinstance(result, dict) else f"result type: {type(result)}"
+            logger.info(f"generateNextLines completed, {result_info}")
+            print(f"[AGENT] generateNextLines completed, {result_info}")
+            return result
         else:
             raise ValueError(f"Unknown action: {action}")
 

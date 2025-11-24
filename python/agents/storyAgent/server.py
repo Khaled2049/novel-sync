@@ -1,12 +1,20 @@
 """HTTP server for the story agent service."""
 import os
 import sys
+import logging
 from pathlib import Path
 from typing import Dict, Any
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
+
+# Configure logging for Cloud Run
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 load_dotenv(dotenv_path=Path(__file__).parent / ".env")
 
@@ -73,9 +81,19 @@ async def execute_agent(request: AgentRequest) -> AgentResponse:
     - generateNextLines: Generate next line suggestions
     """
     try:
+        logger.info(f"Received agent request: action={request.action}, parameters_keys={list(request.parameters.keys())}")
+        print(f"[SERVER] Received agent request: action={request.action}, parameters_keys={list(request.parameters.keys())}")
+        
         result = await agent.execute_agent(request.action, request.parameters)
+        
+        logger.info(f"Agent execution completed successfully for {request.action}")
+        print(f"[SERVER] Agent execution completed successfully for {request.action}")
         return AgentResponse(success=True, data=result)
     except Exception as e:
+        logger.error(f"Error executing agent action {request.action}: {str(e)}", exc_info=True)
+        print(f"[SERVER ERROR] Error executing agent action {request.action}: {str(e)}")
+        import traceback
+        print(f"[SERVER ERROR] Traceback: {traceback.format_exc()}")
         return AgentResponse(
             success=False,
             error=str(e)
