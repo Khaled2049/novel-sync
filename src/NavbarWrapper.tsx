@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 export const NavbarWrapper = () => {
   const location = useLocation();
   const isEditorPage = location.pathname.startsWith("/create");
+  const isReaderPage = location.pathname.startsWith("/story");
 
   return (
     <div className="h-screen flex flex-col overflow-hidden">
@@ -18,7 +19,7 @@ export const NavbarWrapper = () => {
         <Outlet />
       </main>
 
-      {!isEditorPage && <Footer />}
+      {!isEditorPage && !isReaderPage && <Footer />}
     </div>
   );
 };

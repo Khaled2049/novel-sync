@@ -24,35 +24,35 @@ export const storage = getStorage(app);
 export const functions = getFunctions(app);
 
 // Connect to emulators in development mode
-if (import.meta.env.MODE === "development") {
-  // Use a flag to prevent double connection (e.g., during hot reload)
-  const emulatorsConnected = (window as any).__FIREBASE_EMULATORS_CONNECTED__;
+// if (import.meta.env.MODE === "development") {
+//   // Use a flag to prevent double connection (e.g., during hot reload)
+//   const emulatorsConnected = (window as any).__FIREBASE_EMULATORS_CONNECTED__;
 
-  if (!emulatorsConnected) {
-    try {
-      console.log("🔧 Connecting to Firebase Emulators...");
+//   if (!emulatorsConnected) {
+//     try {
+//       console.log("🔧 Connecting to Firebase Emulators...");
 
-      // Connect Firestore emulator (configured in firebase.json)
-      connectFirestoreEmulator(firestore, "localhost", 8080);
+//       // Connect Firestore emulator (configured in firebase.json)
+//       connectFirestoreEmulator(firestore, "localhost", 8080);
 
-      // Connect Functions emulator (configured in firebase.json)
-      connectFunctionsEmulator(functions, "localhost", 5001);
+//       // Connect Functions emulator (configured in firebase.json)
+//       connectFunctionsEmulator(functions, "localhost", 5001);
 
-      // Optional: Connect Auth emulator (uncomment if you add it to firebase.json)
-      // import { connectAuthEmulator } from "firebase/auth";
-      connectAuthEmulator(auth, "http://localhost:9099", {
-        disableWarnings: true,
-      });
+//       // Optional: Connect Auth emulator (uncomment if you add it to firebase.json)
+//       // import { connectAuthEmulator } from "firebase/auth";
+//       connectAuthEmulator(auth, "http://localhost:9099", {
+//         disableWarnings: true,
+//       });
 
-      // Optional: Connect Storage emulator (uncomment if you add it to firebase.json)
-      // import { connectStorageEmulator } from "firebase/storage";
-      // connectStorageEmulator(storage, "localhost", 9199);
+//       // Optional: Connect Storage emulator (uncomment if you add it to firebase.json)
+//       // import { connectStorageEmulator } from "firebase/storage";
+//       // connectStorageEmulator(storage, "localhost", 9199);
 
-      (window as any).__FIREBASE_EMULATORS_CONNECTED__ = true;
-      console.log("✅ Firebase Emulators connected successfully");
-    } catch (error) {
-      console.warn("⚠️ Failed to connect to Firebase Emulators:", error);
-      console.warn("Make sure emulators are running: firebase emulators:start");
-    }
-  }
-}
+//       (window as any).__FIREBASE_EMULATORS_CONNECTED__ = true;
+//       console.log("✅ Firebase Emulators connected successfully");
+//     } catch (error) {
+//       console.warn("⚠️ Failed to connect to Firebase Emulators:", error);
+//       console.warn("Make sure emulators are running: firebase emulators:start");
+//     }
+//   }
+// }
