@@ -50,7 +50,7 @@ const AllStories: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <div className=" dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
       <div className="container mx-auto px-4 py-6 max-w-7xl">
         {/* Header */}
         {user ? (

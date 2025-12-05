@@ -6,7 +6,7 @@ interface ClubsProps {
 
 const Clubs = ({ bookClubs }: ClubsProps) => {
   return (
-    <div className="w-full lg:w-1/4 p-4 overflow-y-auto bg-neutral-50 dark:bg-black transition-colors duration-200">
+    <div className="w-full lg:w-1/4 p-4 overflow-y-auto  dark:bg-black transition-colors duration-200">
       <h2 className="text-2xl font-serif font-bold mb-4 text-black dark:text-white">
         Book Clubs
       </h2>
