@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Book, Plus } from "lucide-react";
+import { Book, BookOpen, Plus } from "lucide-react";
 import BookClubCard from "./BookClubCard";
 import { IClub } from "../../types/IClub";
 import CreateBookClub from "./CreateBookClub";
@@ -94,79 +94,111 @@ const BookClubs = () => {
 
   if (!user) {
     return (
-      <div className="flex items-center   justify-center h-screen ">
-        <div className="text-center  p-8 rounded-lg shadow-lg max-w-md mx-auto">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-            Please Sign In
-          </h2>
-          <p className="text-gray-600 mb-6">
-            You need to be logged in to view book clubs.
-          </p>
-          <Link
-            to="/sign-in"
-            className="px-6 py-2 0 text-white rounded-full flex items-center justify-center hover: transition duration-300"
-          >
-            Sign In
-          </Link>
+      <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900 px-4">
+        <div className="text-center max-w-lg mx-auto">
+          <div className="bg-white dark:bg-neutral-800 p-8 rounded-2xl shadow-xl border border-neutral-200 dark:border-neutral-700">
+            <div className="bg-green-100 dark:bg-green-900/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+              <BookOpen
+                size={32}
+                className="text-dark-green dark:text-light-green"
+              />
+            </div>
+            <h2 className="text-3xl font-serif font-bold text-neutral-900 dark:text-white mb-4">
+              Join the Community
+            </h2>
+            <p className="text-neutral-600 dark:text-neutral-300 mb-8 text-lg leading-relaxed">
+              Discover new books, meet fellow readers, and track your reading
+              journey. Sign in to view and join book clubs.
+            </p>
+            <Link
+              to="/sign-in"
+              className="inline-flex w-full justify-center items-center px-8 py-3 bg-dark-green dark:bg-light-green text-white dark:text-neutral-900 font-semibold rounded-full hover:opacity-90 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+            >
+              Sign In to Continue
+            </Link>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-black p-4">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 px-4 py-8 md:px-8">
       {!showCreateForm && !showUpdateForm ? (
-        <>
-          <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-serif font-bold text-black dark:text-white mb-4 md:mb-0 flex items-center">
+        <div className="max-w-7xl mx-auto space-y-8">
+          {/* Header Section */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-neutral-200 dark:border-neutral-800 pb-6">
+            <div>
+              <h1 className="text-3xl md:text-4xl font-serif font-bold text-neutral-900 dark:text-white flex items-center gap-3">
                 <Book
-                  className="mr-3 text-dark-green dark:text-light-green"
-                  size={36}
+                  className="text-dark-green dark:text-light-green"
+                  size={32}
                 />
-                Discover Book Clubs
+                Find Your Club
               </h1>
-              <button
-                onClick={handleShowCreateForm}
-                className="bg-dark-green dark:bg-light-green text-white px-6 py-3 rounded-full flex items-center transition-colors duration-200 ease-in-out transform hover:bg-light-green dark:hover:bg-dark-green hover:scale-105 shadow-lg focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
-              >
-                <Plus size={20} className="mr-2" />
-                Create Club
-              </button>
+              <p className="mt-2 text-neutral-600 dark:text-neutral-400">
+                Browse active communities and start reading together.
+              </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {bookClubs.map((club: IClub) => (
-                <div key={club.id}>
-                  <BookClubCard
-                    joined={user ? club.members.includes(user.uid) : false}
-                    club={club}
-                    onEdit={() => handleShowUpdateForm(club)}
-                    onDelete={() => handleDeleteClub(club)}
-                    onJoin={() => handleJoinClub(club.id)}
-                    onLeave={() => handleLeaveClub(club.id)}
-                  />
-                </div>
-              ))}
-            </div>
+
+            <button
+              onClick={handleShowCreateForm}
+              className="group flex items-center gap-2 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 px-6 py-3 rounded-full font-medium transition-all duration-300 hover:shadow-lg hover:bg-neutral-800 dark:hover:bg-neutral-200 active:scale-95"
+            >
+              <Plus
+                size={20}
+                className="group-hover:rotate-90 transition-transform duration-300"
+              />
+              <span>Start a Club</span>
+            </button>
           </div>
-        </>
+
+          {/* Grid Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {bookClubs.map((club: IClub) => (
+              <div key={club.id} className="h-full">
+                <BookClubCard
+                  joined={user ? club.members.includes(user.uid) : false}
+                  club={club}
+                  onEdit={() => handleShowUpdateForm(club)}
+                  onDelete={() => handleDeleteClub(club)}
+                  onJoin={() => handleJoinClub(club.id)}
+                  onLeave={() => handleLeaveClub(club.id)}
+                />
+              </div>
+            ))}
+          </div>
+
+          {bookClubs.length === 0 && (
+            <div className="text-center py-20">
+              <p className="text-neutral-500 dark:text-neutral-400 text-lg">
+                No book clubs found. Be the first to create one!
+              </p>
+            </div>
+          )}
+        </div>
       ) : showCreateForm && user ? (
-        <div className="max-w-2xl mx-auto p-6 rounded-lg shadow-lg border border-black/20 dark:border-white/20 bg-neutral-50 dark:bg-black">
-          <CreateBookClub
-            user={user}
-            onCreate={handleCreateClub}
-            onCancel={handleCancelCreateClub}
-          />
+        <div className="max-w-2xl mx-auto mt-8">
+          {/* Wrapper for form ensuring it pops against background */}
+          <div className="bg-white dark:bg-neutral-900 rounded-2xl shadow-xl p-1 md:p-8 border border-neutral-100 dark:border-neutral-800">
+            <CreateBookClub
+              user={user}
+              onCreate={handleCreateClub}
+              onCancel={handleCancelCreateClub}
+            />
+          </div>
         </div>
       ) : (
         showUpdateForm &&
         selectedClub && (
-          <div className="max-w-2xl mx-auto p-6 rounded-lg shadow-lg border border-black/20 dark:border-white/20 bg-neutral-50 dark:bg-black">
-            <UpdateBookClub
-              club={selectedClub}
-              onUpdate={handleUpdateClub}
-              onCancel={handleCancelUpdateClub}
-            />
+          <div className="max-w-2xl mx-auto mt-8">
+            <div className="bg-white dark:bg-neutral-900 rounded-2xl shadow-xl p-1 md:p-8 border border-neutral-100 dark:border-neutral-800">
+              <UpdateBookClub
+                club={selectedClub}
+                onUpdate={handleUpdateClub}
+                onCancel={handleCancelUpdateClub}
+              />
+            </div>
           </div>
         )
       )}

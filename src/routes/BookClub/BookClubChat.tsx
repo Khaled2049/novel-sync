@@ -1,7 +1,7 @@
 import { IMessage } from "@/types/IMessage";
 import { useEffect, useRef, useState } from "react";
 import { bookClubRepo } from "./bookClubRepo";
-import { MessageCircle } from "lucide-react";
+import { Send } from "lucide-react";
 import { IUser } from "@/types/IUser";
 
 const BookClubChat: React.FC<{ clubId: string; user: IUser }> = ({
@@ -12,6 +12,7 @@ const BookClubChat: React.FC<{ clubId: string; user: IUser }> = ({
   const [newMessage, setNewMessage] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { displayName } = user;
+
   useEffect(() => {
     // Subscribe to messages
     const unsubscribe = bookClubRepo.getMessages(clubId, (updatedMessages) => {
@@ -48,52 +49,73 @@ const BookClubChat: React.FC<{ clubId: string; user: IUser }> = ({
   };
 
   return (
-    <div className=" shadow-lg rounded-lg p-6 mb-6">
-      <h2 className="text-2xl font-serif font-bold mb-4  flex items-center">
-        <MessageCircle className="mr-2" /> Chat Room
-      </h2>
-
+    <div className="space-y-4">
       {/* Messages Container */}
-      <div className="h-96 overflow-y-auto mb-4 border  rounded-lg p-4">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`mb-2 ${
-              message.sender === displayName ? "text-right" : "text-left"
-            }`}
-          >
+      <div className="h-96 overflow-y-auto rounded-xl border border-amber-200/50 dark:border-slate-600/50 bg-gradient-to-br from-amber-50/30 to-orange-50/30 dark:from-slate-900/30 dark:to-slate-800/30 p-4 space-y-3 scrollbar-thin scrollbar-thumb-amber-300 dark:scrollbar-thumb-slate-600 scrollbar-track-transparent">
+        {messages.length === 0 ? (
+          <p className="text-center text-slate-400 dark:text-slate-500 italic py-8">
+            No messages yet. Start the conversation!
+          </p>
+        ) : (
+          messages.map((message) => (
             <div
-              className={`inline-block p-3 rounded-lg ${
-                message.sender === displayName
-                  ? " "
-                  : "bg-gray-100 text-gray-800"
-              }`}
+              key={message.id}
+              className={`flex ${
+                message.sender === displayName ? "justify-end" : "justify-start"
+              } animate-in slide-in-from-bottom-2 duration-300`}
             >
-              <p className="text-sm font-semibold">{message.sender}</p>
-              <p>{message.content}</p>
-              <p className="text-xs text-gray-500">
-                {message.timestamp?.toDate().toLocaleTimeString()}
-              </p>
+              <div
+                className={`max-w-[75%] sm:max-w-[65%] p-3 rounded-2xl shadow-md ${
+                  message.sender === displayName
+                    ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-br-sm"
+                    : "bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 rounded-bl-sm"
+                }`}
+              >
+                <p
+                  className={`text-xs font-semibold mb-1 ${
+                    message.sender === displayName
+                      ? "text-white/90"
+                      : "text-amber-600 dark:text-amber-400"
+                  }`}
+                >
+                  {message.sender}
+                </p>
+                <p className="break-words leading-relaxed">{message.content}</p>
+                <p
+                  className={`text-xs mt-1 ${
+                    message.sender === displayName
+                      ? "text-white/70"
+                      : "text-slate-400 dark:text-slate-500"
+                  }`}
+                >
+                  {message.timestamp?.toDate().toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
         <div ref={messagesEndRef} />
       </div>
 
       {/* Message Input */}
-      <form onSubmit={handleSendMessage} className="flex gap-2">
+      <form onSubmit={handleSendMessage} className="flex gap-2 sm:gap-3">
         <input
           type="text"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Type your message..."
-          className="flex-1 p-2 border  rounded-lg focus:outline-none focus:ring-2 "
+          className="flex-1 p-3 sm:p-4 border border-amber-200 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-600 focus:border-transparent transition-all duration-200"
         />
         <button
           type="submit"
-          className=" text-white px-4 py-2 rounded-lg  transition-colors"
+          disabled={!newMessage.trim()}
+          className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 disabled:from-slate-300 disabled:to-slate-400 dark:disabled:from-slate-600 dark:disabled:to-slate-700 text-white px-4 sm:px-6 py-3 sm:py-4 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50 flex items-center gap-2"
         >
-          Send
+          <span className="hidden sm:inline">Send</span>
+          <Send size={18} />
         </button>
       </form>
     </div>

@@ -1,14 +1,6 @@
 import { Link } from "react-router-dom";
 import { IClub } from "@/types/IClub";
-import {
-  BookOpen,
-  Clock,
-  UserPlus,
-  Users,
-  X,
-  Edit,
-  Trash2,
-} from "lucide-react";
+import { Clock, UserPlus, Users, X, Edit, Trash2 } from "lucide-react";
 
 interface BookClubCardProps {
   club: IClub;
@@ -28,79 +20,103 @@ const BookClubCard = ({
   onLeave,
 }: BookClubCardProps) => {
   return (
-    <div className="h-56 rounded-lg shadow-md overflow-hidden mb-4 border border-black/20 dark:border-white/20 transition-all duration-300 hover:shadow-lg hover:shadow-black/20 dark:hover:shadow-white/20 bg-neutral-50 dark:bg-black">
-      <div className="p-4 h-full flex flex-col justify-between">
-        <div>
-          <Link
-            to={`/book-clubs/${club.id}`}
-            key={club.id}
-            className="block transition-colors duration-200"
-          >
-            <h2 className="text-2xl font-serif font-bold mb-2 text-dark-green dark:text-light-green truncate">
-              {club.name}
-            </h2>
-          </Link>
-          <p className="mb-3 font-serif overflow-hidden text-ellipsis text-black/70 dark:text-white/70">
-            {club.description}
-          </p>
+    <div className="flex flex-col h-full bg-white dark:bg-neutral-900 rounded-2xl shadow-sm hover:shadow-xl border border-neutral-200 dark:border-neutral-800 transition-all duration-300 overflow-hidden group relative">
+      {/* Decorative Top Banner */}
+      <div className="h-3 w-full bg-gradient-to-r from-dark-green to-emerald-400 dark:from-light-green dark:to-emerald-600" />
+
+      {/* Admin Actions (Absolute Positioned for cleaner UI) */}
+      <div className="absolute top-5 right-4 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            onEdit();
+          }}
+          className="p-2 bg-white/90 dark:bg-black/50 backdrop-blur-sm text-neutral-600 dark:text-neutral-300 rounded-full hover:text-dark-green hover:bg-neutral-100 dark:hover:text-light-green border border-transparent hover:border-neutral-200"
+          title="Edit Club"
+        >
+          <Edit size={14} />
+        </button>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            onDelete();
+          }}
+          className="p-2 bg-white/90 dark:bg-black/50 backdrop-blur-sm text-red-500 rounded-full hover:bg-red-50 dark:hover:bg-red-900/30 border border-transparent hover:border-red-100"
+          title="Delete Club"
+        >
+          <Trash2 size={14} />
+        </button>
+      </div>
+
+      <div className="p-6 flex flex-col flex-grow">
+        {/* Category Badge */}
+        <div className="mb-4">
+          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 uppercase tracking-wider">
+            {club.category}
+          </span>
         </div>
-        <div>
-          <div className="flex items-center text-sm text-black dark:text-white mb-3">
+
+        {/* Title & Link */}
+        <Link
+          to={`/book-clubs/${club.id}`}
+          className="block group-hover:text-dark-green dark:group-hover:text-light-green transition-colors"
+        >
+          <h2 className="text-2xl font-serif font-bold text-neutral-900 dark:text-white mb-3 line-clamp-2">
+            {club.name}
+          </h2>
+        </Link>
+
+        {/* Description */}
+        <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed mb-6 line-clamp-3 flex-grow">
+          {club.description}
+        </p>
+
+        {/* Stats Row */}
+        <div className="flex items-center justify-between py-4 border-t border-neutral-100 dark:border-neutral-800 mb-4">
+          <div className="flex items-center text-neutral-500 dark:text-neutral-400 text-sm">
             <Users
               size={16}
-              className="mr-1 text-dark-green dark:text-light-green"
+              className="mr-2 text-dark-green dark:text-light-green"
             />
-            <span className="mr-3">
-              {club.members.length.toLocaleString()} members
+            <span>
+              {club.members.length}{" "}
+              {club.members.length === 1 ? "member" : "members"}
             </span>
-            <BookOpen
-              size={16}
-              className="mr-1 text-dark-green dark:text-light-green"
-            />
-            <span className="mr-3">{club.category}</span>
+          </div>
+          <div className="flex items-center text-neutral-500 dark:text-neutral-400 text-sm">
             <Clock
               size={16}
-              className="mr-1 text-dark-green dark:text-light-green"
+              className="mr-2 text-dark-green dark:text-light-green"
             />
             <span>{club.activity}</span>
           </div>
-          <div className="flex justify-between items-center">
-            <div className="flex-grow">
-              {!joined ? (
-                <button
-                  onClick={() => onJoin(club.id)}
-                  className="w-full py-2 px-4 rounded-full bg-dark-green dark:bg-light-green text-white flex items-center justify-center hover:bg-light-green dark:hover:bg-dark-green transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
-                >
-                  <UserPlus size={16} className="mr-2" />
-                  Join Group
-                </button>
-              ) : (
-                <button
-                  onClick={() => onLeave(club.id)}
-                  className="w-full py-2 px-4 rounded-full border border-dark-green dark:border-light-green text-dark-green dark:text-light-green flex items-center justify-center hover:bg-dark-green dark:hover:bg-light-green hover:text-white dark:hover:text-black transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
-                >
-                  <X size={16} className="mr-2" />
-                  Leave Group
-                </button>
-              )}
-            </div>
+        </div>
 
-            {/* Edit and Delete Buttons */}
-            <div className="ml-4 flex space-x-2 flex-grow">
-              <button
-                onClick={onEdit}
-                className="w-full py-2 px-3 bg-neutral-50 dark:bg-black text-dark-green dark:text-light-green border border-dark-green dark:border-light-green rounded-full flex items-center justify-center hover:bg-dark-green dark:hover:bg-light-green hover:text-white dark:hover:text-black transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-dark-green dark:focus:ring-light-green focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
-              >
-                <Edit size={16} />
-              </button>
-              <button
-                onClick={onDelete}
-                className="w-full py-2 px-3 bg-red-600 text-white rounded-full flex items-center justify-center hover:bg-red-700 transition-colors duration-200"
-              >
-                <Trash2 size={16} />
-              </button>
-            </div>
-          </div>
+        {/* Primary Action Button */}
+        <div className="mt-auto">
+          {!joined ? (
+            <button
+              onClick={() => onJoin(club.id)}
+              className="w-full py-3 px-4 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 font-semibold flex items-center justify-center hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors duration-200 shadow-sm"
+            >
+              <UserPlus size={18} className="mr-2" />
+              Join Club
+            </button>
+          ) : (
+            <button
+              onClick={() => onLeave(club.id)}
+              className="w-full py-3 px-4 rounded-xl border border-neutral-300 dark:border-neutral-700 text-neutral-600 dark:text-neutral-300 font-medium flex items-center justify-center hover:bg-red-50 hover:text-red-600 hover:border-red-200 dark:hover:bg-red-900/20 dark:hover:text-red-400 transition-colors duration-200"
+            >
+              <span className="flex items-center group-hover:hidden">
+                <span className="w-2 h-2 rounded-full bg-green-500 mr-2"></span>
+                Member
+              </span>
+              <span className="hidden group-hover:flex items-center">
+                <X size={18} className="mr-2" />
+                Leave Club
+              </span>
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -29,11 +29,10 @@ import TermsOfUse from "./components/TermsOfUse";
 import ForgotPassword from "./routes/Auth/forgot-password";
 import StoriesLayout from "./routes/Story/StoriesLayout";
 
-import Categories from "./components/explore/Categories";
+// import Categories from "./components/explore/Categories";
 import BookLists from "./components/explore/BookLists";
 import Challenges from "./components/explore/Challenges";
 import Events from "./components/explore/Events";
-import Leaderboards from "./components/explore/Leaderboards";
 import WritingResources from "./components/explore/WritingResources";
 import Announcements from "./components/explore/Announcements";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -65,10 +64,10 @@ const router = createBrowserRouter([
         element: <StoriesLayout />,
         children: [
           { index: true, element: <AllStories /> },
-          {
-            path: "categories",
-            element: <Categories />,
-          },
+          // {
+          //   path: "categories",
+          //   element: <Categories />,
+          // },
           {
             path: "book-lists",
             element: <BookLists />,
@@ -80,10 +79,6 @@ const router = createBrowserRouter([
           {
             path: "challenges",
             element: <Challenges />,
-          },
-          {
-            path: "leaderboards",
-            element: <Leaderboards />,
           },
           {
             path: "writing-resources",

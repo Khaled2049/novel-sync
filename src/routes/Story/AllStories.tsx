@@ -50,7 +50,7 @@ const AllStories: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <div className=" dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
       <div className="container mx-auto px-4 py-6 max-w-7xl">
         {/* Header */}
         {user ? (
@@ -93,7 +93,7 @@ const AllStories: React.FC = () => {
           <div className="flex-1">
             <h2 className="text-xl font-bold mb-4">Stories</h2>
 
-            {/* Story Grid - WebNovel Style */}
+            {/* Story Grid  */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
               {currentStories.map((story) => (
                 <div

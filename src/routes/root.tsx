@@ -7,11 +7,6 @@ import {
   Database,
   Sparkles,
   GitBranch,
-  FileText,
-  Map,
-  User,
-  MapPin,
-  BookMarked,
   Lightbulb,
   Wand2,
   Play,
@@ -121,97 +116,6 @@ const HomePage = () => {
             <div className="w-6 h-10 border-2 border-dark-green dark:border-light-green rounded-full mx-auto flex items-start justify-center p-2">
               <div className="w-1.5 h-3 bg-dark-green dark:bg-light-green rounded-full animate-scroll"></div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* The Creation Canvas - Minimalist Editor */}
-      <section
-        ref={addToRefs}
-        className="min-h-screen flex items-center justify-center py-20 px-6"
-        style={{
-          opacity: Math.min(1, Math.max(0, (scrollY - 400) / 300)),
-        }}
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-black to-dark-green dark:from-white dark:to-light-green bg-clip-text text-transparent">
-              Write Without Distraction
-            </h2>
-            <p className="text-2xl text-black/70 dark:text-white/70">
-              We stripped away the complexity so you can focus on the story.
-            </p>
-          </div>
-
-          {/* Minimalist Editor Preview */}
-          <div className="mb-20 relative">
-            <div className="bg-white dark:bg-neutral-900 rounded-3xl shadow-2xl p-12 border-2 border-black/10 dark:border-white/10 transform hover:scale-105 transition-transform duration-500">
-              <div className="flex items-center gap-2 mb-8">
-                <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                <div className="w-3 h-3 rounded-full bg-green-500"></div>
-              </div>
-              <div className="space-y-4 font-mono text-left">
-                <div className="h-4 bg-gradient-to-r from-dark-green/20 to-transparent rounded w-3/4"></div>
-                <div className="h-4 bg-gradient-to-r from-light-green/20 to-transparent rounded w-full"></div>
-                <div className="h-4 bg-gradient-to-r from-dark-green/20 to-transparent rounded w-5/6"></div>
-                <div className="h-4 bg-gradient-to-r from-light-green/20 to-transparent rounded w-2/3"></div>
-              </div>
-            </div>
-          </div>
-
-          {/* Data Structure Overview */}
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold mb-4 text-black dark:text-white">
-              Every Epic Needs a Map
-            </h3>
-            <p className="text-xl text-black/70 dark:text-white/70">
-              Ours uses a flexible, scalable data structure.
-            </p>
-          </div>
-
-          {/* Key Entities */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-            {[
-              {
-                icon: BookMarked,
-                label: "Plots",
-                color: "from-purple-500 to-pink-500",
-              },
-              {
-                icon: FileText,
-                label: "Chapters",
-                color: "from-blue-500 to-cyan-500",
-              },
-              {
-                icon: User,
-                label: "Characters",
-                color: "from-green-500 to-emerald-500",
-              },
-              { icon: Map, label: "Lore", color: "from-orange-500 to-red-500" },
-              {
-                icon: MapPin,
-                label: "Places",
-                color: "from-indigo-500 to-purple-500",
-              },
-            ].map((entity, index) => (
-              <div
-                key={index}
-                className="group relative p-6 bg-white dark:bg-neutral-900 rounded-2xl border-2 border-black/10 dark:border-white/10 hover:border-dark-green dark:hover:border-light-green transition-all duration-500 hover:scale-110 hover:shadow-2xl cursor-pointer"
-                style={{
-                  animation: `slideUp 0.6s ease-out ${index * 0.1}s both`,
-                }}
-              >
-                <div
-                  className={`w-12 h-12 mx-auto mb-4 rounded-xl bg-gradient-to-r ${entity.color} p-2 group-hover:scale-125 transition-transform duration-300`}
-                >
-                  <entity.icon className="w-full h-full text-white" />
-                </div>
-                <p className="font-semibold text-center text-black dark:text-white">
-                  {entity.label}
-                </p>
-              </div>
-            ))}
           </div>
         </div>
       </section>

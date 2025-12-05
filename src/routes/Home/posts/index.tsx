@@ -58,7 +58,30 @@ const Posts = () => {
   };
 
   return (
-    <div className="w-full lg:w-1/2 p-4 overflow-y-auto text-black dark:text-white transition-colors duration-300">
+    <div className="w-full lg:w-1/2 p-4 overflow-y-auto text-black dark:text-white transition-colors duration-300 border-r border-black dark:border-white">
+      <div className="flex justify-between mb-4 /50 dark:bg-black/50 rounded-lg p-1 transition-colors duration-300">
+        <button
+          onClick={() => setIsMyFeed(true)}
+          className={`w-full py-2 px-4 text-center font-serif font-bold rounded-lg transition-colors duration-200 ${
+            isMyFeed
+              ? "bg-dark-green dark:bg-light-green text-white"
+              : "text-black/70 dark:text-white/70 hover:bg-black/10 dark:hover:/10"
+          }`}
+        >
+          For You
+        </button>
+        <button
+          onClick={() => setIsMyFeed(false)}
+          className={`w-full py-2 px-4 text-center font-serif font-bold rounded-lg transition-colors duration-200 ${
+            !isMyFeed
+              ? "bg-dark-green dark:bg-light-green text-white"
+              : "text-black/70 dark:text-white/70 hover:bg-black/10 dark:hover:/10"
+          }`}
+        >
+          Discover
+        </button>
+      </div>
+
       <form onSubmit={handlePostSubmit} className="mb-6">
         <div className="flex items-center rounded-lg p-2 border border-black/20 dark:border-white/20 transition-colors duration-300  dark:bg-black">
           <input
@@ -87,29 +110,6 @@ const Posts = () => {
         </div>
       </form>
 
-      <div className="flex justify-between mb-4 /50 dark:bg-black/50 rounded-lg p-1 transition-colors duration-300">
-        <button
-          onClick={() => setIsMyFeed(true)}
-          className={`w-full py-2 px-4 text-center font-serif font-bold rounded-lg transition-colors duration-200 ${
-            isMyFeed
-              ? "bg-dark-green dark:bg-light-green text-white"
-              : "text-black/70 dark:text-white/70 hover:bg-black/10 dark:hover:/10"
-          }`}
-        >
-          My Feed
-        </button>
-        <button
-          onClick={() => setIsMyFeed(false)}
-          className={`w-full py-2 px-4 text-center font-serif font-bold rounded-lg transition-colors duration-200 ${
-            !isMyFeed
-              ? "bg-dark-green dark:bg-light-green text-white"
-              : "text-black/70 dark:text-white/70 hover:bg-black/10 dark:hover:/10"
-          }`}
-        >
-          Discover
-        </button>
-      </div>
-
       {/* All Posts */}
       {isMyFeed
         ? followingPosts.map((post, index) => (
@@ -124,9 +124,6 @@ const Posts = () => {
                     {post.authorName}
                   </span>
                 </div>
-                <span className="text-black/50 dark:text-white/50 text-sm">
-                  Post #{index + 1}
-                </span>
               </div>
               <p className="mb-2 font-serif text-black/70 dark:text-white/70">
                 {post.content}

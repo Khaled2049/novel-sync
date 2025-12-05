@@ -74,7 +74,7 @@ const Navbar = () => {
             to="/home"
             className="text-black dark:text-white hover:text-dark-green dark:hover:text-light-green transition duration-300"
           >
-            Community
+            Home
           </Link>
           <Link
             to="/explore"
@@ -178,7 +178,7 @@ const Navbar = () => {
             to="/home"
             className="block px-4 py-2 text-black dark:text-white hover:bg-light-green/20 dark:hover:bg-dark-green/20 rounded"
           >
-            Community
+            Home
           </Link>
           <Link
             to="/explore"
