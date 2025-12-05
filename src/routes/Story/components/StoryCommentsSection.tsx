@@ -2,7 +2,7 @@ import React from "react";
 import { CommentInput } from "@/components/CommentInput";
 import { CommentList } from "@/components/CommentList";
 import { Comment as IComment } from "@/types/IComment";
-import { User as IUser } from "firebase/auth";
+import { IUser } from "@/types/IUser";
 
 interface StoryCommentsSectionProps {
   storyId: string;
@@ -10,10 +10,10 @@ interface StoryCommentsSectionProps {
   comments: IComment[];
   commentsLoading: boolean;
   currentUser: IUser | null;
-  onLike: (commentId: string) => void;
-  onReply: (parentId: string, message: string) => void;
-  onDelete: (commentId: string) => void;
-  onEdit: (commentId: string, newMessage: string) => void;
+  onLike: (commentId: string) => Promise<void>;
+  onReply: (parentId: string, message: string) => Promise<void>;
+  onDelete: (commentId: string) => Promise<void>;
+  onEdit: (commentId: string, newMessage: string) => Promise<void>;
 }
 
 export const StoryCommentsSection: React.FC<StoryCommentsSectionProps> = ({
@@ -66,4 +66,3 @@ export const StoryCommentsSection: React.FC<StoryCommentsSectionProps> = ({
     </section>
   );
 };
-

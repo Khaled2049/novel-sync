@@ -48,9 +48,7 @@ export const WordDefinitionPopup: React.FC<WordDefinitionPopupProps> = ({
         <>
           <div className="flex items-start justify-between mb-2">
             <div>
-              <h4 className="font-bold text-lg capitalize">
-                {definition.word}
-              </h4>
+              <h4 className="font-bold text-lg capitalize">{word}</h4>
               <span className="text-sm text-gray-500 dark:text-gray-400 italic">
                 {definition.partOfSpeech}
               </span>

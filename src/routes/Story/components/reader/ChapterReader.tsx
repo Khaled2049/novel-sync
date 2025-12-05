@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import { Chapter } from "@/types/IReader";
 import { READER_THEMES } from "../../constants/readerThemes";
 import { useReaderSettings } from "../../hooks/useReaderSettings";
-import { useTextSelection } from "../../hooks/useTextSelection";
+
 import { useWordLookup } from "../../hooks/useWordLookup";
-import { useHighlights } from "../../hooks/useHighLights";
+
 import { useSearch } from "../../hooks/useSearch";
 import { ReaderTopBar } from "./ReaderTopBar";
 import { ReaderBottomBar } from "./ReaderBottomBar";
@@ -14,7 +14,6 @@ import { ReaderContent } from "./ReaderContent";
 import { ReaderSettingsPanel } from "./ReaderSettingsPanel";
 import { ReaderSearchPanel } from "./ReaderSearchPanel";
 import { WordDefinitionPopup } from "./WordDefinitionPopup";
-import { HighlightMenu } from "./HighlightMenu";
 
 interface ChapterReaderProps {
   currentChapter: Chapter;
@@ -40,7 +39,7 @@ export const ChapterReader: React.FC<ChapterReaderProps> = ({
   // Search
   const {
     searchTerm,
-    results,
+
     currentResultIndex,
     search,
     clearSearch,

@@ -1,14 +1,6 @@
 import { Link } from "react-router-dom";
 import { IClub } from "@/types/IClub";
-import {
-  BookOpen,
-  Clock,
-  UserPlus,
-  Users,
-  X,
-  Edit,
-  Trash2,
-} from "lucide-react";
+import { Clock, UserPlus, Users, X, Edit, Trash2 } from "lucide-react";
 
 interface BookClubCardProps {
   club: IClub;

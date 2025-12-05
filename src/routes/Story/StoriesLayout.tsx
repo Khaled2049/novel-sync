@@ -4,7 +4,6 @@ import {
   ListTodo,
   PenTool,
   Trophy,
-  Award,
   Calendar,
   BookOpen,
   Megaphone,
