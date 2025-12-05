@@ -1,0 +1,11 @@
+[profile.default]
+src = 'src'
+out = 'out'
+libs = ['lib', 'node_modules']
+remappings = [
+    '@thirdweb-dev/=node_modules/@thirdweb-dev/',
+    '@openzeppelin/contracts/=node_modules/@openzeppelin/contracts/',
+]
+
+
+# See more config options https://github.com/foundry-rs/foundry/tree/master/config

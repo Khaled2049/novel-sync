@@ -98,7 +98,7 @@ const Home: React.FC = () => {
           size={48}
         />
       ) : (
-        <div className="w-full lg:w-1/4 p-4 overflow-y-auto border-r border-black dark:border-white">
+        <div className="w-full lg:w-1/4 p-4 overflow-y-auto">
           <h2 className="text-xl sm:text-2xl font-serif font-bold mb-4 text-left text-black dark:text-white">
             Authors
           </h2>

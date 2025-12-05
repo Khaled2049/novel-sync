@@ -58,7 +58,7 @@ const Posts = () => {
   };
 
   return (
-    <div className="w-full lg:w-1/2 p-4 overflow-y-auto text-black dark:text-white transition-colors duration-300 border-r border-black dark:border-white">
+    <div className="w-full lg:w-1/2 p-4 overflow-y-auto text-black dark:text-white transition-colors duration-300 ">
       <div className="flex justify-between mb-4 /50 dark:bg-black/50 rounded-lg p-1 transition-colors duration-300">
         <button
           onClick={() => setIsMyFeed(true)}
@@ -149,9 +149,6 @@ const Posts = () => {
                     {post.authorName}
                   </span>
                 </div>
-                <span className="text-black/50 dark:text-white/50 text-sm">
-                  Post #{index + 1}
-                </span>
               </div>
               <p className="mb-2 font-serif text-black/70 dark:text-white/70">
                 {post.content}
